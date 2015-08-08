@@ -8,7 +8,7 @@ window.ccchart =
       version: '1.10.3',
       update: 20150705,
       updateMemo: 'http://ccchart.com/update.json',
-      lisence: 'MIT',
+      License: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
       demoCurrent: 'http://ccchart.com/',
       demoDevelopment: 'http://ccchart.org/',
