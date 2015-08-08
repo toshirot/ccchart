@@ -192,3 +192,6 @@ This is a Simple and Realtime JavaScript chart that does not depend on libraries
 
 </ul>
 
+<hr>
+<h3>License</h3>
+MIT
