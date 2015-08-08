@@ -1,7 +1,7 @@
 # ccchart
 This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.
-<img src=http://ccchart.com/doc/img/ws2.png>
-<img src=http://ccchart.com/doc/img/ws.png>
+<a href="http://ccchart.com/test/ws2.htm"><img src=http://ccchart.com/doc/img/ws2.png></a>
+<a href="http://ccchart.com/"><img src=http://ccchart.com/doc/img/ws.png></a>
 
 @see http://ccchart.com/
 @see http://ccchart.com/test/ws2.htm
