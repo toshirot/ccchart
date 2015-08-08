@@ -64,62 +64,66 @@ var chartdata1 = {
 &lt;/script>
 </pre></code>
 <strong>Server Side (Node.js)</strong>
-<code><pre>
-var WsServer = require('ws').Server;
-var domain = require('domain');
-var d = domain.create();
-d.on('error', function (err) {
-  console.log('err:', err);
+<code><pre>var WsServer = require('ws').Server;
+
+var tid;
+var ws = new WsServer({
+    host: 'ccchart.com',
+    port: 8016
 });
-//作成したDomainにバインドして実行する
-d.run(function () {
-  var tid;
-  var ws = new WsServer({
-      host: 'ccchart.com',
-      port: 8016
-  });
-  broadCast();//データ配信開始
-  //on connection
-  ws.on('connection', function(socket) {
-    console.log('conned: ' + ws.clients.length, (new Date), socket.upgradeReq.socket.remoteAddress);
+
+//start
+broadCast();
+
+//on connection
+ws.on('connection', function(socket) {
+
+    console.log(
+        'conned: ' + ws.clients.length, (new Date),
+        socket.upgradeReq.socket.remoteAddress
+    );
+
     socket.on('message', function(msg) {
-      var msg = JSON.stringify(msg);
-      if(msg === 'Heartbeat'){
-        if(socket.readyState===1){
-          socket.send(msg);
-          console.log(msg);
+        var msg = JSON.stringify(msg);
+        if (msg === 'Heartbeat') {
+            if (socket.readyState === 1) {
+                socket.send(msg);
+                console.log(msg);
+            }
         }
-      }
     });
-  });
-  function broadCast(){
-    tid = setInterval (function(){
-      var dataAry = mkData();
-      ws.clients.forEach(function(client) { 
-        if(client.readyState===1)
-          client.send(JSON.stringify(dataAry));
-      });
-    }, 300);
-  }
-  function mkData(){
-  var data = [
-      ["年度"],
-      ["s2"],
-      ["s3"]
+});
+
+function broadCast() {
+    tid = setInterval(function() {
+        var dataAry = mkData();
+        ws.clients.forEach(function(client) {
+            if (client.readyState === 1)
+                client.send(JSON.stringify(dataAry));
+        });
+    }, 200);
+}
+
+function mkData() {
+    var data = [
+        ["Year"],
+        ["s2"],
+        ["s3"]
     ];
     var now = new Date();
     var H = now.getHours();
     var M = now.getMinutes();
     var S = now.getSeconds();
-    H = (H < 10)?'0'+H:H;
-    M = (M < 10)?'0'+M:M;
-    S = (S < 10)?'0'+S:S;
-      data[0]=H +':' + M +':' + S;
-      data[1]=Math.floor(Math.random(10) * 96 );
-      data[2]=32 + Math.floor(Math.random(10) * 18);
+    H = (H &lt; 10) ? '0' + H : H;
+    M = (M &lt; 10) ? '0' + M : M;
+    S = (S &lt; 10) ? '0' + S : S;
+
+    data[0] = H + ':' + M + ':' + S;
+    data[1] = Math.floor(Math.random(10) * 96);
+    data[2] = 32 + Math.floor(Math.random(10) * 18);
+
     return data;
-  } 
-});
+}
 </pre></code>
 <hr>
 <h3>Plugins</h3>
