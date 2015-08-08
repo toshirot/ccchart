@@ -6,6 +6,38 @@ This is a Simple and Realtime JavaScript chart that does not depend on libraries
 @blog http://ngw.jp/~tato/wp/?tag=ccchart
 
 <hr>
+<h3>Realtime Sample</h3> 
+<a href=http://ccchart.com/#85>http://ccchart.com/#85</a>
+<code><pre>
+&lt;script src="http://ccchart.com/js/ccchart.js" charset="utf-8">&lt;/script>
+&lt;canvas id="hoge">&lt;/canvas>
+&lt;script>
+var chartdata1 = {
+  "config": {
+    "title": "WebSocket test",
+    "subTitle": "realtime chart",
+    "type": "bezi2",
+    "lineWidth": 2,
+    "minY": 0,
+    "xScaleSkip": 3,
+    "maxWsColLen": 18,
+    "colorSet": 
+          ["#DDA0DD","#3CB000"]
+  },
+  "data": [
+    ["time"],
+    ["data1"],
+    ["data2"]
+  ]
+};
+  ccchart
+      .init('hoge', chartdata1)
+      .ws('ws://ccchart.com:8016')
+      .on('message', ccchart.wscase.oneColAtATime)
+&lt;/script>
+</pre></code>
+
+<hr>
 <h3>Plugins</h3>
 <!-- //////////////////////////////////////  -->
 <article id="plugins1">
