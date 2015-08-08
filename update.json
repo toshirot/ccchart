@@ -1,0 +1,563 @@
+/* ccchart updateMemo  +2012.09.05
+ *
+ *   Canvas & CSS based Chart
+ *
+ *    History: 2007: jQchart=> 2011: canvasChart=> 2012: ccchart
+ *
+ *    Write the <script src="ccchart.js" charset="utf-8"></script>,
+ *    Write the <canvas id="hoge"></canvas>,
+ *    And enjoy following sample codes & customize!
+ *
+ *   This is a Simple JavaScript chart that does not depend on libraries such as jQuery or google APIs.
+ *   ---------------------------------------------------------------------------
+ *   Demo      : http://ccchart.com/
+ *   URL       : http://www.facebook.com/javascripting
+ *   Chat      : http://socketapi.com/user/wschat/1/wschat/chat.htm
+ *   useable   : http://ccchart.com/lib/jquery/plugin/csv2table/v002/test.htm#nview40
+ *   Lisence   : MIT (before 0.9 version are 'public dmain')
+ *   Author    : Toshiro Takahashi @toshirot
+ *   ---------------------------------------------------------------------------
+ */
+if (!window.ccchart) window.ccchart = {};
+ccchart.update = [
+
+
+  {
+    ver: "1.10.3",
+    date: "2015.07.05",
+    status: "release",
+    updates: [
+          ["1. fixed hanreiLineHeight and hanreiRadius http://ccchart.org/test/hanreiLineHeight/test.htm thanx 舩原一平さん http://ngw.jp/~tato/wp/?page_id=3501"],
+          ["2. add xLines sub option. fillOver and fillUnder http://ccchart.org/test/xLine/fillUnder-fillOver/1.htm"],
+          ["3. change default colorSet. changed to 28 colors from 7 colors. ['red','#FF9114','#3CB000','#00A8A2','#0036C0','#C328FF','#FF34C0','#F33','#FB4','#3E3','#0EE','#07E','#C7F','#F7E','#F66','#FD7','#3F7','#3EE','#0AE','#CAF','#FAF','#F99','#FEA','#3FF','#4FF','#0DF','#DCF','#FDF']"],
+          ["4. change drawBG. if arg bg is string type, then this.bg is overwritten with bg. http://ccchart.org/test/xLine/fillUnder-fillOver/1.htm"]
+    ]
+  },
+  {
+    ver: "1.10.2",
+    date: "2015.06.21",
+    status: "release",
+    updates: [
+          ["1. fixed line 3884 + this.hybridCss = document.styleSheets['-ccchart-css-styles']; - this.hybridCss = document.styleSheets[0];"]
+    ]
+  },
+  {
+    ver: "1.10.1",
+    date: "2015.06.20",
+    status: "release",
+    updates: [
+          ["1. add option axisYSkipWidth http://ccchart.org/test/axisYSkipWidth/test1.htm"],
+          ["2. fixed option axisYWidth http://ccchart.org/test/axisYWidth/test1.htm"],
+          ["3. fixed option axisXWidth http://ccchart.org/test/axisXWidth/test1.htm"],
+          ["4. fixed option yScalePercent http://ccchart.org/test/yScalePercent/test1.htm"],
+          ["5. change method ccchart.setPfx to ccchart.util.setPfx"],
+          ["6. fixed oneColAtATime method."],
+          ["7. renamed private property maxZindex to defaultZindex is now option. http://ccchart.org/test/zindex/test-css-marker-fixed.htm"]
+    ]
+  },
+  {
+    ver: "1.09.9",
+    date: "2015.04.17",
+    status: "release",
+    updates: [
+          ["1. fixed the WS bug since v1.09.6 http://ngw.jp/~tato/wp/?p=3337"],
+          ["2. make the ccchart.wsuids[uid].opOrg Object. this is the original chart option."]
+    ]
+  },
+  {
+    ver: "1.09.8",
+    date: "2015.04.16",
+    status: "release",
+    updates: [
+          ["1. fixed the fontWidth of hanrei and the data of drawMarkers bug."]
+    ]
+  },
+  {
+    ver: "1.09.7",
+    date: "2015.04.08",
+    status: "release",
+    updates: [
+          ["1. fixed the hanreiAlign bug. http://ccchart.org/test/hanreiAline/test.htm"]
+    ]
+  },
+  {
+    ver: "1.09.6",
+    date: "2015.03.26",
+    status: "release",
+    updates: [
+          ["1. fixed the webSocket bug about changing data.length Incoming. http://ccchart.org/test/ws/case-change-dataLength-fix.htm"]
+    ]
+  },
+  {
+    ver: "1.09.5",
+    date: "2015.03.09",
+    status: "release",
+    updates: [
+          ["1. fixed webSocket _autoReConnect method bug. http://ccchart.org/test/_autoReConnect/test-1.htm"],
+          ["2. add ccchart.wsidoj http://ccchart.org/test/wsidoj/test1.htm"],
+          ["3. add wsOj.op.wscaseName http://ccchart.org/test/wscaseName/test1.htm"],
+          ["4. add ccchart.getWsById(id) http://ccchart.org/test/getWsById/test1.htm"]
+    ]
+  },
+  {
+    ver: "1.09.4",
+    date: "2015.03.06",
+    status: "release",
+    updates: [
+          ["1. fixed webSocket _wsThinout method bug. http://ccchart.org/test/ws/IncomingCounter-1-test2.htm"],
+          ["2. add wsObject.uid"]
+    ]
+  },
+  {
+    ver: "1.09.3",
+    date: "2015.01.19",
+    status: "release",
+    updates: [
+          ["1. fixed yGap bug. http://ccchart.org/test/lessData/test-2.htm"]
+    ]
+  },
+  {
+    ver: "1.09.2",
+    date: "2015.01.17",
+    status: "release",
+    updates: [
+          ["1. add yScaleOrder http://ccchart.com/test/yScaleOrder/test-3.htm"],
+          ["2. fixed if(minY eq maxY)marker y are infinity. bug http://ccchart.org/test/lessData/test-1-bug.htm > fix http://ccchart.org/test/lessData/test-1.htm"]
+    ]
+  },
+  {
+    ver: "1.09.1",
+    date: "2014.12.21",
+    status: "release",
+    updates: [
+          ["1. fixed scatter bug in v1.08.92 http://ccchart.org/test/scatter/test1.htm"],
+          ["2. add pieValPosOffset http://ccchart.org/test/pieValPosOffset/test-pie01.htm http://ngw.jp/~tato/wp/?p=1519#comment-3222"],
+          ["3. add wsThinOutInterval http://ccchart.org/test/ws/IncomingCounter-1.htm http://ngw.jp/~tato/wp/?p=1519#comment-3308"]
+    ]
+  },
+  {
+    ver: "1.08.92",
+    date: "2014.11.26",
+    status: "release",
+    updates: [
+          ["1. fixed Y position of bar. on okDrowBar"],
+          ["2. fixed useFirstToRowName http://ccchart.org/test/useFirstToRowName/test2.htm"],
+          ["3. fixed useFirstToColName http://ccchart.org/test/useFirstToColName/test2.htm"]
+    ]
+  },
+  {
+    ver: "1.08.91",
+    date: "2014.11.25",
+    status: "release",
+    updates: [
+          ["1. fixed colNamesTitle color. thanx @MogyFarm"]
+    ]
+  },
+  {
+    ver: "1.08.9",
+    date: "2014.10.06",
+    status: "release",
+    updates: [
+          ["1. fixed stackedArea Marker bug"]
+    ]
+  },
+  {
+    ver: "1.08.8",
+    date: "2014.08.23",
+    status: "release",
+    updates: [
+          ["1. draw the minus y data for line, bar, bezi2, bezi http://ccchart.org/test/barYMinus/test.htm"]
+    ]
+  },
+  {
+    ver: "1.08.7",
+    date: "2014.05.27",
+    status: "release",
+    updates: [
+          ["1. fixed Method .add http://ccchart.org/test/adds/add-xhr2-3.htm"],
+          ["2. added Method .after(same as add) http://ccchart.org/test/adds/add-xhr2-3.htm"],
+          ["3. added Method .before http://ccchart.org/test/adds/add-xhr2-3.htm"],
+          ["4. fixed type of stacked%'s Max. http://ngw.jp/~tato/wp/?p=1818"]
+    ]
+  },
+  {
+    ver: "1.08.6",
+    date: "2014.05.02",
+    status: "release",
+    updates: [
+          ["1. fix mouseover でのツールチップclose. これも過去のバグ再発 thanx 齋藤茂吉さん"]
+    ]
+  },
+  {
+    ver: "1.08.5",
+    date: "2014.05.02",
+    status: "release",
+    updates: [
+          ["1. fix scatter-colNams 2013/4/13にfixしたはずのバグ再混入refix http://ngw.jp/~tato/wp/?p=1538#comment-42 thanx 齋藤茂吉さん"]
+    ]
+  },
+  {
+    ver: "1.06.12.8",
+    date: "2014.05.02",
+    status: "release",
+    updates: [
+          ["1. fix scatter-colNams 2013/4/13にfixしたはずのバグ再混入refix http://ngw.jp/~tato/wp/?p=1538#comment-42 thanx 齋藤茂吉さん"]
+    ]
+  },
+  {
+    ver: "1.08.4",
+    date: "2014.04.27",
+    status: "release",
+    updates: [
+          ["1. fix scatter-colorbug http://ccchart.org/test/scatter-colorbug/test-1.htm thanx 齋藤茂吉さん"]
+    ]
+  },  {
+    ver: "1.06.12.7",
+    date: "2014.03.16",
+    updates: [
+          ["1. fix default decimal"]
+    ]
+  },
+  {
+    ver: "1.08.3",
+    date: "2014.03.13",
+    status: "--test at ccchart.org--",
+    updates: [
+          ["1. fix default decimal"]
+    ]
+  },
+  {
+    ver: "1.08.2",
+    date: "2014.03.12",
+    status: "--test at ccchart.org--",
+    updates: [
+          ["1. I added a system of plug-in http://ngw.jp/~tato/wp/?p=389"],
+          ["2. I added Properties axisYs and axisXs http://ccchart.org/test/axisYs-axisXs/test2.htm"],
+          ["3. I added Method .util.getAxisIndex(axisStr, pos) http://ccchart.org/test/axisYs-axisXs/test2.htm"],
+          ["4. I added Property useHanrei http://ccchart.org/test/useHanrei/test-css-marker.htm"]
+    ]
+  },
+  {
+    ver: "1.06.12.6",
+    date: "2014.03.01",
+    updates: [
+          ["1. merge Property axisXLen. from suspended v1.06.13 http://ccchart.org/test/axisYLen/test2.htm"]
+    ]
+  },
+  {
+    ver: "1.06.12.4",
+    date: "2014.02.28",
+    updates: [
+          ["1. bugfix for adds method. before http://jsfiddle.net/N4uuD/5/ after http://jsfiddle.net/N4uuD/6/"]
+    ]
+  },
+  {
+    ver: "1.06.12.1",
+    date: "2013.10.26",
+    updates: [
+          ["1. bugfix v1.06.12.1 for module"]
+    ]
+  },
+  {
+    ver: "1.06.13",
+    date: "2013.10.16",
+    status: "--Interruption--",
+    updates: [
+          ["1. sorry v1.06.16 is buggy. i'm repairing it now."],
+          ["2. add Property yScaleOrder. http://ccchart.org/test/yScaleOrder/test-2.htm"],
+          ["3. fix Property axisXLen. http://ccchart.org/test/axisYLen/test.htm"]
+    ]
+  },
+  {
+    ver: "1.06.12",
+    date: "2013.10.05",
+    updates: [
+          ["1. add Property xScaleRotate http://ccchart.org/test/rotate4scale/test-1.htm"],
+          ["2. add Property yScaleRotate http://ccchart.org/test/rotate4scale/test-2.htm"],
+          ["3. add Property changeRC  http://ccchart.org/test/col2row/test-1.htm"],
+          ["4. add Method toggleRC(id, chartdata, [callback]) http://ccchart.org/test/col2row/test-1.htm"]
+    ]
+  },
+  {
+    ver: "1.06.11",
+    date: "2013.10.01",
+    updates: [
+          ["1. add auto adjust for axisYLen. http://ccchart.org/doc/axisXLen.png  http://ccchart.org/test/axisYLen/test.htm "]
+    ]
+  },
+  {
+    ver: "1.06.10",
+    date: "2013.09.25",
+    updates: [
+          ["1. fix the v1.06.9 http://ccchart.org/test/decimal/test-4.htm "]
+    ]
+  },
+  {
+    ver: "1.06.9",
+    date: "2013.09.25",
+    updates: [
+          ["1. add useDecimal 'yes' | 'no' http://ccchart.org/test/decimal/test-4.htm "],
+          ["2. rename decimalPlaces to roundDigit, Number default 3 http://ccchart.org/test/decimal/test-4.htm"]
+    ]
+  },
+  {
+    ver: "1.06.8",
+    date: "2013.09.20",
+    updates: [
+          ["1. Three digit comma removal of read data. @see http://ccchart.org/test/data2num/q2-1.htm  "]
+    ]
+  },
+  {
+    ver: "1.07.b",
+    date: "2013.09.17",
+    updates: [
+          ["1. fix the data of tooltip for stackedarea, stacked%"],
+          ["2. fix the val of stackedarea"],
+          ["3. add easing animation. add the Property easing and the Method anime."]
+    ]
+  },
+  {
+    ver: "1.06.7",
+    date: "2013.07.07",
+    updates: [
+          ["1. fix css bug of the canvas on the table. adjustCss Method @see http://d.hatena.ne.jp/susie-t/20061004#200610041723 http://goo.gl/3Ldla http://goo.gl/mTw3w"],
+          ["2. I moved to the line after the base and loadBranch Methos"],
+          ["3. I changed 'apply' to 'call'."]
+    ]
+  },
+  {
+    ver: "1.06.6",
+    date: "2013.06.29",
+    updates: [
+          ["1. fix the css bug of tooltips on the realtime http://ccchart.org/test/tooltip/ws2-v1.06.6b2.htm"]
+    ]
+  },
+  {
+    ver: "1.06.5",
+    date: "2013.06.14",
+    updates: [
+          ["1. add the template notation for tooltip. http://ccchart.com/test/tooltip-template/temp.htm"],
+          ["2. first aid for bug of drowHanrei."]
+    ]
+  },
+  {
+    ver: "1.06.4",
+    date: "2013.06.07",
+    updates: [
+          ["1. bugfix for tooltips."]
+    ]
+  },
+  {
+    ver: "1.06.3",
+    date: "2013.06.06",
+    updates: [
+          ["1. add the colNamesTitle for pie."],
+          ["2. add the percentVal for line, bar, stacked%, area, stackedarea, stacked, pie. http://ccchart.org/test/useVal-percent/test.htm"],
+          ["3. now, you can drow some images in a chart. http://ccchart.org/test/img/img.htm"],
+          ["4. add the imgAlpha."]
+    ]
+  },
+  {
+    ver: "1.06.2",
+    date: "2013.06.02",
+    updates: [
+          ["1. add the useToolTip for bar chart."],
+          ["2. add the barTipAnchorColor for bar chart."]
+    ]
+  },
+  {
+    ver: "1.06.1",
+    date: "2013.05.24",
+    updates: [
+          ["1. fixed the initial top of tooltip position. it  was -100. change to -1000."]
+    ]
+  },
+  {
+    ver: "1.06",
+    date: "2013.05.18",
+    updates: [
+          ["1. add ccchart.gcf grobal config options Array"],
+          ["2. add window.ccchart.m.theme Module"],
+          ["3. add ccchart.base Method set the ccchart.gcf"]
+    ]
+  },
+  {
+    ver: "1.05.1",
+    date: "2013.05.17",
+    updates: [
+          ["1. bugfix for css-ring firefox Thanx hiroki.horiuchi"]
+    ]
+  },
+  {
+    ver: "1.05",
+    date: "2013.04.13",
+    updates: [
+          ["1. bugfix for flip click. line 90 Thanx nohina"],
+          ["2. bugfix for scatter. line 428 Thanx piyo"]
+    ]
+  },
+  {
+    ver: "1.04",
+    date: "2013.04.11",
+    updates: [
+          ["1. bugfix for reset the css-hybrid"],
+          ["2. there is no version 1.03"]
+    ]
+  },
+  {
+    ver: "1.02",
+    date: "2013.04.06",
+    updates: [
+          ["1. bugfix for CSS markers"]
+    ]
+  },
+  {
+    ver: "1.01",
+    date: "2013.03.28",
+    updates: [
+          ["1. see http://ccchart.com/doc/ccchart-1.01.pdf"],
+           ["2. add ccchart.wsRecent and ccchart.wsuids Object. and these properties"],
+           ["3. Obsolete ccchart.wses"],
+           ["4. add wsClose***. e.g. wsCloseAll, wsCloseById, wsCloseByUrl, ... etc "],
+           ["5. add wsDelTarget"],
+           ["6. add getWs"],
+           ["7. add wsInfo, wsDbg"]
+    ]
+  },
+  {
+    ver: "1.00",
+    date: "2013.01.30",
+    updates: [
+          ["1. License: later 1.0 version are the MIT License. Before 0.9 version are 'public dmain'"],
+           ["2. add WebSocket ws method"],
+           ["3. del WebSocket moveByWS method"]
+    ]
+  },
+
+  {
+    ver: "v0.954",
+    date: "2012.11.10",
+    updates: [
+          ["1. update xbcss.js to version: 0.34"]
+    ]
+  },
+  {
+    ver: "v0.951",
+    date: "2012.11.08",
+    updates: [
+          ["1. fix for firefox"]
+    ]
+  },
+  {
+    ver: "v0.950",
+    date: "2012.11.07",
+    updates: [
+          ["1. v0.950 relese"]
+    ]
+  },
+  {
+    ver: "v0.946b23",
+    date: "2012.11.02",
+    updates: [
+          ["1. add xLines.useRow. only this.type==='line'"]
+    ]
+  },
+  {
+    ver: "v0.946b22",
+    date: "2012.11.02",
+    updates: [
+          ["1. fix bg"]
+    ]
+  },
+  {
+    ver: "v0.946b21",
+    date: "2012.11.01",
+    updates: [
+          ["1. fix op's bug, op is arg of moveByWS"]
+    ]
+  },
+  {
+    ver: "v0.946b20",
+    date: "2012.10.31",
+    updates: [
+          ["1. fix op's bug, op is arg of moveByWS"]
+    ]
+  },
+  {
+    ver: "v0.946b19",
+    date: "2012.10.27",
+    updates: [
+          ["1. fix css http://ccchart.com-946/test/test-css-01bug.htm -> http://ccchart.com-946/test/test-css-01fix.htm "],
+           ["2. when emit a unload event, set ccchart = null. but doesn't work on chrome."]
+    ]
+  },
+  {
+    ver: "v0.946b18",
+    date: "2012.10.24",
+    updates: [
+          ["1. add cchart.ws(host, port) for websocket. return the instanse of ws oj."],
+           ["2. fix this.ws[this.id].status --> this.ws[this.id].readyState "]
+    ]
+  },
+  {
+    ver: "v0.946b17",
+    date: "2012.10.20",
+    updates: [
+          ["1. del method moveByWSful. use moveByWS"]
+    ]
+  },
+  {
+    ver: "v0.946b16",
+    date: "2012.10.19",
+    updates: [
+          ["1. add chart type catter and method drawScatter."],
+           ["2. Interim fix option bg. when use border-radius, canvas fillRect is no radius. should use the path"]
+    ]
+  },
+  {
+    ver: "v0.946b14",
+    date: "2012.10.16",
+    updates: [
+          ["1. add chart type pie and fnction drawPie."],
+           ["2. Interim fix option bg. when use border-radius, canvas fillRect is no radius. should use the path"]
+    ]
+  },
+  {
+    ver: "v0.946b13",
+    date: "2012.10.13",
+    updates: [
+          ["1. add option shadows"],
+           ["2. now option bg is not use gradient."]
+    ]
+  },
+  {
+    ver: "v0.946b8",
+    date: "2012.10.09",
+    updates: [
+          ["1. add moveByWS and moveByWSfull"],
+           ["2. bug css-maru at multi moveByWS."],
+           ["3. goodbye null _preGetMinMax and getMaxSum."],
+           ["4. add this.drawing flg for lock by ws data from server."]
+    ]
+  },
+  {
+    ver: "v0.946b2",
+    date: "2012.10.06",
+    updates: [
+          ["1. Currently, xGap to Floating decimal, not Integer."],
+           ["2. config.colNamesTitleOffset default to 22."]
+    ]
+  },
+  {
+    ver: "v0.946b",
+    date: "2012.10.05",
+    updates: [
+          ["1. fixed about null errors."]
+    ]
+  }, {
+  ver: "prev",
+  date: "",
+  updates: [
+          ["canvasChart: It is commentary of basic configuration of ccchart  is written in this book. http://www.amazon.co.jp/dp/4797369477"]
+  ]
+}]
