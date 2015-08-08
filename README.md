@@ -31,10 +31,8 @@ var chartdata1 = {
 ccchart.init('hoge', chartdata1)
 &lt;/script>
 </pre></code>
-
 <hr>
-<h3>Realtime Sample</h3> <a href=http://ccchart.com/#85>http://ccchart.com/#85</a>
-
+<h3>Realtime Sample</h3> <a href=http://ccchart.com/#85>http://ccchart.com/#85</a><br>
 <strong>Client Side</strong><code><pre>
 &lt;script src="http://ccchart.com/js/ccchart.js" charset="utf-8">&lt;/script>
 &lt;canvas id="hoge">&lt;/canvas>
@@ -63,7 +61,6 @@ var chartdata1 = {
       .on('message', ccchart.wscase.oneColAtATime)
 &lt;/script>
 </pre></code>
-
 <strong>Server Side (Node.js)</strong>
 <code><pre>
 var WsServer = require('ws').Server;
@@ -122,7 +119,6 @@ d.run(function () {
   } 
 });
 </pre></code>
-
 <hr>
 <h3>Plugins</h3>
 <!-- //////////////////////////////////////  -->
@@ -135,7 +131,6 @@ d.run(function () {
 <li>[ Drop & Drow ] <a href="http://ngw.jp/~tato/wp/?p=866">blog</a> | <a href="http://ccchart.org/plugins/dd/dropdraw/demo.htm">ccchart.dropDraw()</a></li>
 </ul>
 </article>
-
 
 <hr>
 <h3>Tips</h3>
