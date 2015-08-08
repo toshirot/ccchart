@@ -8,7 +8,7 @@ This is a Simple and Realtime JavaScript chart that does not depend on libraries
 <hr>
 <h3>Realtime Sample</h3> 
 <a href=http://ccchart.com/#85>http://ccchart.com/#85</a>
-<code><pre>
+<h6>Client Side</h6><code><pre>
 &lt;script src="http://ccchart.com/js/ccchart.js" charset="utf-8">&lt;/script>
 &lt;canvas id="hoge">&lt;/canvas>
 &lt;script>
@@ -35,6 +35,63 @@ var chartdata1 = {
       .ws('ws://ccchart.com:8016')
       .on('message', ccchart.wscase.oneColAtATime)
 &lt;/script>
+</pre></code>
+<h6>Server Side (Node.js)</h6><code><pre>
+var WsServer = require('ws').Server;
+var domain = require('domain');
+var d = domain.create();
+d.on('error', function (err) {
+  console.log('err:', err);
+});
+//作成したDomainにバインドして実行する
+d.run(function () {
+  var tid;
+  var ws = new WsServer({
+      host: 'ccchart.com',
+      port: 8016
+  });
+  broadCast();//データ配信開始
+  //on connection
+  ws.on('connection', function(socket) {
+    console.log('conned: ' + ws.clients.length, (new Date), socket.upgradeReq.socket.remoteAddress);
+    socket.on('message', function(msg) {
+      var msg = JSON.stringify(msg);
+      if(msg === 'Heartbeat'){
+        if(socket.readyState===1){
+          socket.send(msg);
+          console.log(msg);
+        }
+      }
+    });
+  });
+  function broadCast(){
+    tid = setInterval (function(){
+      var dataAry = mkData();
+      ws.clients.forEach(function(client) { 
+        if(client.readyState===1)
+          client.send(JSON.stringify(dataAry));
+      });
+    }, 300);
+  }
+  function mkData(){
+  var data = [
+      ["年度"],
+      ["s2"],
+      ["s3"]
+    ];
+    var now = new Date();
+    var H = now.getHours();
+    var M = now.getMinutes();
+    var S = now.getSeconds();
+    H = (H < 10)?'0'+H:H;
+    M = (M < 10)?'0'+M:M;
+    S = (S < 10)?'0'+S:S;
+      data[0]=H +':' + M +':' + S;
+      data[1]=Math.floor(Math.random(10) * 96 );
+      data[2]=32 + Math.floor(Math.random(10) * 18);
+    return data;
+  } 
+});
 </pre></code>
 
 <hr>
