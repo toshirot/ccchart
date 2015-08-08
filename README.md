@@ -3,6 +3,7 @@ This is a Simple and Realtime JavaScript chart that does not depend on libraries
 
 @see http://ccchart.com/
 @see http://ccchart.com/test/ws2.htm
+@doc (old) http://ccchart.com/doc/ccchart-1.06.3.pdf
 @blog http://ngw.jp/~tato/wp/?tag=ccchart
 
 <hr>
