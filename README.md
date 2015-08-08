@@ -8,7 +8,7 @@ This is a Simple and Realtime JavaScript chart that does not depend on libraries
 <hr>
 <h3>Realtime Sample</h3> 
 <a href=http://ccchart.com/#85>http://ccchart.com/#85</a>
-<h6>Client Side</h6><code><pre>
+<s>Client Side</s><code><pre>
 &lt;script src="http://ccchart.com/js/ccchart.js" charset="utf-8">&lt;/script>
 &lt;canvas id="hoge">&lt;/canvas>
 &lt;script>
@@ -36,7 +36,7 @@ var chartdata1 = {
       .on('message', ccchart.wscase.oneColAtATime)
 &lt;/script>
 </pre></code>
-<h6>Server Side (Node.js)</h6><code><pre>
+<s>Server Side (Node.js)</s><code><pre>
 var WsServer = require('ws').Server;
 var domain = require('domain');
 var d = domain.create();
