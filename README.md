@@ -6,8 +6,34 @@ This is a Simple and Realtime JavaScript chart that does not depend on libraries
 @blog http://ngw.jp/~tato/wp/?tag=ccchart
 
 <hr>
-<h3>Realtime Sample</h3> 
-<a href=http://ccchart.com/#85>http://ccchart.com/#85</a>
+<h3>Static Sample</h3>  <a href=http://jsfiddle.net/UkdvS/451/>http://jsfiddle.net/UkdvS/451/</a>
+<code><pre>&lt;script src="http://ccchart.com/js/ccchart.js" charset="utf-8">&lt;/script>
+&lt;canvas id="hoge">&lt;/canvas>
+&lt;script>
+var chartdata1 = {
+  "config": {
+    "title": "Option useMarker",
+    "subTitle": "useMarker: maru",
+    "type": "line",
+    "useMarker": "maru",
+    "lineWidth": 6,
+    "markerWidth": 15
+  },
+  "data": [
+    ["Year",2007,2008,2009,2010,2011,2012,2013],
+    ["Tea",435,332,524,688,774,825,999],
+    ["Coffee",600,335,584,333,457,788,900],
+    ["Juice",60,435,456,352,567,678,1260],
+    ["Oolong",200,123,312,200,402,300,512]
+  ]
+};
+ccchart.init('hoge', chartdata1)
+&lt;/script>
+</pre></code>
+
+<hr>
+<h3>Realtime Sample</h3> <a href=http://ccchart.com/#85>http://ccchart.com/#85</a>
+
 <strong>Client Side</strong><code><pre>
 &lt;script src="http://ccchart.com/js/ccchart.js" charset="utf-8">&lt;/script>
 &lt;canvas id="hoge">&lt;/canvas>
