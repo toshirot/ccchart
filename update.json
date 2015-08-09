@@ -14,7 +14,7 @@
  *   URL       : http://www.facebook.com/javascripting
  *   Chat      : http://socketapi.com/user/wschat/1/wschat/chat.htm
  *   useable   : http://ccchart.com/lib/jquery/plugin/csv2table/v002/test.htm#nview40
- *   Lisence   : MIT (before 0.9 version are 'public dmain')
+ *   License   : MIT (before 0.9 version are 'public dmain')
  *   Author    : Toshiro Takahashi @toshirot
  *   ---------------------------------------------------------------------------
  */
@@ -22,6 +22,14 @@ if (!window.ccchart) window.ccchart = {};
 ccchart.update = [
 
 
+  {
+    ver: "1.10.4",
+    date: "2015.08.09",
+    status: "release",
+    updates: [
+          ["1. add xLines.keep property keep: high | low | (default)no http://ccchart.org/test/xLine/keep1.htm  http://ngw.jp/~tato/wp/?page_id=3592"]
+    ]
+  },
   {
     ver: "1.10.3",
     date: "2015.07.05",
