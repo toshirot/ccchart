@@ -5,14 +5,13 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.10.3',
-      update: 20150705,
+      version: '1.10.4',
+      update: 20150809,
       updateMemo: 'http://ccchart.com/update.json',
-      License: 'MIT',
+      lisense: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
       demoCurrent: 'http://ccchart.com/',
       demoDevelopment: 'http://ccchart.org/',
-      demo09xbefore: 'http://ccchart.com/c/',
       writer: 'Toshiro Takahashi @toshirot',
       see: 'http://www.facebook.com/javascripting',
       blog: 'http://ngw.jp/~tato/wp/?cat=6',
@@ -606,7 +605,8 @@ window.ccchart =
         "xOffset": 2,  //X方向オフセット
         "yOffset": 4,  //Y方向オフセット
         "fillOver": null, //ライン上の塗り色
-        "fillUnder": null //ライン下の塗り色
+        "fillUnder": null, //ライン下の塗り色
+        "keep": "no" //最大値か最小値で位置をキープするか？"high" || "low" || (default)"no"
       }];
       //memo
       this._memo = op.config.memo || this.gcf.memo || null;
@@ -1678,29 +1678,59 @@ window.ccchart =
         var yOffset = -(op[i].yOffset || 4);
         var val = this.unitH * value
             //this.chartHeight * value / this.maxY; //parseInt(this.maxY/10, 10);
+        var shdw = (this.shadows) ? this.shadows.xline || this.shadows.all || ['#444', 7, 7, 5] : '';
+
+        var keep = op[i].keep || 'no';
+        var ws = this.getWsById(this.id);//現在のWebSocketオブジェクトを取得
+        if(ws){
+          //wsオブシェクトのws.op_xLines_keepプロパティへ最高位と最小位を記録する
+          if(keep === 'high'){
+            if(ws.op_xLines_keep === undefined){
+                ws.op_xLines_keep = value;
+            } else {
+              if(ws.op_xLines_keep < value){//超えたら書き換える
+                ws.op_xLines_keep = value;
+              }
+            }
+          } else if(keep === 'low') {
+            if(ws.op_xLines_keep === undefined){
+                ws.op_xLines_keep = value;
+            } else {
+              if(ws.op_xLines_keep > value){//低ければ書き換える
+                ws.op_xLines_keep = value;
+              }
+            }
+          } else {
+             ws.op_xLines_keep = undefined;
+          }
+
+          //op_xLines_keepに値があればxLineの値valueとlineの位置valを書き換える
+          if(ws.op_xLines_keep !== undefined){
+            value  = ws.op_xLines_keep;
+            val = this.unitH * value
+          }
+        }
 
         var top = (this.chartBottom - (val - this.minY * this.unitH)) || 0;
-
-        var shdw = (this.shadows) ? this.shadows.xline || this.shadows.all || ['#444', 7, 7, 5] : '';
 
         this.ctx.beginPath();
         //line塗りつぶし
         if(typeof fillOver==='string'){
           this.ctx.fillStyle = fillOver;
           this.ctx.fillRect(
-            this.chartLeft,
-            this.chartTop,
-            this.width-this.chartLeft-this.paddingRight,
-            top-this.paddingTop
+            this.chartLeft, //x
+            this.chartTop,  //y
+            this.width-this.chartLeft-this.paddingRight, //w
+            top-this.paddingTop  //h
           )
         }
         if(typeof fillUnder==='string'){
           this.ctx.fillStyle = fillUnder;
           this.ctx.fillRect(
-            this.chartLeft,
-            top,
-            this.width-this.chartLeft-this.paddingRight,
-            this.height-top-this.paddingBottom
+            this.chartLeft, //x
+            top, //y
+            this.width-this.chartLeft-this.paddingRight, //w
+            this.height-top-this.paddingBottom //h
           )
         }
 
