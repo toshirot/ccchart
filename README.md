@@ -7,6 +7,7 @@ This is a Simple and Realtime JavaScript chart that does not depend on libraries
 @see http://ccchart.com/test/ws2.htm
 @doc (old) http://ccchart.com/doc/ccchart-1.06.3.pdf
 @blog http://ngw.jp/~tato/wp/?tag=ccchart
+@chat http://cht.pw/chat.htm
 
 <hr>
 <h3>Static Sample</h3>  <a href=http://jsfiddle.net/UkdvS/451/>http://jsfiddle.net/UkdvS/451/</a>
