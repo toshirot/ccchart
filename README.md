@@ -76,25 +76,6 @@ var ws = new WsServer({
 //start
 broadCast();
 
-//on connection
-ws.on('connection', function(socket) {
-
-    console.log(
-        'conned: ' + ws.clients.length, (new Date),
-        socket.upgradeReq.socket.remoteAddress
-    );
-
-    socket.on('message', function(msg) {
-        var msg = JSON.stringify(msg);
-        if (msg === 'Heartbeat') {
-            if (socket.readyState === 1) {
-                socket.send(msg);
-                console.log(msg);
-            }
-        }
-    });
-});
-
 function broadCast() {
     tid = setInterval(function() {
         var dataAry = mkData();
@@ -125,6 +106,27 @@ function mkData() {
 
     return data;
 }
+
+//on connection　これはハートビート用なのでいらなければ無くてもOK
+// ccchart はデフォルトでは60秒に一度"Heartbeat"という文字列を
+// サーバーへ送り、その返信である"Heartbeat"文字列を受信しています
+ws.on('connection', function(socket) {
+
+    console.log(
+        'conned: ' + ws.clients.length, (new Date),
+        socket.upgradeReq.socket.remoteAddress
+    );
+
+    socket.on('message', function(msg) {
+        var msg = JSON.stringify(msg);
+        if (msg === 'Heartbeat') {
+            if (socket.readyState === 1) {
+                socket.send(msg);
+                console.log(msg);
+            }
+        }
+    });
+});
 </pre></code>
 <hr>
 <h3>Plugins</h3>
