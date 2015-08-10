@@ -107,7 +107,7 @@ function mkData() {
     return data;
 }
 
-//on connection　これはハートビート用なのでいらなければ無くてもOK
+//on connection for Heartbeat　これはハートビート用なのでいらなければ無くてもOK
 // ccchart はデフォルトでは60秒に一度"Heartbeat"という文字列を
 // サーバーへ送り、その返信である"Heartbeat"文字列を受信しています
 ws.on('connection', function(socket) {
