@@ -284,6 +284,11 @@ ws.on('connection', function(socket) {
 </article>
 
 <!-- //////////////////////////////////////  -->
+<article id="xline2">
+<li>[ xLines ] <a href="http://ccchart.org/test/xLine/keep1.htm">最高値や最小値を xLines で表示する</a><span class="new"> [new]</span></li>
+</article>
+
+<!-- //////////////////////////////////////  -->
 <article id="hanrei1">
 <li>[ Hanrei ] <a href="http://ccchart.org/test/hanreiAlign/test.htm">hanreiAlignを設定する</a></li>
 </article>
