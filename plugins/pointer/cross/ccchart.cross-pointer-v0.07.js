@@ -4,13 +4,37 @@
       //説明
       aboutThis_module: {
         name: 'crossPointer',
-        version: '0.05',
-        create: 20141009,
+        version: '0.07',
+        create: 20150908,
         dependent: 'ccchart-v1.08.2',
         howtouse: 'http://ccchart.org/plugins/pointer/cross/cross-pointer2.htm',
         demo: 'http://ngw.jp/~tato/wp/?p=799',
         license: 'MIT',
         Author: 'Toshiro Takahashi @toshirot'
+      },
+      setLineColor: function (op){
+        //線の色
+        var lineColor = op.lineColor || 'rgba(255, 255, 120, 0.7)';
+        //横線の色
+        var xColor = op.xColor || lineColor || 'rgba(255, 255, 120, 0.7)';
+        //縦線の色
+        var yColor = op.yColor || lineColor || 'rgba(255, 255, 120, 0.7)';
+
+        return {
+          lineColor: lineColor, xColor: xColor, yColor: yColor
+        }
+      },
+      setLineWidth: function (op){
+        //線の幅
+        var lineWidth = op.lineWidth || 1;
+        //横線の幅
+        var xWidth = op.xWidth || lineWidth || 1;
+        //縦線の幅
+        var yWidth = op.yWidth || lineWidth || 1;
+
+        return {
+          lineWidth: lineWidth, xWidth: xWidth, yWidth: yWidth
+        }
       },
       //移動する縦ライン
       crossPointer: function (op){
@@ -30,22 +54,15 @@
         canvas = that.ops[that.id].canvas;
         ctx = canvas.getContext('2d');
         if(!op)op={};
+        //op = this.util.deepJSONCopy(op);
 
+        var color = this.setLineColor(op);//線の色
+        var width = this.setLineWidth(op);//線の幅
 
-        //線の色
-        var lineColor = op.lineColor || 'rgba(255, 255, 120, 0.7)';
-        //横線の色
-        var xColor = op.xColor || lineColor || 'rgba(255, 255, 120, 0.7)';
-        //縦線の色
-        var yColor = op.yColor || lineColor || 'rgba(255, 255, 120, 0.7)';
-        //線の幅
-        var lineWidth = op.lineWidth || 1;
-        //横線の幅
-        var xWidth = op.xWidth || lineWidth || 1;
-        //縦線の幅
-        var yWidth = op.yWidth || lineWidth || 1;
         //カーソルポインタ描画毎に発生するイベント
         var onCpDraw = op.onCpDraw || onCpDraw || function(){};
+
+        var autostart = op.autostart || 'yes';
 
         //borderとpadding分のずれ修正用値取得
         var paddingTop = getNum('padding-top');
@@ -55,13 +72,32 @@
         var offetT = paddingTop + borderTopWidth;
         var offetL = paddingLeft+ borderLeftWidth;
 
-        //各イベント発生時の処理
-        canvas.addEventListener("mousemove", mmove);
-        canvas.addEventListener("mousedown", mdwn);
-        canvas.addEventListener("mouseup", mup);
-        canvas.addEventListener("touchmove", mmove);
-        canvas.addEventListener("touchstart", mdwn);
-        canvas.addEventListener("touchend", mup);
+        this.pointerStart = function(op){
+          canvas.addEventListener("mousemove", mmove);
+          canvas.addEventListener("mousedown", mdwn);
+          canvas.addEventListener("mouseup", mup);
+          canvas.addEventListener("touchmove", mmove);
+          canvas.addEventListener("touchstart", mdwn);
+          canvas.addEventListener("touchend", mup);
+        }
+
+        this.pointerStop = function(op){
+          canvas.removeEventListener("mousemove", mmove, false);
+          canvas.removeEventListener("mousedown", mdwn, false);
+          canvas.removeEventListener("mouseup", mup, false);
+          canvas.removeEventListener("touchmove", mmove, false);
+          canvas.removeEventListener("touchstart", mdwn, false);
+          canvas.removeEventListener("touchend", mup, false);
+
+          //キャンバスをリフレッシュする
+          var currentId = that.id;        //現在のcanvas id
+          var op = that.ops[currentId].op; //現在チャートのoption
+          that.init(currentId, op);
+        }
+
+        if(autostart === 'yes'){
+          this.pointerStart(op);
+        }
 
         function drawXLine(x, y){
           //横線
@@ -76,12 +112,21 @@
           //横線の右位置をチャート領域の右位置にする
           ctx.lineTo( that.width - that.paddingRight, y);
           //横線の色指定
-          ctx.strokeStyle = xColor;
+          ctx.strokeStyle = color.xColor;
           //横線の幅
-          ctx.lineWidth = xWidth;
+          ctx.lineWidth = width.xWidth;
           //線を描画する
           ctx.stroke();
           ctx.restore();
+
+          //水平線右側の値表示
+          yVal   = that.chartBottom/that.unitH - y/that.unitH +that.minY;
+          ccchart.drawMemo({
+            val:  parseInt(yVal,10)  ,
+            left: that.chartRight + 3,
+            top:  y + 3
+          })
+
         }
         function drawYLine(x, y){
           //縦線
@@ -97,9 +142,9 @@
           ctx.lineTo(x, that.height - that.paddingBottom);
 
           //縦線の色指定
-          ctx.strokeStyle = yColor;
+          ctx.strokeStyle = color.yColor;
           //縦線の幅
-          ctx.lineWidth = yWidth;
+          ctx.lineWidth = width.yWidth;
           //線を描画する
           ctx.stroke();
           ctx.restore();
@@ -111,6 +156,7 @@
           that.init(currentId, op);
         }
         function mmove(e) {
+          //if(start!=='yes')return;
           e.preventDefault();
           //カーソル(タッチした)位置を取得
           var xy = getXY(e);
@@ -124,6 +170,7 @@
           if(onCpDraw)onCpDraw(e,that,xy)
         }
         function mdwn(e) {
+          //if(start!=='yes')return;
           e.preventDefault();
           //カーソルを変更
           canvas.style.cursor = 'move';
@@ -131,6 +178,7 @@
           ctx.beginPath();
         }
         function mup(e) {
+          //if(start!=='yes')return;
           e.preventDefault();
           //カーソルを元に戻す
           canvas.style.cursor = 'default';
@@ -178,5 +226,9 @@
            )||0;
         }
         return this;
+      },
+      pointerStop(){
+        console.log(this.ops[this.id].canvas)
       }
+
     };

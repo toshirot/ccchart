@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <title>プラグイン</title>
+    <style>
+    body { font-family: Arial}
+
+    </style>
+    <script src="http://ccchart.org/js/ccchart-v1.10.6.js" charset="utf-8"></script>
+    <script src="http://ccchart.org/js/minilogo2.js" charset="utf-8"></script>
+    <script src="./ccchart.cross-pointer-v0.07.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="minilogo"></div>
+    <h1>プラグイン .crossPointer(op) </h1>
+    <p>v0.07 チャート領域にカーソルが入ると十字ポインターが現れます</p>
+    <ul>
+      <li>op.lineColor 線の色 (default 'rgba(255, 255, 120, 0.7)')
+      <li>op.xColor 横線の色 (default 'rgba(255, 255, 120, 0.7)')
+      <li>op.yColor 縦線の色 (default 'rgba(255, 255, 120, 0.7)')
+      <li>op.lineWidth 線の幅 (default 1)
+      <li>op.xWidth 横線の幅 (default 1)
+      <li>op.yWidth 縦線の幅 (default 1)
+      <li>op.autostart 自動開始 "yes" | "no" (default yes)　<a href="http://ccchart.org/test/candle/test-ws.htm">@sample</a>
+      <li>op.onCpDraw クロスポインター描画後に実行するcallback
+      <li>ccchart.pointerStart() 開始 <a href="http://ccchart.org/test/candle/test-ws.htm">@sample</a>
+      <li>ccchart.pointerStop() 停止 <a href="http://ccchart.org/test/candle/test-ws.htm">@sample</a>
+      <li>ccchart.setLineColor(op) lineColor, xColor, yColor を設定する<a href="http://ccchart.org/test/candle/test-ws.htm">@sample</a>
+      <li>ccchart.setLineWidth(op) lineWidth, xWidth, yWidth を設定する<a href="http://ccchart.org/test/candle/test-ws.htm">@sample</a>
+    </ul>
+
+    <canvas id="hoge1"></canvas>
+    <pre>
+&lt;script src="http://ccchart.org/js/ccchart-v1.08.2.js" charset="utf-8">&lt;/script>
+&lt;script src="http://ccchart.org/plugins/pointer/cross/ccchart.cross-pointer.js" charset="utf-8">&lt;/script>
+&lt;canvas id="hoge1">&lt;/canvas>
+&lt;script>
+var chartdata1 = {
+   "config": {
+    "title": "移動する縦横クロスラインをプラグイン化",
+    "subTitle": "チャート領域にカーソルが入ると十字ポインターが現れます",
+    "useVal": "yes",
+    "type": "line"
+  },
+   "data": [
+    ["年度",2007,2008,2009,2010,2011,2012,2013],
+    ["ジュース",60,435,456,352,567,678,1260],
+    ["ウーロン",200,123,312,200,402,300,512]
+  ]
+};
+ ccchart
+    .init('hoge1', chartdata1)
+    .crossPointer()
+&lt;/script>
+</pre>
+
+
+<canvas id="hoge4"></canvas>
+<pre>
+    &lt;script>
+    var chartdata4 = {
+
+      "config": {
+        "title": "crossPointerの引数",
+        "subTitle": "lineWidthで線の幅を変えられます",
+        "useVal": "yes",
+        "type": "bar"
+      },
+
+      "data": [
+        ["年度",2007,2008,2009,2010,2011,2012,2013],
+        ["ジュース",60,435,456,352,567,678,1260],
+        ["ウーロン",200,123,312,200,402,300,512]
+      ]
+    };
+
+    ccchart
+        .init('hoge4', chartdata4)
+        .crossPointer({
+          lineWidth: 3
+        })
+    &lt;/script>
+</pre>
+
+<canvas id="hoge3"></canvas>
+<pre>
+    &lt;script>
+    var chartdata3 = {
+
+      "config": {
+        "title": "crossPointerの引数",
+        "subTitle": "lineColorで線の色を変えられます",
+        "useVal": "yes",
+        "type": "bar"
+      },
+
+      "data": [
+        ["年度",2007,2008,2009,2010,2011,2012,2013],
+        ["ジュース",60,435,456,352,567,678,1260],
+        ["ウーロン",200,123,312,200,402,300,512]
+      ]
+    };
+
+    ccchart
+        .init('hoge3', chartdata3)
+        .crossPointer({
+          lineColor: 'orange'
+        })
+    &lt;/script>
+</pre>
+
+
+<canvas id="hoge2"></canvas>
+<pre>
+&lt;script src="http://ccchart.org/js/ccchart-v1.08.2.js" charset="utf-8">&lt;/script>
+&lt;script src="http://ccchart.org/plugins/pointer/cross/ccchart.cross-pointer.js" charset="utf-8">&lt;/script>
+&lt;canvas id="hoge1">&lt;/canvas>
+&lt;script>
+var chartdata2 = {
+
+   "config": {
+     "title": "crossPointerの引数",
+     "subTitle": "xColorやyWidthなどで色や太さを縦横別々に変えられます",
+     "useVal": "yes",
+     "type": "bar"
+   },
+   "data": [
+    ["年度",2007,2008,2009,2010,2011,2012,2013],
+    ["ジュース",60,435,456,352,567,678,1260],
+    ["ウーロン",200,123,312,200,402,300,512]
+  ]
+};
+ ccchart
+    .init('hoge2', chartdata2)
+    .crossPointer({
+          xColor:'cyan',
+          xWidth: 5,
+          yColor:'rgba(255,255,255,0.5)',
+          yWidth: 0.5
+    })
+&lt;/script>
+</pre>
+
+    <script>
+    var chartdata4 = {
+
+      "config": {
+        "title": "crossPointerの引数",
+        "subTitle": "lineWidthで線の幅を変えられます",
+        "useVal": "yes",
+        "type": "bar"
+      },
+
+      "data": [
+        ["年度",2007,2008,2009,2010,2011,2012,2013],
+        ["ジュース",60,435,456,352,567,678,1260],
+        ["ウーロン",200,123,312,200,402,300,512]
+      ]
+    };
+
+    ccchart
+        .init('hoge4', chartdata4)
+        .crossPointer({
+          lineWidth: 3
+        })
+    </script>
+
+
+
+    <script>
+    var chartdata3 = {
+
+      "config": {
+        "title": "crossPointerの引数",
+        "subTitle": "lineColorで線の色を変えられます",
+        "useVal": "yes",
+        "type": "bar"
+      },
+
+      "data": [
+        ["年度",2007,2008,2009,2010,2011,2012,2013],
+        ["ジュース",60,435,456,352,567,678,1260],
+        ["ウーロン",200,123,312,200,402,300,512]
+      ]
+    };
+
+    ccchart
+        .init('hoge3', chartdata3)
+        .crossPointer({
+          lineColor: 'orange'
+        })
+    </script>
+
+
+
+
+    <script>
+    var chartdata1 = {
+
+      "config": {
+        "title": "移動する縦横クロスラインをプラグイン化",
+        "subTitle": "チャート領域にカーソルが入ると十字ポインターが現れます",
+        "useVal": "yes",
+        "type": "line"
+      },
+
+      "data": [
+        ["年度",2007,2008,2009,2010,2011,2012,2013],
+        ["ジュース",60,435,456,352,567,678,1260],
+        ["ウーロン",200,123,312,200,402,300,512]
+      ]
+    };
+
+    ccchart
+        .init('hoge1', chartdata1)
+        .crossPointer()
+
+    </script>
+    <script>
+    var chartdata2 = {
+
+      "config": {
+        "title": "crossPointerの引数",
+        "subTitle": "xColorやyWidthなどで色や太さを縦横別々に変えられます",
+        "useVal": "yes",
+        "type": "bar"
+      },
+
+      "data": [
+        ["年度",2007,2008,2009,2010,2011,2012,2013],
+        ["ジュース",60,435,456,352,567,678,1260],
+        ["ウーロン",200,123,312,200,402,300,512]
+      ]
+    };
+
+    ccchart
+        .init('hoge2', chartdata2)
+        .crossPointer({
+          xColor:'cyan',
+          xWidth: 5,
+          yColor:'rgba(255,255,255,0.5)',
+          yWidth: 0.5
+        })
+
+    </script>
+  </body>
+</html>
