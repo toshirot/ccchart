@@ -5,7 +5,7 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.10.5',
+      version: '1.10.6',
       update: 20150908,
       updateMemo: 'http://ccchart.com/update.json',
       lisense: 'MIT',
@@ -91,7 +91,6 @@ window.ccchart =
       this.ctx =
         this.cxs[this.id] =
         this.canvas.getContext('2d');
-
       if(!op.data)op.data = op.data || [[""],[""]];
       this.ops[this.id] = this.ops[this.id] || [];
        //unload reset. doesn't work on chrome
@@ -336,6 +335,7 @@ window.ccchart =
       this.useHanrei =
         op.config.useHanrei || op.config.useHanrei || this.gcf.useHanrei || "yes";
       if(this.useFirstToRowName === false) this.useHanrei = "no";
+      if(this.type === 'candle') this.useHanrei = "no";
 
       //チャートのみを表示(タイトル,サブタイトル,水平垂直目盛無し) no|yes
       this.onlyChart = op.config.onlyChart || this.gcf.onlyChart || "no";
@@ -448,6 +448,7 @@ window.ccchart =
 
       //Yデータの最大値maxYを求めるfor drawYscale
       this.maxY = _getMax(this, 'maxY')||0;
+
       //データ最大値this.maxYの切り上げ処理 デフォルトmaxYの1/10桁
       if(this.yScaleDecimal !== 'yes')
         _setRoundedUpMax(this, 'maxY', 'roundedUpMaxY');
@@ -715,6 +716,7 @@ window.ccchart =
         //データの最小値を求める
         if( that.type==='line' ||
         that.type==='bar' ||
+        that.type==='candle' ||
         that.type==='bezi2' ||
         that.type==='bezi' ||
         that.type==='area' ||
@@ -878,6 +880,7 @@ window.ccchart =
         case('stacked%')   : this.drawStackedPercent();break;
         case('ampli')   : this.drawAmplitude();break;
         case('scatter')   : this.drawScatter();break;
+        case('candle') : this.drawCandle();break;
         default     : this.drawBar ();break;
       }
     },
@@ -1083,7 +1086,6 @@ window.ccchart =
        //   this.paddingBottom = fontWidth;
        //   //これでは変わらないのでチャート領域の再セッティング用関数とか必要
        // }
-
         this.ctx.save();
         this.ctx.textAlign = xScaleAlign;
         this.ctx.fillStyle = xScaleColor;
@@ -1109,7 +1111,7 @@ window.ccchart =
         );
       } else {
         this.drawMemo({
-          "val": text,
+          "val": 'text',
           "left": this.chartLeft + (this.chartRight - this.chartLeft)/2,
           "top":  y + 15,
           "align": 'center',
@@ -2052,6 +2054,83 @@ window.ccchart =
         x += that.xGap;
       }
       that.ctx.restore();
+      this._ondrew(this);
+      return this;
+    },
+    drawCandle: function(){
+      var that = this;
+      var open;
+      var hight;
+      var low;
+      var close;
+      var barTop
+      var upDown;
+
+      var candleLineWidth = this.op.config.candleLineWidth || this.gcf.candleLineWidth || 1;
+      var candleBoxWidth = this.op.config.candleBoxWidth || this.gcf.candleBoxWidth || 10;
+      //candleBoxWidthが垂直目盛線1本の間隔xGapより
+      //大きければ調整
+      if(candleBoxWidth > this.xGap){
+        candleBoxWidth =this.xGap -1
+      }
+
+      var candleColorLine = this.op.config.candleColorLine || this.gcf.candleColorLine || '#888';
+      var candleColorUp = this.op.config.candleColorUp || this.gcf.candleColorUp || 'deeppink';
+      var candleColorDown = this.op.config.candleColorDown || this.gcf.candleColorDown || '#888';
+
+      var x_line = that.chartLeft + (this.xGap/2);//lineのx位置
+      var x_bar = that.chartLeft + (this.xGap/2) - (candleBoxWidth/2);//barのx位置
+
+      this.ctx.save();
+
+      for (var k = 0; k <= that.dataColLen; k++) {//date
+          var _data = that.data;
+          open  = parseInt(_data[0][k],10);
+          hight = parseInt(_data[1][k],10);
+          low   = parseInt(_data[2][k],10);
+          close = parseInt(_data[3][k],10);
+          upDown = close - open;
+          if (upDown>0){
+            color = candleColorUp;//上昇色
+            barTop = close;
+          } else if (upDown===0){
+            upDown = 1;//
+            color = candleColorLine;
+            barTop = close;
+          } else {
+            color = candleColorDown;//下降色
+            barTop = open;
+          }
+
+          //draw line
+          var y_line_hight = that.chartBottom - (hight - that.minY) * that.unitH;
+          var y_line_low = that.chartBottom - (low - that.minY) * that.unitH;
+
+          this.ctx.beginPath();
+          this.ctx.lineWidth  = candleLineWidth;
+          this.ctx.strokeStyle = candleColorLine;
+          this.ctx.moveTo(x_line, y_line_hight);//ライン描画開始
+          this.ctx.lineTo(x_line, y_line_low);//ライン描画終了
+          this.ctx.stroke();
+
+          //draw box
+          var y_bar_open = that.chartBottom - (barTop - that.minY||0) * this.unitH;
+          var y_bar_close =  Math.abs(upDown) * this.unitH;
+
+          //  console.log(k,y_bar_open,y_bar_close,upDown,'o ',open,' h ',hight,' l ',low,' c ',close)
+
+          this.ctx.beginPath();
+          this.ctx.fillStyle = color;
+          this.ctx.fillRect(
+            x_bar, y_bar_open,
+            candleBoxWidth,
+            y_bar_close
+          );
+          x_line += this.xGap;
+          x_bar += this.xGap;
+      }
+
+      this.ctx.restore();
       this._ondrew(this);
       return this;
     },
@@ -3599,7 +3678,14 @@ window.ccchart =
             if(
               !(that.data[i][j]===null ||
               that.data[i][j]===undefined)
-            ) _aryR=_aryR.concat(that.data[i][j]);
+            ){
+              //for candle chart
+              if(that.type==='candle'){
+                if(i===1 || i===2)_aryR=_aryR.concat(that.data[i][j]);//各列のhightとlowのみ集める
+              } else {
+                _aryR=_aryR.concat(that.data[i][j]);
+              }
+            }
           }
           _ary=_ary.concat(_aryR);
         }

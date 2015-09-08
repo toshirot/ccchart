@@ -9,6 +9,14 @@ This is a Simple and Realtime JavaScript chart that does not depend on libraries
 @blog http://ngw.jp/~tato/wp/?tag=ccchart
 @chat http://cht.pw/chat.htm
 
+
+<hr>
+<h3>What New</h3>  
+2015/09/08 add Candle Type
+<a href=http://ngw.jp/~tato/wp/?page_id=3612>http://ngw.jp/~tato/wp/?page_id=3612</a>
+<a href=http://ngw.jp/~tato/wp/?page_id=3612><img with=380 src=http://ccchart.com/test/candle/candle.png></a>
+
+
 <hr>
 <h3>Static Sample</h3>  <a href=http://jsfiddle.net/UkdvS/451/>http://jsfiddle.net/UkdvS/451/</a>
 <code><pre>&lt;script src="http://ccchart.com/js/ccchart.js" charset="utf-8">&lt;/script>
@@ -49,7 +57,7 @@ var chartdata1 = {
     "minY": 0,
     "xScaleSkip": 3,
     "maxWsColLen": 18,
-    "colorSet": 
+    "colorSet":
           ["#DDA0DD","#3CB000"]
   },
   "data": [
