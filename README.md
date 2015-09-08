@@ -314,7 +314,10 @@ ws.on('connection', function(socket) {
 <article id="pie1">
 <li>[ Pie ] <a href="http://ccchart.org/test/pieValPosOffset/test-pie01.htm">値の位置オフセットを調整する</a></li>
 </article>
-
+<!-- //////////////////////////////////////  -->
+<article id="candle1">
+<li>[ Candle ] <a href="http://ccchart.org/test/candle/test-ws.htm">Candle Type</a><span class="new"> [new]</span></li>
+</article>
 <!-- //////////////////////////////////////  -->
 <article id="csv1">
 <li>[ CSV ] <a href="http://jsgt.org/lib/jquery/plugin/csv2table/v002/test.htm#nview40">CSVを読み込んでテーブルとチャートを表示する</a></li>
