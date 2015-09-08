@@ -11,7 +11,7 @@ This is a Simple and Realtime JavaScript chart that does not depend on libraries
 
 
 <hr>
-<h3>What New</h3>  
+<h3>What's New</h3>  
 2015/09/08 add Candle Type
 <a href=http://ngw.jp/~tato/wp/?page_id=3612>http://ngw.jp/~tato/wp/?page_id=3612</a>
 <a href=http://ngw.jp/~tato/wp/?page_id=3612><img with=380 src=http://ccchart.com/test/candle/candle.png></a>
