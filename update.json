@@ -23,11 +23,19 @@ ccchart.update = [
 
 
   {
+    ver: "1.10.5",
+    date: "2015.09.08",
+    status: "release",
+    updates: [
+          ["1. add ccchart.deep property deep: yes | no (default)yes http://ccchart.org/test/deep/test.htm  http://ngw.jp/~tato/wp/?page_id=3619"]
+    ]
+  },
+  {
     ver: "1.10.4",
     date: "2015.08.09",
     status: "release",
     updates: [
-          ["1. add xLines.keep property keep: high | low | (default)no http://ccchart.org/test/xLine/keep1.htm  http://ngw.jp/~tato/wp/?page_id=3592"]
+          ["1. add xLines.keep property keep: high | low (default)no http://ccchart.org/test/xLine/keep1.htm  http://ngw.jp/~tato/wp/?page_id=3501"]
     ]
   },
   {

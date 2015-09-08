@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.10.4',
-      update: 20150809,
+      version: '1.10.5',
+      update: 20150908,
       updateMemo: 'http://ccchart.com/update.json',
       lisense: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -117,6 +117,8 @@ window.ccchart =
       if (!op) op = {};
       if (!this.gcf) this.gcf = {}
       if (!op.config) op.config = {};
+      this.deep = op.config.deep || this.gcf.deep || 'yes';
+      if(this.deep==='yes')op = this.util.deepJSONCopy(op);//deep copy
       this.op = op;
       this.display = op.config.display || this.gcf.display || 'block';
       this.canvas.style.display = this.display;
