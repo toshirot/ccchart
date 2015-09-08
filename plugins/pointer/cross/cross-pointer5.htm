@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <title>プラグイン</title>
+    <style>
+    body { font-family: Arial}
+    
+    </style>
+    <script src="http://ccchart.org/google-code-prettify/run_prettify.js" charset="utf-8"></script>
+    <script src="http://ccchart.org/js/ccchart-v1.08.8.js" charset="utf-8"></script>
+    <script src="http://ccchart.org/js/minilogo2.js" charset="utf-8"></script>
+    <script src="./ccchart.cross-pointer-v0.05.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="minilogo"></div>
+    <h1>プラグイン .crossPointer([op]) </h1>
+    <p>0.05 チャート領域にカーソルが入ると十字ポインターが現れます ※op.onCpDraw　<a href="http://ngw.jp/~tato/wp/?p=1519#comment-903">http://ngw.jp/~tato/wp/?p=1519#comment-903</a></p>
+    <ul>
+      <li>op.lineColor 線の色 (default 'rgba(255, 255, 120, 0.7)')
+      <li>op.xColor 横線の色 (default 'rgba(255, 255, 120, 0.7)')
+      <li>op.yColor 縦線の色 (default 'rgba(255, 255, 120, 0.7)')
+      <li>op.lineWidth 線の幅 (default 1)
+      <li>op.xWidth 横線の幅 (default 1)
+      <li>op.yWidth 縦線の幅 (default 1)
+      <li>op.yWidth 縦線の幅 (default 1)
+      <li>op.onCpDraw クロスポインター描画後に実行するcallback <span style="color:red">&lt;new</span>
+    </ul>
+
+
+
+<div id="info"></div>
+<canvas id="hoge0-4"></canvas>
+<script>
+
+var conf = {
+    "title": "op.onCpDraw",
+    "unit": {
+      "unit": "%",
+      "left": 15,
+      "top": 60,
+      "align": "left",
+      "color": "#888",
+      "font": "100 12px 'Arial'"
+    },
+    "type": "line",
+    "width": 500,
+    "height": 380,
+    "minY": 0,
+    "maxY": 100,
+    "useVal": "yes"
+};
+var data1 = [
+    ["月",1,2,3,4,5,6,7,8],
+    ["ウーロン",20,23,12,20,42,50,43,56],
+    ["コーヒー",52,50,44,50,60,55,68,80]
+];
+
+ccchart
+  .init('hoge0-4', {
+    "config": conf,
+    "data": data1
+  })
+  .crossPointer({
+          onCpDraw: function(e, chart){
+            //カーソル位置の垂直線列位置が何列目かなどの情報配列
+            var col = chart.util.getAxisIndex('axisYs', e.offsetX);
+            
+            //カーソル位置の水平線行位置が何行目かなどの情報配列
+            var row = chart.util.getAxisIndex('axisXs', e.offsetY);
+            
+            if(!(col === undefined || row === undefined)){
+              info.innerHTML = ''
+                + '垂直列 ' +col[0] +' 本目'+ '<br>'
+                + '水平行 ' +row[0] +' 本目'+ '<br>'
+                + 'Yタイトルは '+ chart.axisYs[col[0]].yTitle+ '月<br>'
+                + chart.wkdata[1][0] + 'は、' + chart.wkdata[1][col[0]]+ '<br>'
+                + chart.wkdata[2][0] + 'は、' + chart.wkdata[2][col[0]]
+            }
+          }
+        })
+</script>
+
+<pre id="prehoge1" class="prettyprint linenums">
+
+&lt;div id="info">&lt;/div>
+&lt;canvas id="hoge0-4">&lt;/canvas>
+&lt;script>
+
+var conf = {
+    "title": "op.onCpDraw",
+    "unit": {
+      "unit": "%",
+      "left": 15,
+      "top": 60,
+      "align": "left",
+      "color": "#888",
+      "font": "100 12px 'Arial'"
+    },
+    "type": "line",
+    "width": 500,
+    "height": 380,
+    "minY": 0,
+    "maxY": 100,
+    "useVal": "yes"
+};
+var data1 = [
+    ["月",1,2,3,4,5,6,7,8],
+    ["ウーロン",20,23,12,20,42,50,43,56],
+    ["コーヒー",52,50,44,50,60,55,68,80]
+];
+
+ccchart
+  .init('hoge0-4', {
+    "config": conf,
+    "data": data1
+  })
+  .crossPointer({
+    onCpDraw: function(e, chart){
+      //カーソル位置の垂直線列位置が何列目かなどの情報配列
+      var col = chart.util.getAxisIndex('axisYs', e.offsetX);
+      
+      //カーソル位置の水平線行位置が何行目かなどの情報配列
+      var row = chart.util.getAxisIndex('axisXs', e.offsetY);
+      
+      if(!(col === undefined || row === undefined)){
+        info.innerHTML = ''
+          + '垂直列 ' +col[0] +' 本目'+ '&lt;br>'
+          + '水平行 ' +row[0] +' 本目'+ '&lt;br>'
+          + 'Yタイトルは '+ chart.axisYs[col[0]].yTitle+ '月&lt;br>'
+          + chart.wkdata[1][0] + 'は、' + chart.wkdata[1][col[0]]+ '&lt;br>'
+          + chart.wkdata[2][0] + 'は、' + chart.wkdata[2][col[0]]
+      }
+    }
+  })
+&lt;/script>
+
+
+</pre>
+  </body>
+</html>
