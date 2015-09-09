@@ -20,7 +20,7 @@
         //縦線の色
         var yColor = op.yColor || lineColor || 'rgba(255, 255, 120, 0.7)';
 
-        return {
+        return this.crossPointerColor = {
           lineColor: lineColor, xColor: xColor, yColor: yColor
         }
       },
@@ -32,7 +32,7 @@
         //縦線の幅
         var yWidth = op.yWidth || lineWidth || 1;
 
-        return {
+        return this.crossPointerWidth = {
           lineWidth: lineWidth, xWidth: xWidth, yWidth: yWidth
         }
       },
@@ -56,13 +56,15 @@
         if(!op)op={};
         //op = this.util.deepJSONCopy(op);
 
-        var color = this.setLineColor(op);//線の色
-        var width = this.setLineWidth(op);//線の幅
+        this.setLineColor(op);//線の色
+        this.setLineWidth(op);//線の幅
 
         //カーソルポインタ描画毎に発生するイベント
         var onCpDraw = op.onCpDraw || onCpDraw || function(){};
 
         var autostart = op.autostart || 'yes';
+
+
 
         //borderとpadding分のずれ修正用値取得
         var paddingTop = getNum('padding-top');
@@ -96,7 +98,7 @@
         }
 
         if(autostart === 'yes'){
-          this.pointerStart(op);
+          this.pointerStart();
         }
 
         function drawXLine(x, y){
@@ -112,9 +114,9 @@
           //横線の右位置をチャート領域の右位置にする
           ctx.lineTo( that.width - that.paddingRight, y);
           //横線の色指定
-          ctx.strokeStyle = color.xColor;
+          ctx.strokeStyle = that.crossPointerColor.xColor;
           //横線の幅
-          ctx.lineWidth = width.xWidth;
+          ctx.lineWidth = that.crossPointerWidth.xWidth;
           //線を描画する
           ctx.stroke();
           ctx.restore();
@@ -128,7 +130,7 @@
           })
 
         }
-        function drawYLine(x, y){
+        function drawYLine(x, y){ console.log(that.id, that.crossPointerColor.yColor)
           //縦線
           //左右のチャート領域外なら無視する
           if(x < that.paddingLeft)return;
@@ -142,9 +144,9 @@
           ctx.lineTo(x, that.height - that.paddingBottom);
 
           //縦線の色指定
-          ctx.strokeStyle = color.yColor;
+          ctx.strokeStyle = that.crossPointerColor.yColor;
           //縦線の幅
-          ctx.lineWidth = width.yWidth;
+          ctx.lineWidth = that.crossPointerWidth.yWidth;
           //線を描画する
           ctx.stroke();
           ctx.restore();
