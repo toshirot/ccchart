@@ -20,7 +20,7 @@
         //縦線の色
         var yColor = op.yColor || lineColor || 'rgba(255, 255, 120, 0.7)';
 
-        return this.crossPointerColor = {
+        return this.ops[this.id].canvas.crossPointerColor = {
           lineColor: lineColor, xColor: xColor, yColor: yColor
         }
       },
@@ -32,7 +32,7 @@
         //縦線の幅
         var yWidth = op.yWidth || lineWidth || 1;
 
-        return this.crossPointerWidth = {
+        return this.ops[this.id].canvas.crossPointerWidth = {
           lineWidth: lineWidth, xWidth: xWidth, yWidth: yWidth
         }
       },
@@ -55,15 +55,13 @@
         ctx = canvas.getContext('2d');
         if(!op)op={};
 
-        canvas.crossPointerColor = this.setLineColor(op);//線の色
-        canvas.crossPointerWidth = this.setLineWidth(op);//線の幅
+        this.setLineColor(op);//線の色
+        this.setLineWidth(op);//線の幅
 
         //カーソルポインタ描画毎に発生するイベント
         var onCpDraw = op.onCpDraw || onCpDraw || function(){};
 
         var autostart = op.autostart || 'yes';
-
-
 
         //borderとpadding分のずれ修正用値取得
         var paddingTop = getNum('padding-top');
