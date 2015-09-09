@@ -4,7 +4,7 @@
       //説明
       aboutThis_module: {
         name: 'crossPointer',
-        version: '0.07',
+        version: '0.07.3',
         create: 20150909,
         dependent: 'ccchart-v1.08.2',
         howtouse: 'http://ccchart.org/plugins/pointer/cross/cross-pointer2.htm',
@@ -54,10 +54,9 @@
         canvas = that.ops[that.id].canvas;
         ctx = canvas.getContext('2d');
         if(!op)op={};
-        //op = this.util.deepJSONCopy(op);
 
-        this.setLineColor(op);//線の色
-        this.setLineWidth(op);//線の幅
+        canvas.crossPointerColor = this.setLineColor(op);//線の色
+        canvas.crossPointerWidth = this.setLineWidth(op);//線の幅
 
         //カーソルポインタ描画毎に発生するイベント
         var onCpDraw = op.onCpDraw || onCpDraw || function(){};
@@ -114,9 +113,9 @@
           //横線の右位置をチャート領域の右位置にする
           ctx.lineTo( that.width - that.paddingRight, y);
           //横線の色指定
-          ctx.strokeStyle = that.crossPointerColor.xColor;
+          ctx.strokeStyle = canvas.crossPointerColor.xColor;
           //横線の幅
-          ctx.lineWidth = that.crossPointerWidth.xWidth;
+          ctx.lineWidth = canvas.crossPointerWidth.xWidth;
           //線を描画する
           ctx.stroke();
           ctx.restore();
@@ -144,9 +143,9 @@
           ctx.lineTo(x, that.height - that.paddingBottom);
 
           //縦線の色指定
-          ctx.strokeStyle = that.crossPointerColor.yColor;
+          ctx.strokeStyle = canvas.crossPointerColor.yColor;
           //縦線の幅
-          ctx.lineWidth = that.crossPointerWidth.yWidth;
+          ctx.lineWidth = canvas.crossPointerWidth.yWidth;
           //線を描画する
           ctx.stroke();
           ctx.restore();
