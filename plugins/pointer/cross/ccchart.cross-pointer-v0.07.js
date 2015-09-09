@@ -5,7 +5,7 @@
       aboutThis_module: {
         name: 'crossPointer',
         version: '0.07',
-        create: 20150908,
+        create: 20150909,
         dependent: 'ccchart-v1.08.2',
         howtouse: 'http://ccchart.org/plugins/pointer/cross/cross-pointer2.htm',
         demo: 'http://ngw.jp/~tato/wp/?p=799',
@@ -130,7 +130,7 @@
           })
 
         }
-        function drawYLine(x, y){ console.log(that.id, that.crossPointerColor.yColor)
+        function drawYLine(x, y){
           //縦線
           //左右のチャート領域外なら無視する
           if(x < that.paddingLeft)return;
