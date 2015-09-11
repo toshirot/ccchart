@@ -21,13 +21,20 @@
 if (!window.ccchart) window.ccchart = {};
 ccchart.update = [
 
-
+  {
+    ver: "1.10.7",
+    date: "2015.09.12",
+    status: "release",
+    updates: [
+          ["1. fix paddingRightDefault on candle type  http://ngw.jp/~tato/wp/?p=3645"]
+    ]
+  },
   {
     ver: "1.10.6",
     date: "2015.09.08",
     status: "release",
     updates: [
-          ["1. add type candle http://ccchart.org/test/candle/test-ws.htm  http://ngw.jp/~tato/wp/?page_id=3612"]
+          ["1. add type candle http://ccchart.org/test/candle/test-ws.htm  http://ngw.jp/~tato/wp/?p=3612"]
     ]
   },
   {

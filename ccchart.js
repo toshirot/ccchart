@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.10.6',
-      update: 20150908,
+      version: '1.10.7',
+      update: 20150912,
       updateMemo: 'http://ccchart.com/update.json',
       lisense: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -206,7 +206,7 @@ window.ccchart =
         ];*/
 
       //データ配列の1行目を項目名とする(デフォルトはtrue)
-       // scatter では項目名ではないが、判例type識別用に使う
+       // scatter では項目名ではないが、凡例type識別用に使う
       this.useFirstToColName =
         (op.config.useFirstToColName === false)?false:
         ((this.gcf.useFirstToColName === false)?false:true);
@@ -281,7 +281,7 @@ window.ccchart =
         } else {
           this.hanreiNames =
             this.util.uniq(this.colNames.slice(0));
-            //hanrei判例リスト 修正 20130413 Thanx piyoさん
+            //hanrei凡例リスト 修正 20130413 Thanx piyoさん
             //2014/5/2またslice(1)に戻っていたのでv1.08.5 で 再修正
         }
       }
@@ -372,7 +372,7 @@ window.ccchart =
           this.paddingRightDefault = 160;
         }
       }
-      if(this.useHanrei !== 'yes'){
+      if(this.useHanrei !== 'yes' && !this.type === 'candle'){//candle type だけ汎例が無いので除く
         this.paddingRightDefault = 60;
         if(this._addsFlg > 0){
           this.paddingRightDefault = 110;
@@ -2089,6 +2089,7 @@ window.ccchart =
           hight = parseInt(_data[1][k],10);
           low   = parseInt(_data[2][k],10);
           close = parseInt(_data[3][k],10);
+
           upDown = close - open;
           if (upDown>0){
             color = candleColorUp;//上昇色
@@ -2188,7 +2189,7 @@ window.ccchart =
     },
     drawScatter: function () {
       //var shdw = (this.shadows)?this.shadows.scatter||this.shadows.all||['#222', 5, 5, 5]:'';
-      //Todo 判例列が増えた時の自動Limitter
+      //Todo 凡例列が増えた時の自動Limitter
 
       //散布図を描く
       this.ctx.save();
