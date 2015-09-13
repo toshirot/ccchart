@@ -4,8 +4,8 @@
       //説明
       aboutThis_module: {
         name: 'crossPointer',
-        version: '0.07.3',
-        create: 20150909,
+        version: '0.07.4',
+        create: 20150913,
         dependent: 'ccchart-v1.08.2',
         howtouse: 'http://ccchart.org/plugins/pointer/cross/cross-pointer2.htm',
         demo: 'http://ngw.jp/~tato/wp/?p=799',
@@ -119,9 +119,27 @@
           ctx.restore();
 
           //水平線右側の値表示
-          yVal   = that.chartBottom/that.unitH - y/that.unitH +that.minY;
+          yVal   = parseInt( that.chartBottom/that.unitH - y/that.unitH +that.minY,10);
+
+          //文字の向きを決める
+          var fontSize = ctx.font.match(/(\d*)px/);
+          if(fontSize === null){
+            fontSize=12;//Default size 12px
+          } else {
+            fontSize = fontSize[1];
+          }
+          var fontLen = ('' + yVal).length;
+          var fontsWidth = fontSize * fontLen;
+          var textAlign = 'left';
+          if((that.paddingRight) <= fontsWidth){
+            textAlign = 'right'//右側が不足していれば
+          } else {
+            textAlign = 'left'
+          }
+
           ccchart.drawMemo({
             val:  parseInt(yVal,10)  ,
+            align: textAlign,
             left: that.chartRight + 3,
             top:  y + 3
           })
