@@ -27,7 +27,7 @@ var chartdata1 = {
 
   "config": {
     "title": "Bar Chart",
-    "type": "bar"
+    <strong>"type": "bar"</strong>
   },
 
   "data": [
@@ -51,7 +51,7 @@ var chartdata1 = {
   "config": {
     "title": "Option useMarker",
     "subTitle": "useMarker: maru",
-    "type": "line",
+    <strong>"type": "line",</strong>
     "useMarker": "maru",
     "lineWidth": 6,
     "markerWidth": 15
@@ -94,8 +94,8 @@ var chartdata1 = {
 };
   ccchart
       .init('hoge', chartdata1)
-      .ws('ws://ccchart.com:8016')
-      .on('message', ccchart.wscase.oneColAtATime)
+      <strong>.ws('ws://ccchart.com:8016')
+      .on('message', ccchart.wscase.oneColAtATime)</strong>
 &lt;/script>
 </pre></code>
 <strong>Server Side (Node.js)</strong>
