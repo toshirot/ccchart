@@ -1,5 +1,6 @@
 # ccchart
-This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.
+This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs. 
+You can use the following chart types. line, bar, pie, bezi, bezi2, stacked, area, stackedarea, stacked%, ampli, scatter, candle
 <a href="http://ccchart.com/test/ws2.htm"><img src=http://ccchart.com/doc/img/ws2.png></a>
 <a href="http://ccchart.com/#85"><img src=http://ccchart.com/doc/img/ws.png></a>
 
