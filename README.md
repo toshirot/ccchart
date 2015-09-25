@@ -14,7 +14,7 @@ You can use the following chart types. line, bar, pie, bezi, bezi2, stacked, are
 
 <hr>
 <h3>What's New</h3>  
-2015/09/08 add Candle Type
+2015/09/08 add Candle Type<br>
 <a href=http://ngw.jp/~tato/wp/?page_id=3612>http://ngw.jp/~tato/wp/?page_id=3612</a>
 ccchart.com: <a href=http://ccchart.com/#100>http://ccchart.com/#100</a>
 <a href=http://ngw.jp/~tato/wp/?page_id=3612><img with=380 src=http://ccchart.com/test/candle/candle.png></a>
