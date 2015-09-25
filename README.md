@@ -43,6 +43,7 @@ var chartdata1 = {
 ccchart.init('hoge', chartdata1)
 &lt;/script>
 </pre></code>
+ccchart.com: <a href=http://ccchart.com/#57>http://ccchart.com/#57</a>, <a href=http://ccchart.com/#42>http://ccchart.com/#72</a>, <a href=http://ccchart.com/#42>http://ccchart.com/#73</a>
 
 <hr>
 <h3>Static Sample (Line)</h3>  
@@ -70,6 +71,7 @@ var chartdata1 = {
 ccchart.init('hoge', chartdata1)
 &lt;/script>
 </pre></code>
+ccchart.com: <a href=http://ccchart.com/#15>http://ccchart.com/#15</a>, <a href=http://ccchart.com/#7>http://ccchart.com/#7</a>, <a href=http://ccchart.com/#96>http://ccchart.com/#96</a>
 
 <hr>
 <h3>Realtime Sample</h3> 
@@ -166,6 +168,9 @@ ws.on('connection', function(socket) {
     });
 });
 </pre></code>
+
+ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=http://ccchart.com/#89>http://ccchart.com/#89</a>, <a href=http://ccchart.com/#81>http://ccchart.com/#81</a>
+
 <hr>
 <h3>Plugins</h3>
 <!-- //////////////////////////////////////  -->
