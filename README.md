@@ -16,11 +16,12 @@ You can use the following chart types. line, bar, pie, bezi, bezi2, stacked, are
 <h3>What's New</h3>  
 2015/09/08 add Candle Type
 <a href=http://ngw.jp/~tato/wp/?page_id=3612>http://ngw.jp/~tato/wp/?page_id=3612</a>
-<a href=http://ngw.jp/~tato/wp/?page_id=3612><img with=380 src=http://ccchart.com/test/candle/candle.png></a>
 ccchart.com: <a href=http://ccchart.com/#100>http://ccchart.com/#100</a>
+<a href=http://ngw.jp/~tato/wp/?page_id=3612><img with=380 src=http://ccchart.com/test/candle/candle.png></a>
 
 <hr>
-<h3>Static Sample (Bar) </h3>  <a href=http://jsfiddle.net/UkdvS/455/>http://jsfiddle.net/UkdvS/455/</a>
+<h3>Static Sample (Bar) </h3>  
+jsfiddle.net: <a href=http://jsfiddle.net/UkdvS/455/>http://jsfiddle.net/UkdvS/455/</a>
 <code><pre>&lt;script src="http://ccchart.com/js/ccchart.js" charset="utf-8">&lt;/script>
 &lt;canvas id="hoge">&lt;/canvas>
 &lt;script>
@@ -44,7 +45,8 @@ ccchart.init('hoge', chartdata1)
 </pre></code>
 
 <hr>
-<h3>Static Sample (Line)</h3>  <a href=http://jsfiddle.net/UkdvS/451/>http://jsfiddle.net/UkdvS/451/</a>
+<h3>Static Sample (Line)</h3>  
+jsfiddle.net: <a href=http://jsfiddle.net/UkdvS/451/>http://jsfiddle.net/UkdvS/451/</a>
 <code><pre>&lt;script src="http://ccchart.com/js/ccchart.js" charset="utf-8">&lt;/script>
 &lt;canvas id="hoge">&lt;/canvas>
 &lt;script>
@@ -70,7 +72,8 @@ ccchart.init('hoge', chartdata1)
 </pre></code>
 
 <hr>
-<h3>Realtime Sample</h3> <a href=http://ccchart.com/#85>http://ccchart.com/#85</a><br>
+<h3>Realtime Sample</h3> 
+ccchart.com: <a href=http://ccchart.com/#85>http://ccchart.com/#85</a><br>
 <strong>Client Side</strong><code><pre>
 &lt;script src="http://ccchart.com/js/ccchart.js" charset="utf-8">&lt;/script>
 &lt;canvas id="hoge">&lt;/canvas>
