@@ -115,7 +115,6 @@ var ws = new WsServer({
 
 //start
 broadCast();
-
 function broadCast() {
     tid = setInterval(function() {
         var dataAry = mkData();
@@ -125,7 +124,6 @@ function broadCast() {
         });
     }, 200);
 }
-
 function mkData() {
     var data = [
         ["Year"],
@@ -139,11 +137,9 @@ function mkData() {
     H = (H &lt; 10) ? '0' + H : H;
     M = (M &lt; 10) ? '0' + M : M;
     S = (S &lt; 10) ? '0' + S : S;
-
     data[0] = H + ':' + M + ':' + S;
     data[1] = Math.floor(Math.random(10) * 96);
     data[2] = 32 + Math.floor(Math.random(10) * 18);
-
     return data;
 }
 
