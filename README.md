@@ -76,15 +76,15 @@ ccchart.com: <a href=http://ccchart.com/#15>http://ccchart.com/#15</a>, <a href=
 <hr>
 <h3>Static Other Samples </h3> 
 pie: <a href=http://ccchart.com/#79>http://ccchart.com/#79 <img src=http://ccchart.org/img50/79.png></a>, 
-bezi2: <a href=http://ccchart.com/#6>http://ccchart.com/#6</a>, 
-bezi: <a href=http://ccchart.com/#3>http://ccchart.com/#3</a>, 
-area: <a href=http://ccchart.com/#50>http://ccchart.com/#50</a>, 
-stacked: <a href=http://ccchart.com/#93>http://ccchart.com/#93</a>, 
-stackedarea: <a href=http://ccchart.com/#53>http://ccchart.com/#53</a>, 
-stacked%: <a href=http://ccchart.com/#55>http://ccchart.com/#55</a>, 
-ampli: <a href=http://ccchart.com/#5>http://ccchart.com/#5</a>, 
-scatter: <a href=http://ccchart.com/#91>http://ccchart.com/#91</a>, 
-candle: <a href=http://ccchart.com/#99>http://ccchart.com/#99</a>
+bezi2: <a href=http://ccchart.com/#6>http://ccchart.com/#6 <img src=http://ccchart.org/img50/6.png></a></a>, 
+bezi: <a href=http://ccchart.com/#3>http://ccchart.com/#3 <img src=http://ccchart.org/img50/3.png></a></a>, 
+area: <a href=http://ccchart.com/#50>http://ccchart.com/#50 <img src=http://ccchart.org/img50/50.png></a></a>, 
+stacked: <a href=http://ccchart.com/#93>http://ccchart.com/#93 <img src=http://ccchart.org/img50/93.png></a></a>, 
+stackedarea: <a href=http://ccchart.com/#53>http://ccchart.com/#53 <img src=http://ccchart.org/img50/53.png></a></a>, 
+stacked%: <a href=http://ccchart.com/#55>http://ccchart.com/#55 <img src=http://ccchart.org/img50/55.png></a></a>, 
+ampli: <a href=http://ccchart.com/#5>http://ccchart.com/#5 <img src=http://ccchart.org/img50/5.png></a></a>, 
+scatter: <a href=http://ccchart.com/#91>http://ccchart.com/#91 <img src=http://ccchart.org/img50/91.png></a></a>, 
+candle: <a href=http://ccchart.com/#99>http://ccchart.com/#99 <img src=http://ccchart.org/img50/99.png></a></a>
 
 <hr>
 <h3>Realtime Sample</h3> 
