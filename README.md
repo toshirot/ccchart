@@ -75,16 +75,16 @@ ccchart.com: <a href=http://ccchart.com/#15>http://ccchart.com/#15</a>, <a href=
 
 <hr>
 <h3>Static Other Samples </h3> 
-pie: <a href=http://ccchart.com/#79>http://ccchart.com/#79 <img src=http://ccchart.org/img50/79.png></a>, 
-bezi2: <a href=http://ccchart.com/#6>http://ccchart.com/#6 <img src=http://ccchart.org/img50/6.png></a></a>, 
-bezi: <a href=http://ccchart.com/#3>http://ccchart.com/#3 <img src=http://ccchart.org/img50/3.png></a></a>, 
-area: <a href=http://ccchart.com/#50>http://ccchart.com/#50 <img src=http://ccchart.org/img50/50.png></a></a>, 
-stacked: <a href=http://ccchart.com/#93>http://ccchart.com/#93 <img src=http://ccchart.org/img50/93.png></a></a>, 
-stackedarea: <a href=http://ccchart.com/#53>http://ccchart.com/#53 <img src=http://ccchart.org/img50/53.png></a></a>, 
-stacked%: <a href=http://ccchart.com/#55>http://ccchart.com/#55 <img src=http://ccchart.org/img50/55.png></a></a>, 
-ampli: <a href=http://ccchart.com/#5>http://ccchart.com/#5 <img src=http://ccchart.org/img50/5.png></a></a>, 
-scatter: <a href=http://ccchart.com/#91>http://ccchart.com/#91 <img src=http://ccchart.org/img50/91.png></a></a>, 
-candle: <a href=http://ccchart.com/#99>http://ccchart.com/#99 <img src=http://ccchart.org/img50/99.png></a></a>
+<img src=http://ccchart.org/img50/79.png> pie: <a href=http://ccchart.com/#79>http://ccchart.com/#79 </a>, 
+<img src=http://ccchart.org/img50/6.png>bezi2: <a href=http://ccchart.com/#6>http://ccchart.com/#6 </a>, 
+<img src=http://ccchart.org/img50/3.png>bezi: <a href=http://ccchart.com/#3>http://ccchart.com/#3 </a>, 
+<img src=http://ccchart.org/img50/50.png>area: <a href=http://ccchart.com/#50>http://ccchart.com/#50 </a>, 
+<img src=http://ccchart.org/img50/93.png>stacked: <a href=http://ccchart.com/#93>http://ccchart.com/#93 </a>, 
+<img src=http://ccchart.org/img50/53.png>stackedarea: <a href=http://ccchart.com/#53>http://ccchart.com/#53 </a>, 
+<img src=http://ccchart.org/img50/55.png>stacked%: <a href=http://ccchart.com/#55>http://ccchart.com/#55 </a>, 
+<img src=http://ccchart.org/img50/5.png>ampli: <a href=http://ccchart.com/#5>http://ccchart.com/#5 </a>, 
+<img src=http://ccchart.org/img50/91.png>scatter: <a href=http://ccchart.com/#91>http://ccchart.com/#91 </a>, 
+<img src=http://ccchart.org/img50/99.png>candle: <a href=http://ccchart.com/#99>http://ccchart.com/#99 </a>
 
 <hr>
 <h3>Realtime Sample</h3> 
