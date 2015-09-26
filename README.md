@@ -74,6 +74,19 @@ ccchart.init('hoge', chartdata1)
 ccchart.com: <a href=http://ccchart.com/#15>http://ccchart.com/#15</a>, <a href=http://ccchart.com/#7>http://ccchart.com/#7</a>, <a href=http://ccchart.com/#96>http://ccchart.com/#96</a>
 
 <hr>
+<h3>Static Other Samples </h3> 
+pie: <a href=http://ccchart.com/#79>http://ccchart.com/#79</a>, 
+bezi2: <a href=http://ccchart.com/#6>http://ccchart.com/#6</a>, 
+bezi: <a href=http://ccchart.com/#3>http://ccchart.com/#3</a>, 
+area: <a href=http://ccchart.com/#50>http://ccchart.com/#50</a>, 
+stacked: <a href=http://ccchart.com/#93>http://ccchart.com/#93</a>, 
+stackedarea: <a href=http://ccchart.com/#53>http://ccchart.com/#53</a>, 
+stacked%: <a href=http://ccchart.com/#55>http://ccchart.com/#55</a>, 
+ampli: <a href=http://ccchart.com/#5>http://ccchart.com/#5</a>, 
+scatter: <a href=http://ccchart.com/#91>http://ccchart.com/#91</a>, 
+candle: <a href=http://ccchart.com/#99>http://ccchart.com/#99</a>
+
+<hr>
 <h3>Realtime Sample</h3> 
 ccchart.com: <a href=http://ccchart.com/#85>http://ccchart.com/#85</a><br>
 <strong>Client Side</strong><code><pre>
