@@ -75,7 +75,7 @@ ccchart.com: <a href=http://ccchart.com/#15>http://ccchart.com/#15</a>, <a href=
 
 <hr>
 <h3>Static Other Samples </h3> 
-pie: <a href=http://ccchart.com/#79>http://ccchart.com/#79</a>, 
+pie: <a href=http://ccchart.com/#79>http://ccchart.com/#79 <img src=http://ccchart.org/img50/79.png></a>, 
 bezi2: <a href=http://ccchart.com/#6>http://ccchart.com/#6</a>, 
 bezi: <a href=http://ccchart.com/#3>http://ccchart.com/#3</a>, 
 area: <a href=http://ccchart.com/#50>http://ccchart.com/#50</a>, 
