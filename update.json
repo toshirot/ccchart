@@ -22,6 +22,14 @@ if (!window.ccchart) window.ccchart = {};
 ccchart.update = [
 
   {
+    ver: "1.10.8",
+    date: "2015.10.16",
+    status: "release",
+    updates: [
+          ["1. fix line chart. set lineJoin to round   http://ngw.jp/~tato/wp/?p=3667"]
+    ]
+  },
+  {
     ver: "1.10.7",
     date: "2015.09.12",
     status: "release",

@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.10.7',
-      update: 20150912,
+      version: '1.10.8',
+      update: 20151016,
       updateMemo: 'http://ccchart.com/update.json',
       lisense: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -1771,6 +1771,7 @@ window.ccchart =
         var x = this.chartLeft;
         x += this.xGap / 2; //オフセット
         this.ctx.beginPath();
+        this.ctx.lineJoin = 'round';
         this.ctx.lineWidth = lineWidth;
         this.ctx.strokeStyle = colorSet[k];
         this.ctx.fillStyle = this.colorSet[k];
