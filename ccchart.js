@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.10.8',
-      update: 20151016,
+      version: '1.10.9',
+      update: 20151115,
       updateMemo: 'http://ccchart.com/update.json',
       lisense: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -912,11 +912,8 @@ window.ccchart =
 
       var that = this;
 
-      //水平目盛線の幅
-      this.axisXWidth = this.op.config.axisXWidth!==undefined?this.op.config.axisXWidth:
-                        this.gcf.axisXWidth!==undefined?this.gcf.axisXWidth:1;
-                        //デフォルトは1 明示的に0を指定すると水平目盛線表示無し
-
+      //水平目盛線の幅 デフォルトは1 明示的に0を指定すると水平目盛線表示無し
+      this.axisXWidth = this.util.setNumberOfConfigVal(this, 'axisXWidth', 1);
       var _axisXWidth = this.axisXWidth;
 
 
@@ -982,21 +979,14 @@ window.ccchart =
     drawAxisY: function () {
       //垂直目盛線と水平軸ラベル
 
-      //垂直目盛線の幅
-      this.axisYWidth = this.op.config.axisYWidth!==undefined?this.op.config.axisYWidth:
-                        this.gcf.axisYWidth!==undefined?this.gcf.axisYWidth:1;
-                        //デフォルトは1 明示的に0を指定すると垂直目盛線表示無し
+      //垂直目盛線の幅 デフォルトは1 明示的に0を指定すると垂直目盛線表示無し
+      this.axisYWidth = this.util.setNumberOfConfigVal(this, 'axisYWidth', 1);
 
-      //垂直目盛線のスキップ数
-      this.xScaleSkip = this.op.config.xScaleSkip!==undefined?this.op.config.xScaleSkip:
-                        this.gcf.xScaleSkip!==undefined?this.gcf.xScaleSkip:0;
-                        //デフォルトは0
+      //垂直目盛線のスキップ数 デフォルトは0
+      this.xScaleSkip = this.util.setNumberOfConfigVal(this, 'xScaleSkip', 0);
 
-      //垂直目盛スキップ線の幅
-      this.axisYSkipWidth = this.op.config.axisYSkipWidth!==undefined?this.op.config.axisYSkipWidth:
-                        this.gcf.axisYSkipWidth!==undefined?this.gcf.axisYSkipWidth:3;
-                        //デフォルトは3
-
+      //垂直目盛スキップ線の幅 //デフォルトは3
+       this.axisYSkipWidth = this.util.setNumberOfConfigVal(this, 'axisYSkipWidth', 3);
 
       var _axisYWidth = this.axisYWidth;
       for (
@@ -1218,14 +1208,18 @@ window.ccchart =
         this.op.config.titleColor || this.gcf.titleColor ||
         this.textColor ||
         this.textColors.all||
-        this.textColors.title ||
-        "#ccc";
-      var titleY = this.op.config.titleY || this.gcf.titleY || 38;
+        this.textColors.title || "#ccc";
+      var offsetX = this.util.setNumberOfConfigVal(this, 'titleX', this.width/2);
+      //adjust titleX by the align anchor point.
+      var titleX = this.util.ajustTitlesX(this, titleTextAlign, offsetX);
+        //this.op.config.titleX or this.gcf.titleX or this.width/2;
+      var titleY = this.util.setNumberOfConfigVal(this, 'titleY', 38);
+        //this.op.config.titleY or this.gcf.titleY or 38;
 
       this.ctx.font = titleFont;
       this.ctx.textAlign = titleTextAlign;
       this.ctx.fillStyle = titleColor;
-      this.ctx.fillText(title, this.width/2, titleY);
+      this.ctx.fillText(title, titleX, titleY);
       this.ctx.restore();
       return this;
     },
@@ -1239,15 +1233,19 @@ window.ccchart =
         this.op.config.subTitleColor || this.gcf.subTitleColor ||
         this.textColor ||
         this.textColors.all||
-        this.textColors.subTitle ||
-        "#ddd";
-      var subTitleY = this.op.config.subTitleY || this.gcf.subTitleY || 55;
+        this.textColors.subTitle || "#ddd";
+      var offsetX = this.util.setNumberOfConfigVal(this, 'subTitleX', this.width/2);
+      //adjust titleX by the align anchor point.
+      var subTitleX = this.util.ajustTitlesX(this, subTitleTextAlign, offsetX);
+        // this.op.config.subTitleX or this.gcf.subTitleX or this.width/2;
+      var subTitleY = this.util.setNumberOfConfigVal(this, 'subTitleY', 55);
+        //this.op.config.subTitleY or this.gcf.subTitleY or 55;
       if(this.title === '')subTitleY = 25;
 
       if(subTitleFont)this.ctx.font = subTitleFont;
       this.ctx.textAlign = subTitleTextAlign;
       this.ctx.fillStyle = subTitleColor;
-      this.ctx.fillText(subTitle, this.width/2, subTitleY);
+      this.ctx.fillText(subTitle, subTitleX , subTitleY);
       this.ctx.restore();
       return this;
     },
@@ -3232,6 +3230,7 @@ window.ccchart =
             ,"titleColor"
             ,"titleFont"
             ,"titleTextAlign"
+            ,"titleX"
             ,"titleY"
            //サブタイトル
             ,"subTitle"
@@ -3239,6 +3238,7 @@ window.ccchart =
             ,"subTitleColor"
             ,"subTitleFont"
             ,"subTitleTextAlign"
+            ,"subTitleX"
             ,"subTitleY"
           //タイトル有無
             ,"onlyChart"
@@ -3511,6 +3511,20 @@ window.ccchart =
       }, async);
     },
     util:{
+      setNumberOfConfigVal: function(it, prop, def){//e.g. axisYSkipWidth...
+        //Numberタイプのconfig設定時に( || )処理では0を指定するとデフォルト値になってしまうので
+        var num = (it.op.config[prop]!==undefined)?it.op.config[prop]:
+                        (it.gcf[prop]!==undefined)?it.gcf[prop]:def;
+        return it[prop] = num;
+      },
+      ajustTitlesX: function(it, titleTextAlign, offsetX){ //for titleX and subTitleX
+        //adjust titleX by the align anchor point.
+        var titlesX =
+          (titleTextAlign === 'center')?(0+offsetX):
+          (titleTextAlign === 'left')?(0+offsetX):
+          (titleTextAlign === 'right')?(it.width-offsetX):(0+offsetX);
+        return titlesX;
+      },
       setPfx: function(prop){
         return ccchart.pfx[prop] = ccchart.prefix + '-' + prop;
       },

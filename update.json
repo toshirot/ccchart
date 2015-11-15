@@ -8,7 +8,7 @@
  *    Write the <canvas id="hoge"></canvas>,
  *    And enjoy following sample codes & customize!
  *
- *   This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.
+ *   This is a Simple JavaScript chart that does not depend on libraries such as jQuery or google APIs.
  *   ---------------------------------------------------------------------------
  *   Demo      : http://ccchart.com/
  *   URL       : http://www.facebook.com/javascripting
@@ -21,6 +21,15 @@
 if (!window.ccchart) window.ccchart = {};
 ccchart.update = [
 
+  {
+    ver: "1.10.9",
+    date: "2015.11.15",
+    status: "release",
+    updates: [
+          ["1. add titleTextAlign, titleX  http://ccchart.org/test/subTitleX/test1.htm"],
+          ["2. add subTitleTextAlign, subTitleX  http://ccchart.org/test/subTitleX/test1.htm"]
+    ]
+  },
   {
     ver: "1.10.8",
     date: "2015.10.16",
