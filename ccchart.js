@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.10.9',
-      update: 20151115,
+      version: '1.11.01',
+      update: 20151117,
       updateMemo: 'http://ccchart.com/update.json',
       lisense: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -1517,6 +1517,7 @@ window.ccchart =
       } else {
         var data = this.data;
       }
+      console.log(data)
       if (this.useCss === 'yes' && this.hybridBox) {
         var cssGroup =
           document.querySelector('#-ccchart-css-group-' + this.id);
@@ -1618,6 +1619,8 @@ window.ccchart =
       this.ctx.restore();
 
       function _drawmarkers(x, y, row, col, data, colorSet, colorIndex) {
+        var curdata = data[row][col];
+        if(curdata===''||curdata===undefined||isNaN(curdata)){ return }
         that.ctx.beginPath();
         that.ctx.fillStyle = colorSet[colorIndex];
         var scatterX = (that.type === 'scatter') ? ((data[0])?(data[0][col]):'') : '';
@@ -1631,8 +1634,8 @@ window.ccchart =
             radius: markerWidth / 2,
             row: row,
             col: col, //scatterではrowは常に0
-            data: data[row][col],
-            percent: that.util.mkPercentVal(that, data[row][col] , row, col),
+            data: curdata,
+            percent: that.util.mkPercentVal(that, curdata, row, col),
             scatterX: scatterX,
             scatterY: scatterY,
             colorSet: colorSet,
