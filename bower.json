@@ -11,6 +11,9 @@
   "authors": [
     "toshirot"
   ],
+  "ignore": [
+    "**/.*"
+  ],
   "license": "MIT",
   "homepage": "http://ccchart.com"
 }
