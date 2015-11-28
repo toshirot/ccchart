@@ -15,8 +15,7 @@ You can use the following chart types. line, bar, pie, bezi, bezi2, stacked, are
 MIT
 <hr>
 <h3>Install</h3>
-<h5>Bower</h5>
-<code><pre>$ cd ./YourDir
+<strong>Bower</strong><code><pre>$ cd ./YourDir
 $ npm i -g bower
 $ bower i ccchart</pre></code>
 ./YourDir/bower_components/ccchart/ directory has been generated
