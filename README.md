@@ -30,12 +30,12 @@ YourDir/
 <h3>What's New</h3>  
 2015/09/08 add Candle Type 
 <a href=http://ngw.jp/~tato/wp/?page_id=3612>http://ngw.jp/~tato/wp/?page_id=3612</a><br>
-ccchart.com: <a href=http://ccchart.com/#100>http://ccchart.com/#100</a>
+Demo ccchart.com: <a href=http://ccchart.com/#100>http://ccchart.com/#100</a>
 <a href=http://ngw.jp/~tato/wp/?page_id=3612><img with=380 src=http://ccchart.com/test/candle/candle.png></a>
 
 <hr>
 <h3>Static Sample (Bar) </h3>  
-jsfiddle.net: <a href=http://jsfiddle.net/UkdvS/455/>http://jsfiddle.net/UkdvS/455/</a>
+Demo jsfiddle.net: <a href=http://jsfiddle.net/UkdvS/455/>http://jsfiddle.net/UkdvS/455/</a>
 <code><pre>&lt;script src="http://ccchart.com/js/ccchart.js" charset="utf-8">&lt;/script>
 &lt;canvas id="hoge">&lt;/canvas>
 &lt;script>
@@ -57,11 +57,11 @@ var chartdata1 = {
 ccchart.init('hoge', chartdata1)
 &lt;/script>
 </pre></code>
-ccchart.com: <a href=http://ccchart.com/#57>http://ccchart.com/#57</a>, <a href=http://ccchart.com/#42>http://ccchart.com/#72</a>, <a href=http://ccchart.com/#42>http://ccchart.com/#73</a>
+Demo ccchart.com: <a href=http://ccchart.com/#57>http://ccchart.com/#57</a>, <a href=http://ccchart.com/#42>http://ccchart.com/#72</a>, <a href=http://ccchart.com/#42>http://ccchart.com/#73</a>
 
 <hr>
 <h3>Static Sample (Line)</h3>  
-jsfiddle.net: <a href=http://jsfiddle.net/UkdvS/451/>http://jsfiddle.net/UkdvS/451/</a>
+Demo jsfiddle.net: <a href=http://jsfiddle.net/UkdvS/451/>http://jsfiddle.net/UkdvS/451/</a>
 <code><pre>&lt;script src="http://ccchart.com/js/ccchart.js" charset="utf-8">&lt;/script>
 &lt;canvas id="hoge">&lt;/canvas>
 &lt;script>
