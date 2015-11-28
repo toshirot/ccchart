@@ -13,7 +13,13 @@ You can use the following chart types. line, bar, pie, bezi, bezi2, stacked, are
 <hr>
 <h3>License</h3>
 MIT
-
+<hr>
+<h3>Install</h3>
+<h5>Bower</h5>
+<code><pre>$ cd ./YourDir
+$ npm i -g bower
+$ bower i ccchart</pre></code>
+./YourDir/bower_components/ccchart/ directory has been generated
 <hr>
 <h3>What's New</h3>  
 2015/09/08 add Candle Type 
