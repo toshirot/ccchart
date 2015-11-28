@@ -25,26 +25,5 @@
   ],
   "bugs": {
     "url": "https://github.com/toshirot/ccchart/issues"
-  ],
-  // 各種 npm xxx で実行されるスクリプト. testとstartあたりがメジャーなのでそこあたりは書いたほうが良さ気？
-  "scripts": {
-    // npm testで実行される.
-    "test": "nodeunit xxx.js"
-  },
-  // 開発版で依存してるライブラリ. テストで使うとかそんなやつ.
-  // npm install でインストール or アップデートされる.
-  "devDependencies": {
-    // xxxのバージョン0.0.1に依存
-    "xxx": "0.0.1",
-    // yyyのバージョン0.0.2以上に依存
-    "yyy": "~0.0.2"
-  },
-  // 本番版で依存してるライブラリ.
-  "peerDependencies": {
-    "xxx": "0.0.1"
-  },
-  // npmで公開する時とかで使われるキーワードというかタグというか.
-  "keywords": [
-    "hoge", "piyo"
-  ]
+  }
 }
