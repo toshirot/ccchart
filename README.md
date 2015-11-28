@@ -19,7 +19,9 @@ MIT
 $ npm i -g bower
 $ bower i ccchart
 ccchart directory has been generated.
-./bower_components/ccchart/
+YourDir/
+  -bower_components/
+    -ccchart/
         -README.md
         -ccchart-min.js
         -ccchart.js
