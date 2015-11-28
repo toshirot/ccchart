@@ -15,6 +15,9 @@ You can use the following chart types. line, bar, pie, bezi, bezi2, stacked, are
 MIT
 <hr>
 <h3>Install</h3>
+<strong id="gitDownload">Downloaded from this page</strong>
+Download the zip file by clicking on the upper right Download button on this page. And installing unzip.
+<strong id="ccchartDownload">Downloaded from <a href=http://ccchart.com/>ccchart.com</a>  </strong>
 <strong id="bower">Bower</strong><code><pre>$ cd ./YourDir
 $ npm i -g bower
 $ bower i ccchart
