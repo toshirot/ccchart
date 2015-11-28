@@ -1,0 +1,16 @@
+{
+  "name": "ccchart",
+  "main": "ccchart.js",
+  "description": "This is a Realtime and Simple JavaScript chart library that does not depend on libraries such as jQuery or google APIs.",
+  "moduleType": ["globals"],
+  "keywords": [
+    "chart",
+    "real-time",
+    "RealTime"
+  ],
+  "authors": [
+    "toshirot"
+  ],
+  "license": "MIT",
+  "homepage": "http://ccchart.com"
+}

@@ -1,0 +1,50 @@
+{
+  "private": true,
+
+  "name": "ccchart",
+  "description": "This is a Realtime and Simple JavaScript chart library that does not depend on libraries such as jQuery or google APIs.",
+  "version": "1.11.01",
+  "main": "ccchart.js",
+  "homepage": "http://ccchart.com",
+  "license": "MIT",
+  "author": {
+    "name": "toshirot",
+    "email": "tato@game.gr.jp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/toshirot/ccchart.git"
+  },
+  "keywords": [
+    "chart",
+    "Push",
+    "WebSocket",
+    "WebSockets",
+    "RealTime",
+    "real-time"
+  ],
+  "bugs": {
+    "url": "https://github.com/toshirot/ccchart/issues"
+  ],
+  // 各種 npm xxx で実行されるスクリプト. testとstartあたりがメジャーなのでそこあたりは書いたほうが良さ気？
+  "scripts": {
+    // npm testで実行される.
+    "test": "nodeunit xxx.js"
+  },
+  // 開発版で依存してるライブラリ. テストで使うとかそんなやつ.
+  // npm install でインストール or アップデートされる.
+  "devDependencies": {
+    // xxxのバージョン0.0.1に依存
+    "xxx": "0.0.1",
+    // yyyのバージョン0.0.2以上に依存
+    "yyy": "~0.0.2"
+  },
+  // 本番版で依存してるライブラリ.
+  "peerDependencies": {
+    "xxx": "0.0.1"
+  },
+  // npmで公開する時とかで使われるキーワードというかタグというか.
+  "keywords": [
+    "hoge", "piyo"
+  ]
+}
