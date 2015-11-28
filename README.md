@@ -103,8 +103,8 @@ ccchart.com: <a href=http://ccchart.com/#15>http://ccchart.com/#15</a>, <a href=
 </ul>
 
 <hr>
-<h3>Realtime Sample ( use WebSocket )</h3> 
-ccchart.com: <a href=http://ccchart.com/#85>http://ccchart.com/#85</a><br>
+<h3>Realtime Sample (use WebSocket)</h3> 
+Demo ccchart.com: <a href=http://ccchart.com/#85>http://ccchart.com/#85</a><br>
 <strong>Client Side</strong><code><pre>
 &lt;script src="http://ccchart.com/js/ccchart.js" charset="utf-8">&lt;/script>
 &lt;canvas id="hoge">&lt;/canvas>
