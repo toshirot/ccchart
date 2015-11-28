@@ -363,7 +363,17 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 <!-- //////////////////////////////////////  -->
 <article id="hanrei2">
 <li>[ Hanrei ] <a href="http://ccchart.org/test/hanreiLineHeight/test.htm">凡例1行の高さを設定する hanreiLineHeight</a></li>
-</article></li>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="title1">
+<li>[ Title ] <a href="http://ccchart.org/test/titleX/test1.htm">titleTextAlign, titleX</a><span class=new> [new]</span></li>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="subtitle1">
+<li>[ SubTitle ] <a href="http://ccchart.org/test/subTitleX/test1.htm">subTitleTextAlign, subTitleX</a><span class=new> [new]</span></li>
+</article>
 
 <!-- //////////////////////////////////////  -->
 <article id="data1">
