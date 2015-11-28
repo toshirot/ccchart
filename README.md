@@ -17,9 +17,17 @@ MIT
 <h3>Install</h3>
 <strong>Bower</strong><code><pre>$ cd ./YourDir
 $ npm i -g bower
-$ bower i ccchart</pre></code>
-./YourDir/bower_components/ccchart/ directory has been generated
-<hr>
+$ bower i ccchart
+
+ccchart directory has been generated.
+./bower_components/ccchart/
+        -README.md
+        -ccchart-min.js
+        -ccchart.js
+        -update.json
+        /plugins
+
+</pre></code><hr>
 <h3>What's New</h3>  
 2015/09/08 add Candle Type 
 <a href=http://ngw.jp/~tato/wp/?page_id=3612>http://ngw.jp/~tato/wp/?page_id=3612</a><br>
