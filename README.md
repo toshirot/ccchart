@@ -10,7 +10,9 @@ You can use the following chart types. line, bar, pie, bezi, bezi2, stacked, are
 @doc (old) http://ccchart.com/doc/ccchart-1.06.3.pdf
 @blog http://ngw.jp/~tato/wp/?tag=ccchart
 @chat http://cht.pw/chat.htm
-
+<hr>
+<h3>License</h3>
+MIT
 
 <hr>
 <h3>What's New</h3>  
@@ -376,6 +378,4 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 
 </ul>
 
-<hr>
-<h3>License</h3>
-MIT
+
