@@ -299,6 +299,12 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 <li>[ WebSocket Debug ] <a href="http://ccchart.org/test/ws/test-1.htm">WebSocket使用時のデバック用プロパティ</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
+<article id="dbg2">
+<li>[ WebSocket Debug ] <a href="http://ccchart.org/test/_autoReConnect/test.htm">WebSocket切断時の再接続テスト</a><span class=new> [new]</span></li>
+</article>
+
+
+<!-- //////////////////////////////////////  -->
 <article id="drag1">
 <li>[ DragDrop ] <a href="http://ccchart.org/test/dragdrop/dd1.htm">ファイルドロップでチャート表示</a></li>
 </article>
