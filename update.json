@@ -27,7 +27,8 @@ ccchart.update = [
     date: "2015.12.31",
     status: "release",
     updates: [
-          ["1. fix about className of canvas http://ngw.jp/~tato/wp/?p=3698"]
+          ["1. fix about className of canvas http://ngw.jp/~tato/wp/?p=3698"],
+          ["2. change ccchart.display  http://ngw.jp/~tato/wp/?p=3698"]
     ]
   },
   {

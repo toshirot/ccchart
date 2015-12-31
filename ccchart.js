@@ -122,7 +122,7 @@ window.ccchart =
       this.deep = op.config.deep || this.gcf.deep || 'yes';
       if(this.deep==='yes')op = this.util.deepJSONCopy(op);//deep copy
       this.op = op;
-      this.display = op.config.display || this.gcf.display || 'block';
+      this.display = op.config.display || this.gcf.display || this.canvas.style.display || 'block';
       this.canvas.style.display = this.display;
       this.width = op.config.width || this.gcf.width || 600;
       this.height = op.config.height || this.gcf.height || 400;
