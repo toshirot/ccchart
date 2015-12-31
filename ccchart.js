@@ -5,10 +5,10 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.11.01',
-      update: 20151117,
+      version: '1.11.02',
+      update: 20151231,
       updateMemo: 'http://ccchart.com/update.json',
-      lisense: 'MIT',
+      license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
       demoCurrent: 'http://ccchart.com/',
       demoDevelopment: 'http://ccchart.org/',
@@ -86,7 +86,10 @@ window.ccchart =
       }
       this.callback = callback;
       this.idsLen++;
-      this.canvas.setAttribute('class', "-ccchart");
+      var _classNames = ' ' + this.canvas.getAttribute('class') + ' ';
+      if(_classNames.indexOf(' -ccchart ')!==-1){
+        this.canvas.setAttribute('class', '-ccchart' + ' ' +this.canvas.getAttribute('class'));
+      }
       this.ids[this.id] = this.canvas;
       this.ctx =
         this.cxs[this.id] =
@@ -1517,7 +1520,7 @@ window.ccchart =
       } else {
         var data = this.data;
       }
-      console.log(data)
+     // console.log(data)
       if (this.useCss === 'yes' && this.hybridBox) {
         var cssGroup =
           document.querySelector('#-ccchart-css-group-' + this.id);

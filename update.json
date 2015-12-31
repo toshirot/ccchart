@@ -8,7 +8,7 @@
  *    Write the <canvas id="hoge"></canvas>,
  *    And enjoy following sample codes & customize!
  *
- *   This is a Simple JavaScript chart that does not depend on libraries such as jQuery or google APIs.
+ *   This is a RealTime and Simple JavaScript chart that does not depend on libraries such as jQuery or google APIs.
  *   ---------------------------------------------------------------------------
  *   Demo      : http://ccchart.com/
  *   URL       : http://www.facebook.com/javascripting
@@ -21,12 +21,21 @@
 if (!window.ccchart) window.ccchart = {};
 ccchart.update = [
 
+
+  {
+    ver: "1.11.02",
+    date: "2015.12.31",
+    status: "release",
+    updates: [
+          ["1. fix about className of canvas http://ngw.jp/~tato/wp/?p=3698"]
+    ]
+  },
   {
     ver: "1.11.01",
     date: "2015.11.17",
     status: "release",
     updates: [
-          ["1. fix Css marker at the time of blank dat http://ngw.jp/~tato/wp/?p=3677"]
+          ["1. fix Css marker at the time of blank dat http://ngw.jp/~tato/wp/?p=3687"]
     ]
   },
   {
