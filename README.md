@@ -33,6 +33,7 @@ YourDir/
 2015/09/08 add Candle Type 
 <a href=http://ngw.jp/~tato/wp/?page_id=3612>http://ngw.jp/~tato/wp/?page_id=3612</a><br>
 Demo ccchart.com: <a href=http://ccchart.com/#100>http://ccchart.com/#100</a>
+<a href=http://ccchart.org/test/candle/test-ws.htm>http://ccchart.org/test/candle/test-ws.htm</a>
 <a href=http://ngw.jp/~tato/wp/?page_id=3612><img with=380 src=http://ccchart.com/test/candle/candle.png></a>
 
 <hr>
