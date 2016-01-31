@@ -21,7 +21,15 @@
 if (!window.ccchart) window.ccchart = {};
 ccchart.update = [
 
-
+ 
+  {
+    ver: "1.11.03",
+    date: "2016.01.31",
+    status: "release",
+    updates: [
+          ["1. fix about xScaleColor of scatter type. fix demo http://jsfiddle.net/6tny7q1g/1/ , bug dem http://jsfiddle.net/6tny7q1g/"]
+    ]
+  },
   {
     ver: "1.11.02",
     date: "2015.12.31",

@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.11.02',
-      update: 20151231,
+      version: '1.11.03',
+      update: 20160131,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -1095,12 +1095,12 @@ window.ccchart =
         var text = (this.colNamesTitle==='')?'':'(' + this.colNamesTitle + ')';
         var x = this.chartRight + tOffset;
         var y = this.chartBottom + yOffset;
-        if(this.type !== 'scatter')
-          this.ctx.fillStyle = xScaleColor;//2014/11/25 fixed thanx @MogyFarm
-          this.ctx.fillText(
-             text,
-             x,
-             y
+       // if(this.type !== 'scatter')//2016/01/20 fixed
+        this.ctx.fillStyle = xScaleColor;//2014/11/25 fixed thanx @MogyFarm
+        this.ctx.fillText(
+           text,
+           x,
+           y
         );
       } else {
         this.drawMemo({
