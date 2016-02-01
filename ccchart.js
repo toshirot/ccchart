@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.11.03',
-      update: 20160131,
+      version: '1.11.04',
+      update: 20160201,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -556,8 +556,7 @@ window.ccchart =
       ["red","#FF9114","#3CB000","#00A8A2","#0036C0","#C328FF","#FF34C0",
       "#F33","#FB4","#3E3","#0EE","#07E","#C7F","#F7E",
       "#F66","#FD7","#3F7","#3EE","#0AE","#CAF","#FAF",
-      "#F99","#FEA","#3FF","#4FF","#0DF","#DCF","#FDF"]
-;
+      "#F99","#FEA","#3FF","#4FF","#0DF","#DCF","#FDF"];//default 28color
       //文字列カラー
       this.textColor = op.config.textColor || this.gcf.textColor || false;
       this.textColors = op.config.textColors || this.gcf.textColors ||{
@@ -581,8 +580,11 @@ window.ccchart =
         op.config.hanreiMarkerStyle || this.gcf.hanreiMarkerStyle  || 'arc';
 
       //for drawLine, drawAmplitude
-      //折れ線グラフ用パラメータ
+      //線幅 デフォルトで2
       this.lineWidth = op.config.lineWidth || this.gcf.lineWidth || 2;
+      //線幅セット
+      this.lineWidthSet = this.util.setLineWidthSet(this, op);
+
       //円グラフのドーナツ穴の半径
       this.pieHoleRadius =
         op.config.pieHoleRadius || this.gcf.pieHoleRadius || 40;
@@ -1767,7 +1769,8 @@ window.ccchart =
       //折れ線系グラフ(line,ampli,area)を描く
       this.ctx.save();
       if (!op) var op = this.op || {};
-      var lineWidth = op.lineWidth || this.lineWidth;
+      this.lineWidth = op.lineWidth || this.lineWidth;
+      var lineWidthSet = this.util.setLineWidthSet(this, op);
       var colorSet = op.colorSet || this.colorSet;
       var shdw =
         (this.shadows) ? this.shadows.line || this.shadows.all || ['#222', 5, 5, 5] : '';
@@ -1776,12 +1779,12 @@ window.ccchart =
         x += this.xGap / 2; //オフセット
         this.ctx.beginPath();
         this.ctx.lineJoin = 'round';
-        this.ctx.lineWidth = lineWidth;
+        this.ctx.lineWidth = this.lineWidthSet[k];
         this.ctx.strokeStyle = colorSet[k];
         this.ctx.fillStyle = this.colorSet[k];
         if (this.useShadow === 'yes')
-          if (lineWidth > 1) this.drawShadow(shdw[0], shdw[1], shdw[2], shdw[3]);
-          //lineWith=1の時影がおかしくなるのでlineWidth>1
+          if (this.lineWidthSet[k] > 1) this.drawShadow(shdw[0], shdw[1], shdw[2], shdw[3]);
+          //lineWith=1の時影がおかしくなるのでthis.lineWidthSet[k]>1
         if (this.type === 'area') {
           this.ctx.moveTo(x, this.chartBottom);
         }
@@ -1860,7 +1863,8 @@ window.ccchart =
       //if(!(this.type === 'stackedarea'||this.type === 'stacked%'))return this;
       this.ctx.save();
       if(!op)var op = this.op||{};
-      var lineWidth = op.lineWidth || this.lineWidth;
+      this.lineWidth = op.lineWidth || this.lineWidth;
+      var lineWidthSet = this.util.setLineWidthSet(this, op);
       var colorSet = op.colorSet || this.colorSet;
       var shdw = (this.shadows)?this.shadows.stackedarea||this.shadows.all||['#222', 5, 5, 5]:'';
       var wkData = [];
@@ -1878,12 +1882,12 @@ window.ccchart =
         var x = this.chartLeft;
         x += this.xGap / 2; //オフセット
         this.ctx.beginPath();
-        this.ctx.lineWidth = lineWidth;
+        this.ctx.lineWidth = lineWidthSet[k];
         this.ctx.strokeStyle = colorSet[k];
         this.ctx.fillStyle = colorSet[k];
         if (this.useShadow === 'yes')
-          if (this.lineWidth > 1) this.drawShadow(shdw[0], shdw[1], shdw[2], shdw[3]);
-          //lineWith=1の時影がおかしくなるのでthis.lineWidth>1
+          if (lineWidthSet[k] > 1) this.drawShadow(shdw[0], shdw[1], shdw[2], shdw[3]);
+          //lineWith=1の時影がおかしくなるのでlineWidthSet[k]>1
         this.ctx.moveTo(x, this.chartBottom);
 
         this.stackedPData[k] = [];
@@ -2142,13 +2146,15 @@ window.ccchart =
     },
     drawbeziLine: function () {
       this.ctx.save();
+      this.lineWidth = this.lineWidth || this.lineWidth;
+      var lineWidthSet = this.util.setLineWidthSet(this, this.op);
       var recx=0,recy=0;
       var shdw = (this.shadows)?this.shadows.bezi||this.shadows.all||['#222', 5, 5, 5]:'';
       for(var k = 0; k < this.dataRowLen; k++ ){
         var x = this.chartLeft;
         x += this.xGap/2; //オフセット
         this.ctx.beginPath();
-        this.ctx.lineWidth  = this.lineWidth;
+        this.ctx.lineWidth  = lineWidthSet[k];
         this.ctx.strokeStyle = this.colorSet[k];
         if(this.useShadow === 'yes')this.drawShadow(shdw[0],shdw[1],shdw[2],shdw[3]);
         for(var l = 0; l < this.data[k].length; l++ ){
@@ -2166,13 +2172,15 @@ window.ccchart =
     },
     drawbeziLine2: function () {
       var shdw = (this.shadows)?this.shadows.bezi2||this.shadows.all||['#222', 5, 5, 5]:'';
+      this.lineWidth = this.op.lineWidth || this.lineWidth;
+      var lineWidthSet = this.util.setLineWidthSet(this, this.op);
       //ベジェグラフを描く
       this.ctx.save();
       for(var k = 0; k < this.dataRowLen; k++ ){
         var x = this.chartLeft;
         x += this.xGap/2; //オフセット
         this.ctx.beginPath();
-        this.ctx.lineWidth  = this.lineWidth;
+        this.ctx.lineWidth  = this.lineWidthSet[k];
         this.ctx.strokeStyle = this.colorSet[k];
         if(this.useShadow === 'yes')this.drawShadow(shdw[0],shdw[1],shdw[2],shdw[3]);
         for(var l = 0; l < this.data[k].length; l++ ){
@@ -3517,6 +3525,38 @@ window.ccchart =
       }, async);
     },
     util:{
+      setLineWidthSet: function (that, op){
+        if(!op)op=that.op;
+        var _lw = that.lineWidth;
+        //線幅セット lineWidthSet:[] を指定すると すべてthis.lineWidthの配列になる
+      
+        _lineWidthSet = op.config.lineWidthSet || that.gcf.lineWidthSet || undefined;
+        if(typeof _lineWidthSet === "object"){
+          if(_lineWidthSet.length===0){
+            //_lineWidthSetが [] なら
+            //すべてthat.lineWidth のlineWidthSetを作る
+            _lineWidthSet =[];
+            //default length is dataRowLen 
+            for(var i=0; i<that.dataRowLen; i++){_lineWidthSet[i]=_lw}
+            /*  e.g. it will be generate follow array. 
+            _lineWidthSet = [
+              _lw,_lw,_lw,_lw,_lw,_lw,_lw,
+              _lw,_lw,_lw,_lw,_lw,_lw,_lw,
+              _lw,_lw,_lw,_lw,_lw,_lw,_lw,
+              _lw,_lw,_lw,_lw,_lw,_lw,_lw 
+            ];*/
+          } else {
+            //_lineWidthSet.length>0なのでそれを_lineWidthSetへ適用する
+          }
+        } else {
+          //lineWidthSetがundefinedなどobject以外ならすべてthat.lineWidth のlineWidthSetを作る
+          _lineWidthSet =[];
+          //default length is dataRowLen 
+          for(var i=0; i<that.dataRowLen; i++){_lineWidthSet[i]=_lw}
+        }
+        
+        return _lineWidthSet;
+      },
       setNumberOfConfigVal: function(it, prop, def){//e.g. axisYSkipWidth...
         //Numberタイプのconfig設定時に( || )処理では0を指定するとデフォルト値になってしまうので
         var num = (it.op.config[prop]!==undefined)?it.op.config[prop]:
