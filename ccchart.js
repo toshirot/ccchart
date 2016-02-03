@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.11.04',
-      update: 20160201,
+      version: '1.11.06',
+      update: 20160203,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -2437,17 +2437,22 @@ window.ccchart =
       var op = op || {};
       op = {
         //WebSocket自動再接続
-        autoReConnect: op.autoReConnect || true,
+        autoReConnect: (op.autoReConnect===false)?false:true,
+        //再接続間隔
+        autoReConnectInterval: (op.autoReConnectInterval!==undefined)?op.autoReConnectInterval:5000,
         //最大再接続回数
-        maxReConnect: op.maxReConnect || 8,
+        maxReConnect: (op.maxReConnect!==undefined)?op.maxReConnect:5000,
         //ハートビート関連 ※詳細は_hbTimerFnc内で設定する
-        useHb: op.useHb || true,
-        hbStr: op.hbStr || "Heartbeat",
-        hbInterval: op.hbInterval || null,
+        useHb: (!op.useHb)?op.useHb:true,
+        hbStr: (op.hbStr!==undefined)?op.hbStr:"Heartbeat",
+        hbInterval: (op.hbInterval!==undefined)?op.hbInterval:null,
         //サブプロトコル
         protocol: op.protocol || 'ws.ccchart.com',
-        wscaseName: "_wscaseFnc_"+(new Date().getTime())//プラグイン命名無し時用デフォルト名
+        wscaseName: (op.wscaseName!==undefined)?
+          op.wscaseName:
+          "_wscaseFnc_"+(new Date().getTime())//プラグイン命名無し時用デフォルト名
       }
+
       var id = this.id;
       var uid = '-ccchart-ws-' + this.util.uuidv4();
       var w = this.wsuids[uid];
@@ -2465,7 +2470,8 @@ window.ccchart =
       } else { // if !w then init
         w = _w(true);
         if (that.wsDbg || that.wsInfo)
-          console.log('init a WebSocket '
+          console.log('\n================================'
+            , '\n  init a WebSocket '
             , '\n  canvas: #' + id
             , '\n  url: ' + url
             , '\n  instance: ccchart.wsuids[\'' + w.op.uid +'\']'
@@ -2493,7 +2499,7 @@ window.ccchart =
         that.wsuids[uid].op = op;
         var openinfo = '';
         if (first) {
-          op.autoReConnect = op.autoReConnect || true;
+          op.autoReConnect = (op.autoReConnect===false)?false:true;
           if(that.wsReCnt['-ccchart-ws-'+id+'-'+url]===undefined){
             that.wsReCnt['-ccchart-ws-'+id+'-'+url] = 0;
           }
@@ -2525,7 +2531,11 @@ window.ccchart =
           var target = that.wsuids[uid];
           if (!target) return;
           if (that.wsDbg || that.wsInfo)
-            console.log(openinfo + ': ' + '#' + id + ' ' + url + ' ' + uid);
+            console.log('\n--------------------------------'
+              , '\n'
+              ,  openinfo + ': ' + '#' + id + ' '
+              , ' ' + url
+              , '\n ' + uid);
           if (op.autoReConnect)
             if(that.wsReCnt['-ccchart-ws-'+id+'-'+url]===undefined){
               if(!that.ops[id].wsReConnecting)
@@ -2568,15 +2578,19 @@ window.ccchart =
           }
           if (that.wsDbg) {
             if (target){
+            console.log('\n--------------------------------'
+              , '\n')
               console.log(2,id, 'autoReConnect:', op.autoReConnect);
               console.log(2,'that.ops["'+id+'"].wsReConnecting: ',that.ops[id].wsReConnecting);
               console.log(2,'wsReCnt: ', that.wsReCnt['-ccchart-ws-'+id+'-'+url],that.wsReCnt);
               console.log(2,'wscaseName:', op.wscaseName);
-              console.log(2,'ws closed: #' + id + ' ' + url + ' ' + uid);
+              console.log(2,'ws closed: #' + id
+              , '\n ' + url
+              , '\n ' + uid);
             }
           }
           //自動再接続 true の場合に再起動
-          if(op.autoReConnect)_autoReConnect(target);
+          if(op.autoReConnect)setTimeout(function(){_autoReConnect(target)}, op.autoReConnectInterval);
         });
 
         return that.wsuids[uid];
@@ -2629,11 +2643,20 @@ window.ccchart =
           op.autoReConnect = false;
           return;
         }
-        that.init(id, that.ops[id].op, that.ops[id].ondrew);
-        var w = that.ws(url, op);
-        w.on('message', ccchart.wscase[target.op.wscaseName]);
-        if (that.wsDbg) console.log(that.op.id, ('-ccchart-ws-' + id + '-' + url), w)
+      //  console.log(  'init: ' + '#' + id + ' ' + url,op.wscaseName,ccchart.wscase[op.wscaseName]);
+        that.wsCloseAll();//一旦クリア
+
+        var w =  that.init(id, that.ops[id].op, that.ops[id].ondrew)
+          .ws(url, op)
+          .on('open', function(){that.wsReCnt['-ccchart-ws-'+id+'-'+url] = 0;})
+          .on('message', ccchart.wscase[op.wscaseName])
+        if (that.wsDbg) console.log('\n================================'
+              , '\n re inited '
+              , id, ('-ccchart-ws-' + id + '-' + url)
+              , '\n ws option: ' , op
+              , '\n ws: ' , w)
         return w
+
       }
 
       //ハートビートタイマー
@@ -2667,15 +2690,22 @@ window.ccchart =
         clearInterval(target.op.hbTimer);
         //ハートビート開始
         target.op.hbTimer = setInterval(function () {
-          target.op.bncStart = (new Date).getTime();
-          target.send(target.op.hbStr);
-          if (that.wsDbg)
-            console.log('Heartbeat send:', '#'+id, url,
-                ('\n  readyState: ' + target.readyState)
-              , ('\n  hbInterval: ' + op.hbInterval)
-              , ('\n  instance: ccchart.wsuids[\'' + uid +'\']')
-              , ('\n  date: ' + (new Date))//レイテンシをmessage側で計測する?
-            );
+
+          if(target.readyState !== target.OPEN){
+            _autoReConnect(target)
+          } else {
+            target.op.bncStart = (new Date).getTime();
+            target.send(target.op.hbStr);
+            if (that.wsDbg)
+              console.log('\n--------------------------------'
+                , '\n Heartbeat send:'
+                , ('#'+id, url)
+                , ('\n  readyState: ' + target.readyState)
+                , ('\n  hbInterval: ' + op.hbInterval)
+                , ('\n  instance: ccchart.wsuids[\'' + uid +'\']')
+                , ('\n  date: ' + (new Date))//レイテンシをmessage側で計測する?
+              );
+          }
         }, op.hbInterval);
       }
     },
@@ -2700,9 +2730,10 @@ window.ccchart =
     _wsOnClose: function (target, info) {
       var that = this;
       if (!target) return;
+
       target.on('close', function () {
         if (that.wsDbg){
-          console.log(info + ' \n id: #'+ thatget.op.id + ' \n url: ' + url);
+          console.log(info + ' \n id: #'+ target.op.id + ' \n url: ' + target.url);
         }
         that.wsDelTarget(target);
       });
@@ -2767,8 +2798,8 @@ window.ccchart =
       if (!id)return;
       if (!url)return;
       var target = this.wsuids['-ccchart-ws-'+id+'-'+url];
-      if (!target)return;
-
+    //  if (!target)return;
+      console.log(id,url,this.wsuids['-ccchart-ws-'+id+'-'+url],3333333333333333)
       target.on('close',
         function (e){
           if (that.wsDbg)
@@ -3529,21 +3560,21 @@ window.ccchart =
         if(!op)op=that.op;
         var _lw = that.lineWidth;
         //線幅セット lineWidthSet:[] を指定すると すべてthis.lineWidthの配列になる
-      
+
         _lineWidthSet = op.config.lineWidthSet || that.gcf.lineWidthSet || undefined;
         if(typeof _lineWidthSet === "object"){
           if(_lineWidthSet.length===0){
             //_lineWidthSetが [] なら
             //すべてthat.lineWidth のlineWidthSetを作る
             _lineWidthSet =[];
-            //default length is dataRowLen 
+            //default length is dataRowLen
             for(var i=0; i<that.dataRowLen; i++){_lineWidthSet[i]=_lw}
-            /*  e.g. it will be generate follow array. 
+            /*  e.g. it will be generate follow array.
             _lineWidthSet = [
               _lw,_lw,_lw,_lw,_lw,_lw,_lw,
               _lw,_lw,_lw,_lw,_lw,_lw,_lw,
               _lw,_lw,_lw,_lw,_lw,_lw,_lw,
-              _lw,_lw,_lw,_lw,_lw,_lw,_lw 
+              _lw,_lw,_lw,_lw,_lw,_lw,_lw
             ];*/
           } else {
             //_lineWidthSet.length>0なのでそれを_lineWidthSetへ適用する
@@ -3551,10 +3582,10 @@ window.ccchart =
         } else {
           //lineWidthSetがundefinedなどobject以外ならすべてthat.lineWidth のlineWidthSetを作る
           _lineWidthSet =[];
-          //default length is dataRowLen 
+          //default length is dataRowLen
           for(var i=0; i<that.dataRowLen; i++){_lineWidthSet[i]=_lw}
         }
-        
+
         return _lineWidthSet;
       },
       setNumberOfConfigVal: function(it, prop, def){//e.g. axisYSkipWidth...

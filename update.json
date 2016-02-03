@@ -22,6 +22,19 @@ if (!window.ccchart) window.ccchart = {};
 ccchart.update = [
 
   {
+<<<<<<< Updated upstream
+=======
+    ver: "1.11.06",
+    date: "2016.02.03",
+    status: "release",
+    updates: [
+      ["1. add autoReConnectInterval for 2th argument oj of ws method. default 5000 (ms)"],
+      ["2. change default value. 8 to 20. maxReConnect for 2th argument oj of ws method."],
+      ["3. reset to the wsReCnt=0 if re connect is successful. 1,2,3: https://github.com/toshirot/ccchart/issues/6"]
+    ]
+  },
+  {
+>>>>>>> Stashed changes
     ver: "1.11.04",
     date: "2016.02.01",
     status: "release",
