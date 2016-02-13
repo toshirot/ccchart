@@ -30,6 +30,10 @@ YourDir/
         update.json
         plugins/</pre></code><li>etc...<hr>
 <h3>What's New</h3>  
+2016/02/13 Now it is in implementing a heat map
+<a href=https://github.com/toshirot/ccchart/issues/9>https://github.com/toshirot/ccchart/issues/9</a>
+<img src=http://ccchart.org/test/heatmap/1.11.07b4-heatmap-mk5.png>
+
 2015/09/08 add Candle Type 
 <a href=http://ngw.jp/~tato/wp/?page_id=3612>http://ngw.jp/~tato/wp/?page_id=3612</a><br>
 Demo ccchart.com: <a href=http://ccchart.com/#100>http://ccchart.com/#100</a>
