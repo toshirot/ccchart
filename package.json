@@ -7,9 +7,10 @@
   "main": "ccchart.js",
   "homepage": "http://ccchart.com",
   "license": "MIT",
-  "author": {
-    "name": "toshirot",
-    "email": "tato@game.gr.jp"
+  "author": { 
+    "name": "toshirot", 
+    "email": "tato@game.gr.jp", 
+    "homepage": "http://cht.pw/chat.htm" 
   },
   "repository": {
     "type": "git",
