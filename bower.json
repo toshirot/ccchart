@@ -10,7 +10,7 @@
     "RealTime"
   ],
   "authors": [
-    "toshirot"
+    { "name": "toshirot", "email": "tato@game.gr.jp", "homepage": "http://cht.pw/chat.htm" }
   ],
   "ignore": [
     "**/.*"
