@@ -11,10 +11,11 @@
  *   This is a RealTime and Simple JavaScript chart that does not depend on libraries such as jQuery or google APIs.
  *   ---------------------------------------------------------------------------
  *   Demo      : http://ccchart.com/
+ *   Github    : https://github.com/toshirot/ccchart
  *   URL       : http://www.facebook.com/javascripting
- *   Chat      : http://socketapi.com/user/wschat/1/wschat/chat.htm
+ *   Chat      : http://cht.pw/chat.htm
  *   useable   : http://ccchart.com/lib/jquery/plugin/csv2table/v002/test.htm#nview40
- *   License   : MIT (before 0.9 version are 'public dmain')
+ *   License   : MIT
  *   Author    : Toshiro Takahashi @toshirot
  *   ---------------------------------------------------------------------------
  */
@@ -22,8 +23,22 @@ if (!window.ccchart) window.ccchart = {};
 ccchart.update = [
 
   {
-<<<<<<< Updated upstream
-=======
+    ver: "1.12.01",
+    date: "2016.02.18",
+    status: "release",
+    updates: [
+      ["1. add type heatmap. https://github.com/toshirot/ccchart/issues/9"],
+      ["2. add config hm_grad. Gradation of config property. http://ccchart.org/test/heatmap/test1-hmp-v1.12.01b1.htm"],
+      ["3. add config outerCircle. Gradient outer radius default 30"],
+      ["4. add config innerCircle. Gradient inner radius default 1"],
+      ["5. add cchart.hmBox. div box to wrap ccchart canvas and heatmap canvas."],
+      ["5. add ccchart.hmCanvas. canvas for heartmap."],
+      ["7. add object ccchart.coj[idName]　current ccchrt object. same as ccchart.ops"],
+      ["8. fixed className of ccchart canvas is '-ccchart'"]
+    ],
+    see: "http://ngw.jp/~tato/wp/?p=3737"
+  },
+  {
     ver: "1.11.06",
     date: "2016.02.03",
     status: "release",
@@ -34,7 +49,6 @@ ccchart.update = [
     ]
   },
   {
->>>>>>> Stashed changes
     ver: "1.11.04",
     date: "2016.02.01",
     status: "release",

@@ -3,14 +3,14 @@
 
   "name": "ccchart",
   "description": "This is a Realtime and Simple JavaScript chart library that does not depend on libraries such as jQuery or google APIs.",
-  "version": "1.11.06",
+  "version": "1.12.01",
   "main": "ccchart.js",
   "homepage": "http://ccchart.com",
   "license": "MIT",
-  "author": { 
-    "name": "toshirot", 
-    "email": "tato@game.gr.jp", 
-    "homepage": "http://cht.pw/chat.htm" 
+  "author": {
+    "name": "toshirot",
+    "email": "tato@game.gr.jp",
+    "homepage": "http://cht.pw/chat.htm"
   },
   "repository": {
     "type": "git",

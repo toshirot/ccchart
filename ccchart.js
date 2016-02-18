@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.11.06',
-      update: 20160203,
+      version: '1.12.01',
+      update: 20160218,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -39,11 +39,10 @@ window.ccchart =
         );
       }
       if (typeof this.ids !== 'object') { //1th
-        this.ids = []; //canvas elements
-        this.cxs = []; //ctx collection
-        this.ops = []; //this.ops[id] is the 'this' of the id's ccchart. copied settings and datas
+        this.ids = []; //this.ids[id] canvas element by dom id
+        this.cxs = []; //this.cxs[id] ctx by dom id
+        this.coj = this.ops = []; //v1.11.07 renamed from ops to coj this.coj[id] is the 'this' of the id's ccchart oj.
         this.gcf = this.gcf || {}; //gloval options
-
         this.wses = []; //廃止予定
           //websocket lists e.g. ccchart.wses['-ccchart-ws-'+id+'-'+url]
         this.wsuids = [];
@@ -86,16 +85,20 @@ window.ccchart =
       }
       this.callback = callback;
       this.idsLen++;
-      var _classNames = ' ' + this.canvas.getAttribute('class') + ' ';
-      if(_classNames.indexOf(' -ccchart ')!==-1){
-        this.canvas.setAttribute('class', '-ccchart' + ' ' +this.canvas.getAttribute('class'));
+
+      var _curr_classNames =this.canvas.getAttribute('class');
+
+      var _classNames = _curr_classNames?' '+_curr_classNames:'' ;
+
+      if(_classNames.indexOf('-ccchart')===-1){
+        this.canvas.setAttribute('class', '-ccchart' +_classNames);
       }
       this.ids[this.id] = this.canvas;
       this.ctx =
         this.cxs[this.id] =
         this.canvas.getContext('2d');
       if(!op.data)op.data = op.data || [[""],[""]];
-      this.ops[this.id] = this.ops[this.id] || [];
+      this.coj[this.id] = this.coj[this.id] || [];
        //unload reset. doesn't work on chrome
       if (window.ccchart['_added_unloadEvent'] !== 'on') {
         window.addEventListener('unload', function () {
@@ -216,6 +219,7 @@ window.ccchart =
       this.useFirstToColName =
         (this.useFirstToColName === false) ?
         ((this.type === 'scatter') ? true : false) : true;
+      if(this.type === 'heatmap')this.useFirstToColName = false;
 
       if (this.wkdata.length === 1) this.useFirstToColName = false;
        //データ配列の1列目を項目名とする(デフォルトはtrue)
@@ -276,9 +280,14 @@ window.ccchart =
       this.hanreiNames = this.rowNames;
       this.useRow0thToHanrei =
         op.config.useRow0thToHanrei || this.gcf.useRow0thToHanrei || 'none';
-      if (this.type === 'scatter') {
+      if (this.type === 'scatter' || this.type === 'heatmap') {
         this.colNamesTitle = this.rowNames[0] || ''; //X軸タイトル
         this.rowNamesTitle = this.rowNames[1] || ''; //Y軸タイトル
+      }
+      if (this.type === 'heatmap') {
+        this.hanreiNames = '';
+      }
+      if (this.type === 'scatter') {
         if (this.useRow0thToHanrei === 'yes'){
           this.hanreiNames = '';
         } else {
@@ -339,6 +348,7 @@ window.ccchart =
         op.config.useHanrei || op.config.useHanrei || this.gcf.useHanrei || "yes";
       if(this.useFirstToRowName === false) this.useHanrei = "no";
       if(this.type === 'candle') this.useHanrei = "no";
+      if(this.type === 'heatmap') this.useHanrei = "no";
 
       //チャートのみを表示(タイトル,サブタイトル,水平垂直目盛無し) no|yes
       this.onlyChart = op.config.onlyChart || this.gcf.onlyChart || "no";
@@ -375,12 +385,15 @@ window.ccchart =
           this.paddingRightDefault = 160;
         }
       }
-      if(this.useHanrei !== 'yes' && !this.type === 'candle'){//candle type だけ汎例が無いので除く
-        this.paddingRightDefault = 60;
+      if(this.useHanrei !== 'yes'){//candle とheatmapは 凡例が無い
+        this.paddingRightDefault = 40;
         if(this._addsFlg > 0){
           this.paddingRightDefault = 110;
           this.paddingRightDefault = this.paddingLeftDefault;
         }
+      }
+      if (this.type === 'heatmap') {
+        this.paddingBottomDefault = 55;
       }
 
       //データ値を表示
@@ -449,15 +462,67 @@ window.ccchart =
       //Y目盛を小数点有りにするか？
       this.yScaleDecimal = this._useDecimal;
 
-      //Yデータの最大値maxYを求めるfor drawYscale
-      this.maxY = _getMax(this, 'maxY')||0;
 
-      //データ最大値this.maxYの切り上げ処理 デフォルトmaxYの1/10桁
-      if(this.yScaleDecimal !== 'yes')
-        _setRoundedUpMax(this, 'maxY', 'roundedUpMaxY');
+      //scatter heatmap時、maxY と maxX minX
+      if (this.type === 'scatter' || this.type === 'heatmap') {
+
+        //maxY
+        if (this.op.config.maxY) {
+          this.maxY = this.op.config.maxY || this.gcf.maxY;
+        } else {
+          var wk = this.util.hCopy(this.data[1]); //ハードコピー
+          this.maxY = wk.sort(function (a, b) {
+            return b - a
+          })[0];
+        }
+        //データ最大値this.maxYの切り上げ処理 デフォルトmaxYの1/10桁
+        if(this.yScaleDecimal !== 'yes')
+          _setRoundedUpMax(this, 'maxY', 'roundedUpMaxY');
+
+        this.minY = this.op.config.minY || this.gcf.minY;
+        if (typeof this.minY === 'number') {
+          this.minY = this.minY || 0;
+        } else {
+          var wk = this.util.hCopy(this.data[1]); //ハードコピー
+          this.minY = wk.sort(function (b, a) {
+            return b - a
+          })[0];
+        }
+
+        //maxX minX
+        if (this.op.config.maxX) {
+          this.maxX = this.op.config.maxX || this.gcf.maxX;
+        } else {
+          var wk = this.util.hCopy(this.data[0]); //ハードコピー
+          this.maxX = wk.sort(function (a, b) {
+            return b - a
+          })[0];
+        }
+        _setRoundedUpMax(this, 'maxX', 'roundedUpMaxX');
+        this.minX = this.op.config.minX || this.gcf.minX;
+        if (typeof this.minX === 'number') {
+          this.minX = this.minX || 0;
+        } else {
+          var wk = this.util.hCopy(this.data[0]); //ハードコピー
+          this.minX = wk.sort(function (b, a) {
+            return b - a
+          })[0];
+        }
+
+      } else {
+
+        //Yデータの最大値maxYを求めるfor drawYscale
+        this.maxY = _getMax(this, 'maxY')||0;
+        //データ最大値this.maxYの切り上げ処理 デフォルトmaxYの1/10桁
+        if(this.yScaleDecimal !== 'yes')
+          _setRoundedUpMax(this, 'maxY', 'roundedUpMaxY');
 
       //データの最小値を求める
       this.minY = _getMin(this, 'minY') || 0;
+
+      }
+
+
 
       //水平目盛り線AxisXの本数
       if(typeof this.op.config.axisXLen === 'number'){
@@ -509,26 +574,10 @@ window.ccchart =
       this.xColor = op.config.xColor || this.gcf.xColor || 'rgba(180,180,180,0.3)';
       this.yColor = op.config.yColor || this.gcf.yColor || 'rgba(180,180,180,0.3)';
 
-       //scatter時、Xデータ
-      if (this.type === 'scatter') {
-        if (this.op.config.maxX) {
-          this.maxX = this.op.config.maxX || this.gcf.maxX;
-        } else {
-          var wk = this.util.hCopy(this.data[0]); //ハードコピー
-          this.maxX = wk.sort(function (a, b) {
-            return b - a
-          })[0];
-        }
-        _setRoundedUpMax(this, 'maxX', 'roundedUpMaxX');
-        this.minX = this.op.config.minX || this.gcf.minX;
-        if (typeof this.minX === 'number') {
-          this.minX = this.minX || 0;
-        } else {
-          var wk = this.util.hCopy(this.data[0]); //ハードコピー
-          this.minX = wk.sort(function (b, a) {
-            return b - a
-          })[0];
-        }
+      //scatter heatmap時の、axisYLen xGap xGapValue unitW wkXScale
+      if (this.type === 'scatter' || this.type === 'heatmap') {
+
+
         //for drawAxisY for scatter
         //scatter時の垂直目盛線用
         this.axisYLen =
@@ -541,6 +590,7 @@ window.ccchart =
         this.unitW = this.chartWidth / (this.maxX - this.minX);
         //ラベルの値初期値
         this.wkXScale = this.minX;
+
       }
 
       //位置記録用readonly psition leftとtopを返す axisYsはyTitleでその列のタイトルも返す
@@ -572,6 +622,12 @@ window.ccchart =
         this.textColors.all = this.textColors.all || undefined;
       } else if(this.gcf.textColors){
         this.textColors.all = this.gcf.textColors.all || undefined;
+      }
+
+      if(this.type === 'heatmap'){
+        this.hm_grad = op.config.hm_grad || this.gcf.hm_grad  || undefined;
+        this.innerCircle= op.config.innerCircle || this.gcf.innerCircle  || 1;
+        this.outerCircle= op.config.outerCircle || this.gcf.outerCircle  || 30;
       }
 
       //for drowHanrei
@@ -635,6 +691,7 @@ window.ccchart =
         "bezi": ['#222', 5, 5, 5],
         "bezi2": ['#222', 5, 5, 5],
         "scatter": ['#222', 5, 5, 5],
+        "heatmap": ['#222', 5, 5, 5],
         "pie": ['#444', 3, 3, 3]
         }
         if(this.shadows)
@@ -657,13 +714,13 @@ window.ccchart =
         op.config.borderWidth || this.gcf.borderWidth || 3;
 
        //copy the preProcessing data to ids.
-       this.opsLen = 0;
+       this.cojLen = 0;
        for(var i in this){
-         this.ops[this.id][i] = this[i];
-         this.opsLen++;
+         this.coj[this.id][i] = this[i];
+         this.cojLen++;
        }
 
-       this.ops[this.id].targetPos = null;//for adjustCss
+       this.coj[this.id].targetPos = null;//for adjustCss
 
        if(this.useCss==='yes')
          if(this.useCssSetting)this.useCssSetting(op);
@@ -726,6 +783,7 @@ window.ccchart =
         that.type==='bezi' ||
         that.type==='area' ||
         that.type==='scatter' ||
+        that.type==='heatmap' ||
         that.type==='ampli')
         if(typeof op.config[prop] === 'undefined'){
           return that.util.getMin(that);
@@ -867,7 +925,8 @@ window.ccchart =
       if (op) this.swtGraph();
       if (
         this.useMarker !== 'none' &&
-        this.type !== 'scatter') this.drawMarkers();
+        !(this.type === 'scatter' || this.type === 'heatmap')
+      ) this.drawMarkers();
       if (this.xLines !== 'none') this.drawXLine();
     },
 
@@ -885,6 +944,7 @@ window.ccchart =
         case('stacked%')   : this.drawStackedPercent();break;
         case('ampli')   : this.drawAmplitude();break;
         case('scatter')   : this.drawScatter();break;
+        case('heatmap')   : this.drawHeatmap();break;
         case('candle') : this.drawCandle();break;
         default     : this.drawBar ();break;
       }
@@ -1023,21 +1083,26 @@ window.ccchart =
           }
 
           //X方向の水平軸ラベル描画へ
-          if(this.type !=='pie')
-          if(this.useFirstToColName && this.onlyChart==='no'){
-          if(this.xScaleSkip!==0){
-             if(count % this.xScaleSkip === 0){
-              this.drawXscale(left, count);
-             }
-          } else {
-            this.drawXscale(left, count);
+          if(this.type !=='pie'){
+            if((this.useFirstToColName && this.onlyChart==='no')||
+              this.type==='heatmap'//heatmapはuseFirstToColNameだけど [[X,..],[Y,..]]
+            ){
+              if(this.xScaleSkip!==0){
+                  if(count % this.xScaleSkip === 0){
+                    this.drawXscale(left, count);
+                  }
+              } else {
+                this.drawXscale(left, count);
+              }
+            }
           }
-        }
       }
       return this;
     },
     drawXscale: function (left, count){
-      if(this.type!=='scatter')if(!this.colNames[count])return this;
+      if(!(this.type==='scatter'||this.type==='heatmap')){
+        if(!this.colNames[count])return this;
+      }
       this.ctx.save();
       var xScaleDecimal = this.xScaleDecimal;
       var xScaleColor =
@@ -1055,13 +1120,22 @@ window.ccchart =
         this.op.config.xScaleXOffset || this.gcf.xScaleXOffset || 0;
       var yOffset =
         this.op.config.xScaleYOffset || this.gcf.xScaleYOffset || 22;
-      var tOffset =
-        this.op.config.colNamesTitleOffset || this.gcf.colNamesTitleOffset || 22;
-      if(this.type === 'scatter')tOffset += this.xGap/2;
+
+      this.colNamesTitleOffset =
+        this.op.config.colNamesTitleOffset || this.gcf.colNamesTitleOffset || 15;
+      var tcXOffset =
+        this.op.config.colNameXTitleOffset || this.gcf.colNameYTitleOffset || this.colNamesTitleOffset;
+      var tcYOffset =
+        this.op.config.colNameYTitleOffset || this.gcf.colNameYTitleOffset || this.colNamesTitleOffset;
+        //rowNameTitleXOffset と rowNameTitleYOffset も作った方が良いかも
+      if(this.type==='heatmap'){
+        tcXOffset -= this.width/2;
+      }
+
       var xScaleRotate =
         this.op.config.xScaleRotate || this.gcf.xScaleRotate || 0;
 
-      if(this.type==='scatter'){
+      if(this.type==='scatter'||this.type==='heatmap'){
         var val = '', percent = '';
         if(left >= this.chartRight){this.wkXScale = this.maxX}//小手先修正あとで再考
         val = this.util.addComma(this, this.wkXScale, xScaleDecimal);
@@ -1070,10 +1144,10 @@ window.ccchart =
       }
 
       var xWkOffset =
-        (this.type==='scatter')?0:this.xGap/2 - xOffset;
+        (this.type==='scatter'||this.type==='heatmap')?0:this.xGap/2 - xOffset;
       if(xScaleFont)this.ctx.font = xScaleFont;
       if(this.type !== 'pie'){
-        var val = (this.type==='scatter')?this.wkXScaleStr:this.colNames[count];
+        var val = (this.type==='scatter'||this.type==='heatmap')?this.wkXScaleStr:this.colNames[count];
 
        //フォントと文字数で幅を拾って動的にパディング調整は可能か??
        // var fontWidth = this.util.getValWidth(this);
@@ -1095,8 +1169,8 @@ window.ccchart =
       }
       if(count===0){
         var text = (this.colNamesTitle==='')?'':'(' + this.colNamesTitle + ')';
-        var x = this.chartRight + tOffset;
-        var y = this.chartBottom + yOffset;
+        var x = this.chartRight + tcXOffset;
+        var y = this.height - tcYOffset  ;
        // if(this.type !== 'scatter')//2016/01/20 fixed
         this.ctx.fillStyle = xScaleColor;//2014/11/25 fixed thanx @MogyFarm
         this.ctx.fillText(
@@ -1114,7 +1188,7 @@ window.ccchart =
           "font": xScaleFont
         })
       }
-      if(this.type==='scatter'){
+      if(this.type==='scatter'||this.type==='heatmap'){
         this.wkXScale = parseFloat(this.wkXScale);//change type to number
         this.wkXScale += this.xGapValue;
       }
@@ -1181,7 +1255,7 @@ window.ccchart =
       this.wkYScale += this.yGapValue;
 
       if(count===0){
-        if(this.type === 'scatter'){
+        if(this.type==='scatter'||this.type==='heatmap'){
           var text = (this.rowNamesTitle==='')?'':'(' + this.rowNamesTitle + ')';
           var x = this.chartLeft + -10;
           var y = this.chartTop + (this.chartHeight/2);
@@ -1394,7 +1468,7 @@ window.ccchart =
       return this;
     },
     drawUnit: function(unit){
-      if(this.type==='scatter')return;
+      if(this.type==='scatter'||this.type==='heatmap')return;
       var unitTitle = navigator.language==='ja'?'単位:':'';
       var left =
         this.chartLeft - (this.op.config.unitXOffset || this.gcf.unitXOffset || 50);
@@ -1508,131 +1582,168 @@ window.ccchart =
       if (this.type === 'ampli')return;
 
       var that = this;
-      this.ctx.save();
-      if (!op) var op = this.op || {};
-      var markerWidth = op.markerWidth || this.markerWidth;
-      var colorSet = op.colorSet || this.colorSet;
-      var wkOffset = (this.type === 'scatter') ? 0 : this.xGap / 2;
+      var it=this.coj[this.id];
+      it.ctx.save();
+      if (!op) var op = it.op || {};
+      var markerWidth = op.markerWidth || it.markerWidth;
+      var colorSet = op.colorSet || it.colorSet;
+      var wkOffset = (it.type==='scatter'||it.type==='heatmap') ? 0 : it.xGap / 2;
       var colorIndex = 0;
 
-      if (this.type === 'stackedarea') {
-        var data = this.stackedData;
-      } else if (this.type === 'stacked%') {
-        var data = this.stackedPData;
+
+      if (it.type === 'stackedarea') {
+        var data = it.stackedData;
+      } else if (it.type === 'stacked%') {
+        var data = it.stackedPData;
       } else {
-        var data = this.data;
+        var data = it.data;
       }
      // console.log(data)
-      if (this.useCss === 'yes' && this.hybridBox) {
+      if (it.useCss === 'yes' && it.hybridBox) {
         var cssGroup =
-          document.querySelector('#-ccchart-css-group-' + this.id);
+          document.querySelector('#-ccchart-css-group-' + it.id);
         cssGroup.innerHTML = '';
       }
-      if (this.type === 'scatter') {
-        for (var l = 0; l < this.dataColLen; l++) {
 
-          colorIndex = this.hanreiNames.indexOf(this.colNames[l]);
+      if (it.type === 'scatter') {
+        for (var i = 0; i < it.dataColLen; i++) {
+
+          colorIndex = it.hanreiNames.indexOf(it.colNames[i]);
           if (colorIndex < 0) colorIndex = 0;
 
-          var posx =
-            (data[0])?((data[0][l] || 0) * this.unitW):0;
-          var x = posx + this.chartLeft - this.minX * this.unitW;
-          var posy =
-            (data[1])?((data[1][l] || 0) * this.unitH):0;
-          var y = (this.chartBottom - (posy - this.minY * this.unitH));
+          var x = ((data[0])?((data[0][i] || 0) * it.unitW):0)
+                   +it.paddingLeft - it.minX * it.unitW;
+          var posy =(data[0])?((data[1][i] || 0) * it.unitH):0;
+          var y = (it.chartBottom - (posy  - it.minY * it.unitH));
+
           //draw
-          _drawmarkers(x || 0, y || 0, 0, l, data, colorSet, colorIndex);
+          _drawmarkers(x || 0, y || 0, 0, i, data, colorSet, colorIndex);
         }
 
-      } else if (this.type === 'stacked') {
-        var x = this.barPadding + this.chartLeft +this.barWidth/2;
-        for (var k = 0; k < this.dataColLen; k++) {
+      } else if (it.type === 'stacked') {
+        var x = it.barPadding + it.chartLeft +it.barWidth/2;
+        for (var k = 0; k < it.dataColLen; k++) {
           var sumHeight = 0; //積重ねた高さ
-          for (var l = 0; l < this.dataRowLen; l++) {
+          for (var l = 0; l < it.dataRowLen; l++) {
             var y = (
-              this.chartBottom
-                 - ((this.data[l][k]||0) + sumHeight)
-                 * this.unitH
-            ) + this.barWidth/2;
+              it.chartBottom
+                 - ((it.data[l][k]||0) + sumHeight)
+                 * it.unitH
+            ) + it.barWidth/2;
 
-            sumHeight =  this.data[l][k]
+            sumHeight =  it.data[l][k]
             //draw
-           _drawmarkers(x, y, k, l, data, this.colorSet[k], colorIndex);
+           _drawmarkers(x, y, k, l, data, it.colorSet[k], colorIndex);
           }
-          x += this.xGap;
+          x += it.xGap;
         }
 
-      } else if (this.type === 'bar') {
+      } else if (it.type === 'bar') {
 
-         var x = this.barPadding + this.chartLeft +this.barWidth/2;
+         var x = it.barPadding + it.chartLeft +it.barWidth/2;
          var _initX = x; //初期 left
          var barLeft =0; //各バーのleft位置 の初期値
 
-         for (var k = 0; k < this.dataRowLen; k++) {//bar
-            for (var l = 0; l < this.data[k].length; l++) {//col
+         for (var k = 0; k < it.dataRowLen; k++) {//bar
+            for (var l = 0; l < it.data[k].length; l++) {//col
 
-              var _bityousei = ((this.data[k][l]>0)?this.barWidth/2:-this.barWidth/2)
-              _bityousei = ((this.data[k][l]==0)?-this.markerWidth/4:_bityousei)
+              var _bityousei = ((it.data[k][l]>0)?it.barWidth/2:-it.barWidth/2)
+              _bityousei = ((it.data[k][l]==0)?-it.markerWidth/4:_bityousei)
               var y = (
-                this.chartBottom - (this.data[k][l] - this.minY) * this.unitH
+                it.chartBottom - (it.data[k][l] - it.minY) * it.unitH
               ) + _bityousei;
 
               //draw
-              _drawmarkers(x, y, k, l, data, this.colorSet[k], colorIndex);
-              x += this.xGap;
+              _drawmarkers(x, y, k, l, data, it.colorSet[k], colorIndex);
+              x += it.xGap;
             }
-            barLeft += this.barWidth + this.barGap;
+            barLeft += it.barWidth + it.barGap;
             x = _initX + barLeft;
           }
-      } else if (this.type === 'stacked%' ||this.type ===  'stackedarea') {
+      } else if (it.type === 'stacked%' ||it.type ===  'stackedarea') {
 
-        for (var k = 0; k < this.dataRowLen; k++) {
-          var x = this.chartLeft;
+        for (var k = 0; k < it.dataRowLen; k++) {
+          var x = it.chartLeft;
           x += wkOffset;
           for (var l = 0; l < data[k].length; l++) {
             colorIndex = k;
             var posy =
-              data[k][l] * this.unitH;
-            var y = this.chartBottom - (posy - this.minY * this.unitH);
+              data[k][l] * it.unitH;
+            var y = it.chartBottom - (posy - it.minY * it.unitH);
             //draw
             _drawmarkers(x, y, k, l, data, colorSet, colorIndex);
-            x += this.xGap;
+            x += it.xGap;
           }
         }
 
+      } else  if (it.type==='heatmap') {
+
+          var ctx = op.ctx;//heatmap描画専用
+
+          var _GRADIENT1={
+              0.0: 'rgba(0,0,0,0.1)',
+              1.0: 'rgba(0,0,0,0.0)'
+          }
+
+          var innerCircle = it.innerCircle;
+          var outerCircle = it.outerCircle;
+
+          var cdata=[]
+          var _xoffset = it.paddingLeft - it.minX * it.unitW;
+          var _yoffset = it.chartBottom + it.minY * it.unitH;
+          for(var i=0;i<data[0].length;i++){
+            var x = _xoffset + (data[0][i] || 0) * it.unitW;
+            var y = _yoffset - (data[1][i] || 0) * it.unitH;
+            _drawheatmap(ctx, x || 0, y || 0);
+          }
+
+          that._hm_grayGrad = ctx.getImageData(0, 0, that.width, that.height);//defoult 600*400
+          var colorGrad = op.colorGrad;
+          var colord=it.util.hm.coloring(that._hm_grayGrad, colorGrad);
+
+          ctx.putImageData(colord, 0, 0);
+          ctx=null;
+
       } else {
-        for (var k = 0; k < this.dataRowLen; k++) {
-          var x = this.chartLeft;
+        for (var k = 0; k < it.dataRowLen; k++) {
+          var x = it.chartLeft;
           x += wkOffset;
           for (var l = 0; l < data[k].length; l++) {
             colorIndex = k;
             var y = (
-                this.chartBottom - (this.data[k][l] - this.minY) * this.unitH
+                it.chartBottom - (it.data[k][l] - it.minY) * it.unitH
               )
-            if(this.type === 'line' || this.type === 'bezi2' || this.type === 'bezi'){
-               if(this.yScaleOrder === 'ASC'){
-                  var y = this.chartTop +  (this.data[k][l] - this.minY) * this.unitH;
+            if(it.type === 'line' || it.type === 'bezi2' || it.type === 'bezi'){
+               if(it.yScaleOrder === 'ASC'){
+                  var y = it.chartTop +  (it.data[k][l] - it.minY) * it.unitH;
                }
             }
              // console.log(y)
             //draw
             _drawmarkers(x, y, k, l, data, colorSet, colorIndex);
-            x += this.xGap;
+            x += it.xGap;
           }
         }
       }
-      this.ctx.restore();
+      it.ctx.restore();
+
+
+      function _drawheatmap(ctx, x, y) {
+
+        ctx = it.util.hm.mkGrayImgData(_GRADIENT1, it, ctx, x, y, innerCircle, outerCircle);
+
+      }
 
       function _drawmarkers(x, y, row, col, data, colorSet, colorIndex) {
         var curdata = data[row][col];
         if(curdata===''||curdata===undefined||isNaN(curdata)){ return }
-        that.ctx.beginPath();
-        that.ctx.fillStyle = colorSet[colorIndex];
-        var scatterX = (that.type === 'scatter') ? ((data[0])?(data[0][col]):'') : '';
-        var scatterY = (that.type === 'scatter') ? ((data[1])?(data[1][col]):'') : '';
-        if (that.useCss === 'yes' &&
-          (that.useMarker === 'css-ring' ||
-          that.useMarker === 'css-maru')) {
+        it.ctx.beginPath();
+        it.ctx.fillStyle = colorSet[colorIndex];
+        var scatterX = (it.type==='scatter'||it.type==='heatmap') ? ((data[0])?(data[0][col]):'') : '';
+        var scatterY = (it.type==='scatter'||it.type==='heatmap') ? ((data[1])?(data[1][col]):'') : '';
+        if (it.useCss === 'yes' &&
+          (it.useMarker === 'css-ring' ||
+          it.useMarker === 'css-maru')) {
           var op = {
             x: x,
             y: y,
@@ -1640,23 +1751,23 @@ window.ccchart =
             row: row,
             col: col, //scatterではrowは常に0
             data: curdata,
-            percent: that.util.mkPercentVal(that, curdata, row, col),
+            percent: it.util.mkPercentVal(it, curdata, row, col),
             scatterX: scatterX,
             scatterY: scatterY,
             colorSet: colorSet,
             colorIndex: colorIndex
           }
-          if (that.useMarker === 'css-ring') {
-            that.css_ring(op);
-          } else if (that.useMarker === 'css-maru') {
-            that.css_maru(op);
+          if (it.useMarker === 'css-ring') {
+            it.css_ring(op);
+          } else if (it.useMarker === 'css-maru') {
+            it.css_maru(op);
           }
         } else {
-          that.ctx.arc( //丸を打つ
+          it.ctx.arc( //丸を打つ
           x, y, markerWidth / 2, 0, Math.PI * 2);
         }
-        that.ctx.closePath();
-        that.ctx.fill();
+        it.ctx.closePath();
+        it.ctx.fill();
       }
       return this;
     },
@@ -2211,6 +2322,181 @@ window.ccchart =
       this._ondrew(this);
       return this;
     },
+    drawHeatmap:  function () {
+      //heatmapのuseHanreiは"no"、useFirstToColName は false
+
+      var _GRADIENT={
+        0.1 : 'blue',
+        0.6 : 'cyan',
+        0.7 : 'lime',
+        0.8 : 'yellow',
+        1.0 : 'red'
+      }
+
+      var it=this.coj[this.id];//current ccchart object
+
+      it.hmBox = createHmDiv();//heatmap用のdiv hmBox
+      it.hmCanvas = createHmCanvas(); //heatmap用のcanvas hmCanvas
+      var ctx = it.hmCanvas.getContext('2d');
+
+      //カレントccchart canvas
+      var currCanvas = it.ids[it.id];
+
+      //hmBoxにhmCanvasを挿入する
+      it.hmBox.appendChild(it.hmCanvas);
+
+      //グラデーション
+      var _COLOR_GRADIENT = this.hm_grad || _GRADIENT;
+      if(JSON.stringify(it._old_COLOR_GRADIENT)!==JSON.stringify(_COLOR_GRADIENT)){
+        //前回のold_COLOR_GRADIENTと今回の_COLOR_GRADIENTが違った場合だけ再計算する
+        it.hmColorGrad = ccchart.util.hm.mkColorImgData(_COLOR_GRADIENT, it).getImageData(0, 0, 1, 256);
+        it._old_COLOR_GRADIENT=_COLOR_GRADIENT;//
+      }
+
+      //Heatmap図を描く
+      this.ctx.save();
+      this.drawMarkers({
+        ctx: ctx, //heatmap描画用用のcanvas ctx
+        colorGrad: it.hmColorGrad
+      });
+      this.ctx.restore();
+      this._ondrew(this);
+      return this;
+
+      //heatmap用のdivを生成する
+      function createHmDiv(){
+        //ccchart canvasとheatmap canvasをラップするdiv boxを検索する
+        it.hmBox = document.getElementById('-ccchart-heatmapBox-'+it.id);
+
+        //hmBox要素が無ければ作成する
+        if(it.hmBox=== null){
+          it.hmBox= document.createElement('div');
+          it.hmBox.setAttribute('class', '-ccchart-heatmapBox');
+          it.hmBox.setAttribute('id', '-ccchart-heatmapBox-'+it.id);
+          it.hmBox.setAttribute('style', 'position:relative;');
+
+          var currCanvas = it.canvas;//カレントccchart canvas
+          //currCanvasの親要素にit.hmBoxを挿入する(currCanvasと兄弟)
+          currCanvas.parentElement.appendChild(it.hmBox);
+
+          it.hmBox.style.top = it.util.getStyleNum(it.id, 'top');
+          it.hmBox.style.left = it.util.getStyleNum(it.id, 'left');
+          //hmBoxにcurrCanvasを挿入する
+          it.hmBox.appendChild(currCanvas);
+        }
+        return it.hmBox;
+      }
+
+      //ccchart用のcanvasとは別にheatmap描画用のcanvasを生成する
+      function createHmCanvas(){
+
+        //既存の該当canvasがあればそれを返す
+        it.hmCanvas = document.getElementById("-ccchart-heatmap-"+it.id)
+        if(it.hmCanvas=== null){
+          it.hmCanvas= document.createElement('canvas');
+          it.hmCanvas.setAttribute('class', '-ccchart-heatmap');
+          it.hmCanvas.setAttribute('id', '-ccchart-heatmap-'+it.id);
+          it.hmCanvas.style.position = "absolute";
+          it.hmCanvas.style.top = "0px";
+          it.hmCanvas.style.left = "0px";
+          it.hmCanvas.style.width = it.width;
+          it.hmCanvas.style.height = it.height;
+          it.hmCanvas.style.backgroundColor='transparent';
+          it.hmCanvas.setAttribute("width",it.width+"px");//for mac safari
+          it.hmCanvas.setAttribute("height", it.height+"px");//for mac safari
+
+
+          var _relative = false;
+          var _static = false;
+          var _fixed = false;
+          var _absolute = false;
+          var _etc = false;
+          //ccchart canvasのstyle によって divやheatmap canvas styleを決める
+          for(var i in it.canvas.style){
+
+            var name = it.util.camelCase2cssName(i);
+            //少し削る
+            if(name.indexOf('background')!==-1)continue;
+            if(name.indexOf('opacity')!==-1)continue;
+            if(name.indexOf('animation')!==-1)continue;
+            if(name.indexOf('font')!==-1)continue;
+            if(name.indexOf('fill')!==-1)continue;
+            if(name.indexOf('stroke')!==-1)continue;
+            if(name.indexOf('color')!==-1)continue;
+            if(name.indexOf('word')!==-1)continue;
+            var val=it.util.getStyle(it.id, name);
+            if(val){
+              //heatmap boxは ccchart canvas のスタイルを原則コピーする
+              it.hmBox.style[name]=val
+
+              //heatmap canvas は主に absolute top left 0 z-indexは+1
+              if(name==='z-index')continue;
+              if(name==='position'){
+                //hmBoxの初期値は rletive -->createHmDiv
+                //この仕分けはあまり自信がない
+                if(val==='relative'){
+                  it.hmBox.style['position']='relative'
+                  it.canvas.style['position']='absolute'
+                  it.hmCanvas.style['position']='absolute'
+                  _relative=true;
+                  //pass
+                } else if(val==='absolute'){
+                  it.hmBox.style['position']='absolute'
+                  it.canvas.style['position']='absolute'
+                  it.hmCanvas.style['position']='absolute'
+                  _absolute = true;
+                } else if(val==='fixed'){
+                  it.hmBox.style['position']='fixed'
+                  it.canvas.style['position']='fixed'
+                  it.hmCanvas.style['position']='fixed'
+                  _fixed = true;
+                } else if(val==='static'){
+                  it.hmBox.style['position']='relative'
+                  it.canvas.style['position']='static'
+                  it.hmCanvas.style['position']='absolute'
+                  _static = true;
+                } else {
+                  it.hmBox.style['position']='relative'
+                  it.canvas.style['position']='absolute'
+                  it.hmCanvas.style['position']='absolute'
+                  _etc = true;
+                }
+              } else {
+                it.hmCanvas.style[name]=val
+              }
+            }
+          }
+          //調整
+          if(_absolute || _relative || _etc){
+            it.hmCanvas.style.top='0px'
+            it.hmCanvas.style.left='0px'
+            it.canvas.style.top='0px'
+            it.canvas.style.left='0px'
+            _absolute = _etc = _relative = false;
+
+          }
+          if(_static){
+            it.hmCanvas.style.top='0px'
+            it.hmCanvas.style.left='0px'
+            _static = false;
+          }
+          if(_fixed){
+            _fixed= false;
+          }
+
+        } else {
+          //生成済みならcanvas描画をリセットする
+          it.hmCanvas.width = it.hmCanvas.width
+          it.hmCanvas.height = it.hmCanvas.height
+        }
+        //heatmap canvas のz-indexをccchart canvasの上にする
+        it.hmCanvas.style.zIndex = it.util.getStyleNum(it.id, 'z-index')+1;
+
+
+
+        return it.hmCanvas;
+      }
+    },
     drawPie: function(){
       this.ctx.save();
       var that = this;
@@ -2492,7 +2778,7 @@ window.ccchart =
           new(window.WebSocket || window.MozWebSocket)(url, op.protocol);
 
         if(_first4Id){
-          that.wsuids[uid].opOrg = JSON.parse(JSON.stringify(that.ops[id].op)); //Original options
+          that.wsuids[uid].opOrg = JSON.parse(JSON.stringify(that.coj[id].op)); //Original options
           _first4Id = false;
         }
         that.wsuids[uid].uid = uid;
@@ -2503,7 +2789,7 @@ window.ccchart =
           if(that.wsReCnt['-ccchart-ws-'+id+'-'+url]===undefined){
             that.wsReCnt['-ccchart-ws-'+id+'-'+url] = 0;
           }
-          if(!that.ops[id].wsReConnecting){
+          if(!that.coj[id].wsReConnecting){
             that.wsReCnt['-ccchart-ws-'+id+'-'+url] = 0;
           }
           openinfo = 'ws opend';
@@ -2513,7 +2799,7 @@ window.ccchart =
         that.wsuids[uid].wsIncomingCounter = 0;//ws着信カウンター
         //ws受信データを間引く間隔　回数
         that.wsuids[uid].wsThinOutInterval =
-          that.ops[id].op.config.wsThinOutInterval || that.ops[id].gcf.wsThinOutInterval || 0;
+          that.coj[id].op.config.wsThinOutInterval || that.coj[id].gcf.wsThinOutInterval || 0;
         that.wsuids[uid].on = function (type, fnc){//onメソッド
           that.wsuids[uid].addEventListener(type, fnc);
           return this;
@@ -2538,7 +2824,7 @@ window.ccchart =
               , '\n ' + uid);
           if (op.autoReConnect)
             if(that.wsReCnt['-ccchart-ws-'+id+'-'+url]===undefined){
-              if(!that.ops[id].wsReConnecting)
+              if(!that.coj[id].wsReConnecting)
                 that.wsReCnt['-ccchart-ws-'+id+'-'+url] = 0; //自動接続数リセット
             }
           _hbTimerFnc(target);
@@ -2549,7 +2835,7 @@ window.ccchart =
           if (!target) return;
           var info = '';
           if (that.wsDbg || that.wsInfo) {
-            if(that.ops[id].wsReConnecting){
+            if(that.coj[id].wsReConnecting){
               var cnt = that.wsReCnt['-ccchart-ws-'+id+'-'+url];
               var maxcnt = op.maxReConnect;
               info = 'ws wsReConnecting closed.'
@@ -2565,7 +2851,7 @@ window.ccchart =
                   + '#' + id + ' '
                   + url
                   + ' check the sever');
-                that.ops[id].wsReConnecting = false;
+                that.coj[id].wsReConnecting = false;
                 //that.wsReCnt['-ccchart-ws-'+id+'-'+url]=0;//reset
               }
             } else {
@@ -2581,7 +2867,7 @@ window.ccchart =
             console.log('\n--------------------------------'
               , '\n')
               console.log(2,id, 'autoReConnect:', op.autoReConnect);
-              console.log(2,'that.ops["'+id+'"].wsReConnecting: ',that.ops[id].wsReConnecting);
+              console.log(2,'that.coj["'+id+'"].wsReConnecting: ',that.coj[id].wsReConnecting);
               console.log(2,'wsReCnt: ', that.wsReCnt['-ccchart-ws-'+id+'-'+url],that.wsReCnt);
               console.log(2,'wscaseName:', op.wscaseName);
               console.log(2,'ws closed: #' + id
@@ -2619,9 +2905,9 @@ window.ccchart =
         //maxReConnectを超えたら自動接続フラグをfalseへ変更
         if (op.maxReConnect <= that.wsReCnt['-ccchart-ws-'+id+'-'+url]){
           op.autoReConnect = false;
-          that.ops[id].wsReConnecting = false;
+          that.coj[id].wsReConnecting = false;
         } else {
-          that.ops[id].wsReConnecting = true;
+          that.coj[id].wsReConnecting = true;
         }
         //自動接続フラグがfalseならパスする
         if (op.autoReConnect === false) return;
@@ -2646,7 +2932,7 @@ window.ccchart =
       //  console.log(  'init: ' + '#' + id + ' ' + url,op.wscaseName,ccchart.wscase[op.wscaseName]);
         that.wsCloseAll();//一旦クリア
 
-        var w =  that.init(id, that.ops[id].op, that.ops[id].ondrew)
+        var w =  that.init(id, that.coj[id].op, that.coj[id].ondrew)
           .ws(url, op)
           .on('open', function(){that.wsReCnt['-ccchart-ws-'+id+'-'+url] = 0;})
           .on('message', ccchart.wscase[op.wscaseName])
@@ -2874,7 +3160,7 @@ window.ccchart =
           if (this.wsDbg)console.log('ws message type is bad, it is string : ' + msgs);
           return;
         }
-        var that = ccchart.ops[this.op.id];
+        var that = ccchart.coj[this.op.id];
         var opOrg = this.opOrg;
 
         if(that._wsThinout(this, this.wsThinOutInterval))return;//ws受信データを間引く
@@ -2892,6 +3178,7 @@ window.ccchart =
           }
           that.op.data[i].unshift(_title); // 先頭へ行タイトルを戻す
         }
+
         //初期データlengthより受信データlengthが少ない時、ゴーストが残らないように消す fix 2015/6/16
         for (var i = 0; i < that.op.data.length; i++) {
           if(msgs[i] === undefined){
@@ -2901,10 +3188,10 @@ window.ccchart =
         if (that.type === 'pie') {
           that.op.config.maxWsColLen = 1
         }
-        that.ops[that.id]['s'] = (new Date).getTime(); //描画開始時間
+        that.coj[that.id]['s'] = (new Date).getTime(); //描画開始時間
         //再起へ
         ccchart.init(that.id, that.op, function () {
-          that.ops[that.id].e = (new Date).getTime(); //描画終了時間
+          that.coj[that.id].e = (new Date).getTime(); //描画終了時間
         });
       },
       someColsAtATime: function (msg) {
@@ -2915,7 +3202,7 @@ window.ccchart =
 
         try { var msgs = JSON.parse(msg.data); } catch(e) { return }
 
-        var that = ccchart.ops[this.op.id];
+        var that = ccchart.coj[this.op.id];
         if (that.drawing) {
           console.log('I threw away the data: ', JSON.stringify(msgs));
           return; // グラフ描画中なら着信データを捨てる
@@ -3081,7 +3368,7 @@ window.ccchart =
       img.onload = function(e){
         that.currImgTargetCtx = that.cxs[this.canvasId];
         that.currImgTargetCtx.save();
-        that.currImgTargetCtx.globalAlpha = that.ops[this.canvasId].imgAlpha;
+        that.currImgTargetCtx.globalAlpha = that.coj[this.canvasId].imgAlpha;
         if(len ===1){
           dx = 0;
           dy = 0;
@@ -3171,8 +3458,8 @@ window.ccchart =
         that.ctx.restore();
       }
       function _getNum(id, prop, val){
-        for(var i=0;i<that.ops[id][prop].length;i++){
-          if(''+that.ops[id][prop][i]===''+val)return i;
+        for(var i=0;i<that.coj[id][prop].length;i++){
+          if(''+that.coj[id][prop][i]===''+val)return i;
         }
         //console.log('This '+prop+' does not exist.')
       }
@@ -3201,7 +3488,7 @@ window.ccchart =
         color: color,
         font: "100 "+ fontSize +"px 'Arial'"
       }
-      setTimeout(function(){that.ops[id].memo(op)}, fnc.interval);
+      setTimeout(function(){that.coj[id].memo(op)}, fnc.interval);
       return this;
     },
     setDrowText: function(startLeft, startTop, resetPos, resetInterval){
@@ -3296,6 +3583,8 @@ window.ccchart =
             ,"xScaleYOffset"
             ,"xScaleSkip"
             ,"colNamesTitleOffset"
+            ,"colNameXTitleOffset"
+            ,"colNameYTitleOffset"
           //垂直軸目盛値
             ,"yScaleColor"
             ,"yScaleFont"
@@ -3370,7 +3659,7 @@ window.ccchart =
       return this;
     },
     add: function(op, callback){
-      var initArgs = this.util.deepJSONCopy({id: this.id, op: this.ops[this.id].op, callback: this.ops[this.id].callback});//init側
+      var initArgs = this.util.deepJSONCopy({id: this.id, op: this.coj[this.id].op, callback: this.coj[this.id].callback});//init側
       var addArgs = this.util.deepJSONCopy({id: this.id, op: op, callback: callback});//addかafter側
       addArgs.op.config.title =  initArgs.op.config.title;
       addArgs.op.config.subTitle =  initArgs.op.config.subTitle || initArgs.op.config.subtitle;
@@ -3381,7 +3670,7 @@ window.ccchart =
       this.add(op, callback);
     },
     before: function(op, callback){
-      var initArgs = this.util.deepJSONCopy({id: this.id, op:this.ops[this.id].op, callback:this.ops[this.id].callback});//init側
+      var initArgs = this.util.deepJSONCopy({id: this.id, op:this.coj[this.id].op, callback:this.coj[this.id].callback});//init側
       var beforeArgs = this.util.deepJSONCopy({id: this.id, op:op, callback:callback});//before側
       initArgs.op.config.title =  beforeArgs.op.config.title;
       initArgs.op.config.subTitle =  beforeArgs.op.config.subTitle || beforeArgs.op.config.subtitle;
@@ -3393,7 +3682,7 @@ window.ccchart =
     memo: function(op){ this.drawMemo(op);return this; },
     setOp: function(prop, ops){//test for ops
       //this.setOp('width', op.config.width || 600);
-      return this.ops[this.id][prop] = this[prop] = ops;
+      return this.coj[this.id][prop] = this[prop] = ops;
     },
     moduleExtend: function (oj, prop, name, update) {
       if(!oj)return;
@@ -3487,7 +3776,7 @@ window.ccchart =
       //re drawing
       for(var i in this.ids){
         var cvs = this.ids[i];
-        this.init(cvs, this.ops[cvs.id].op, this.ops[cvs.id].callback);
+        this.init(cvs, this.coj[cvs.id].op, this.coj[cvs.id].callback);
       }
       return this;
 
@@ -3556,6 +3845,84 @@ window.ccchart =
       }, async);
     },
     util:{
+      getStyle: function (id, prop){
+        // e.g. ccchart.util.getStyle('hoge2', 'position')//fixed
+        var el=document.getElementById(id);
+        if(!el)return 0;
+        return document
+          .defaultView
+          .getComputedStyle(el, null)
+          .getPropertyValue(prop)
+      },
+      getStyleNum: function (id, prop){
+        // e.g. ccchart.util.getStyleNum('hoge1', 'z-index')//6
+        var el=document.getElementById(id);
+        if(!el)return 0;
+        return parseFloat(
+          document
+          .defaultView
+          .getComputedStyle(el, null)
+          .getPropertyValue(prop), 10
+         )||0;
+      },
+      camelCase2cssName: function (name){
+        //キャメルケースの名前をCSSの名前へ変換する
+        //e.g. font-style --> fontStyle
+        return name.replace(/[A-Z]/g,
+         function(s){return "-"+s.charAt(0).toLowerCase()}
+        )
+      },
+      hm: {
+        coloring: function (grayGrad, colorGrad) {
+           var grayGradData = grayGrad.data;
+           var colorGradData = colorGrad.data;
+           var len = grayGradData.length;
+           var offset;
+           for (var i = 0;i < len; i += 4) {
+             offset = grayGradData[i+3]*4;
+
+             if (offset) {
+                grayGradData[i] = colorGradData[offset];
+                grayGradData[i + 1] = colorGradData[offset + 1];
+                grayGradData[i + 2] = colorGradData[offset + 2];
+              }
+           }
+           grayGrad.data=grayGradData
+           return grayGrad
+        },
+        mkGrayImgData: function (grad, that, ctx, x, y, innerCircle, outerCircle) {
+
+             var gradient =  ctx.createRadialGradient(x,y,innerCircle,x,y,outerCircle);
+             for (var i in grad) {
+                 gradient.addColorStop(i, grad[i]);
+             }
+
+             ctx.fillStyle = gradient;
+             gradient=null;
+             ctx.fillRect(x-outerCircle,y-outerCircle,2*outerCircle,2*outerCircle);
+          return  ctx//.getImageData(0, 0, that.width, that.height);//defoult 600*400
+        },
+        mkColorImgData: function (grad, it) {
+
+           if(!it._hmColorImgDataCanvas){
+             it._hmColorImgDataCanvas = document.createElement('canvas');
+             it._hmColorImgDataCanvas.width = 1;
+             it._hmColorImgDataCanvas.height = 256;
+           }
+           var ctx = it._hmColorImgDataCanvas.getContext('2d');
+           var gradient = ctx.createLinearGradient(0, 0, 0, 256);
+
+           for (var i in grad) {
+               gradient.addColorStop(i, grad[i]);
+           }
+
+           ctx.fillStyle = gradient;
+           gradient=null;
+           ctx.fillRect(0, 0, 1, 256);
+           return  ctx//.getImageData(0, 0, 1, 256);
+        }
+      },
+
       setLineWidthSet: function (that, op){
         if(!op)op=that.op;
         var _lw = that.lineWidth;
@@ -4023,19 +4390,19 @@ window.ccchart.m.CssHybrid =
           )
       ):0;//operafix
 
-      this.ops[this.id]['adjustTop'] =
+      this.coj[this.id]['adjustTop'] =
         paddingTop + borderTopWidth + operaTop;
-      this.ops[this.id]['adjustLeft'] =
+      this.coj[this.id]['adjustLeft'] =
         paddingLeft + borderLeftWidth + operaLeft;
 
       //CSS要素用デフォルトスタイル用style要素生成
-      this.ops[this.id].TMP_tooltipIni = ''
+      this.coj[this.id].TMP_tooltipIni = ''
         //+ '{'
         + ';position: absolute'
         + ';top: -10000px'
         + ';left: -10000px'
         //+ '}';
-      this.ops[this.id].TMP_tooltip = ''
+      this.coj[this.id].TMP_tooltip = ''
        // + '{'
         + ';width:120px'
         + ';height:40px'
@@ -4048,7 +4415,7 @@ window.ccchart.m.CssHybrid =
         + ';text-align: center'
         + ';text-shadow: 0px;'
        // + '}';
-      this.ops[this.id].TMP_tooltip_fukidashi = ''
+      this.coj[this.id].TMP_tooltip_fukidashi = ''
         + '{'
         + ';content: " "'
         + ';position: absolute'
@@ -4089,15 +4456,15 @@ window.ccchart.m.CssHybrid =
 
       //ツールチップのCSS設定 cssTooltipとその吹き出しのconfig設定
       this.cssTooltip = this.op.config.cssTooltip || this.gcf.cssTooltip || '';
-      this.cssTooltipFukidashi = this.op.config.cssTooltipFukidashi || this.ops[this.id].TMP_tooltip_fukidashi;
+      this.cssTooltipFukidashi = this.op.config.cssTooltipFukidashi || this.coj[this.id].TMP_tooltip_fukidashi;
 
       //当該idの css group がまだ生成されていなければCSS文字列を生成する
       if(!this.cssgs[this.id]){
 
         if(!(this.op.config.cssTooltip || this.gcf.cssTooltip)){
           //config設定が無ければデフォルトのcssTooltipテンプレートを適用する
-          cssText+= '\n.-ccchart-css-tooltip {' + this.ops[this.id].TMP_tooltipIni +'}';
-          cssText+= '\n #-ccchart-css-tooltip-' + this.id + '{' + this.ops[this.id].TMP_tooltip +'}';
+          cssText+= '\n.-ccchart-css-tooltip {' + this.coj[this.id].TMP_tooltipIni +'}';
+          cssText+= '\n #-ccchart-css-tooltip-' + this.id + '{' + this.coj[this.id].TMP_tooltip +'}';
         } else {
           //config設定があれば、それを文字列化して適用する
           var css = '';
@@ -4111,7 +4478,7 @@ window.ccchart.m.CssHybrid =
           } else if(typeof this.cssTooltip === 'string'){
             css += this.cssTooltip;
           }
-          cssText+= '\n.-ccchart-css-tooltip {' + this.ops[this.id].TMP_tooltipIni +'}';
+          cssText+= '\n.-ccchart-css-tooltip {' + this.coj[this.id].TMP_tooltipIni +'}';
           cssText+= '\n #-ccchart-css-tooltip-' + this.id +  (css);
         }
         cssText+= '\n.-ccchart-css-tooltip:before ' + this.cssTooltipFukidashi;
@@ -4253,8 +4620,8 @@ window.ccchart.m.CssHybrid =
     adjustCss: function (type){
       var that = this;  //console.log(that.id, that.adjustCss.caller);
 
-      for(var i in this.ops){
-        if(that.ops[i].useCss !== 'yes')continue;
+      for(var i in this.coj){
+        if(that.coj[i].useCss !== 'yes')continue;
         var el =document.getElementById(i);
         var level = 0;
         var group = document.getElementById("-ccchart-css-group-"+i);
@@ -4262,8 +4629,8 @@ window.ccchart.m.CssHybrid =
 
         getPos(i, el, level, 10, 0, 0,
           function(numAry){
-            var topOff =  that.ops[i]['adjustTop']
-            var leftOff = that.ops[i]['adjustLeft']
+            var topOff =  that.coj[i]['adjustTop']
+            var leftOff = that.coj[i]['adjustLeft']
             var top = topOff + numAry[0]||0;
             var left = leftOff + numAry[1]||0;
             group.style.top = top+'px';
@@ -4286,21 +4653,21 @@ window.ccchart.m.CssHybrid =
 
         if(css){
 
-          if(!that.ops[id].targetPos){
+          if(!that.coj[id].targetPos){
             //ターゲットキャンバスの position を記録する
-            that.ops[id].targetPos = css['position'];
+            that.coj[id].targetPos = css['position'];
           }
 
           //ターゲットキャンバス position 毎の分岐処理
-          if(that.ops[id].targetPos === 'fixed'){
+          if(that.coj[id].targetPos === 'fixed'){
             if(current === 'CANVAS'){
               numT += el['offsetTop']
               numL += el['offsetLeft']
             }
           } else if(
-            that.ops[id].targetPos==='static' ||
-            that.ops[id].targetPos==='relative' ||
-            that.ops[id].targetPos==='absolute'
+            that.coj[id].targetPos==='static' ||
+            that.coj[id].targetPos==='relative' ||
+            that.coj[id].targetPos==='absolute'
           ){
             if(
               current === 'CAPTION' ||
@@ -4342,7 +4709,7 @@ window.ccchart.m.CssHybrid =
       var y = op.y || 0;
       var radius = op.radius || 5;
       var borderWidth = this.borderWidth || 3;
-      var colorIndex = ((this.type==='scatter')?op.colorIndex:op.row)||0;
+      var colorIndex = ((this.type==='scatter'||this.type==='heatmap')?op.colorIndex:op.row)||0;
       var borderColor = op.borderColor || op.colorSet[colorIndex] || op.colorSet[colorIndex];
       var bgcolor = op.bgColor || op.colorSet[colorIndex] || op.colorSet[colorIndex];
       var tipBgcolor = bgcolor;
@@ -4354,10 +4721,10 @@ window.ccchart.m.CssHybrid =
       var el = document.createElement('div');
       if(borderWidth > radius)radius = borderWidth;//ringのborder幅が半径を超えたら半径を拡大
 
-      var dataX = (this.type==='scatter')?(this.rowNames[0]):this.colNames[op.col];
-      var dataY = (this.type==='scatter')?(this.rowNames[1]):this.rowNames[op.row];
+      var dataX = (this.type==='scatter'||this.type==='heatmap')?(this.rowNames[0]):this.colNames[op.col];
+      var dataY = (this.type==='scatter'||this.type==='heatmap')?(this.rowNames[1]):this.rowNames[op.row];
 
-      var unit = that.ops[id].unit
+      var unit = that.coj[id].unit
       if(typeof unit==='string'){
         unit = unit;
       } else if(typeof unit==='object'){
@@ -4425,9 +4792,9 @@ window.ccchart.m.CssHybrid =
         var percent = (that.percentVal === 'yes')?'( ' + e.target.getAttribute('data-percent') + ' )':'';
         var unit = e.target.getAttribute('data-unit');
         var bgcolor = e.target.getAttribute('data-bg');
-        var colNamesTitle = (that.type==='scatter')?
+        var colNamesTitle = (this.type==='scatter'||this.type==='heatmap')?
              colname:((that.colNamesTitle)?that.colNamesTitle:'');
-        var unit = that.ops[id].unit
+        var unit = that.coj[id].unit
         if(typeof unit==='string'){
           unit = unit;
         } else if(typeof unit==='object'){
@@ -4435,8 +4802,8 @@ window.ccchart.m.CssHybrid =
         }
 
         //this.tmpToolTipにテンプレート処理
-        var toolTemp = !that.ops[id].tmpToolTip?'':
-          that.ops[id].tmpToolTip;
+        var toolTemp = !that.coj[id].tmpToolTip?'':
+          that.coj[id].tmpToolTip;
 
         //カレントデータの変数置き換え
         toolTemp = toolTemp
@@ -4487,7 +4854,7 @@ window.ccchart.m.CssHybrid =
         }, 0);
         //ツールチップのデフォルトHTMLテンプレート
         //.-ccchart-ttip-dataなどでCSSから指定可能です
-        if(that.type==='scatter'){
+        if(this.type==='scatter'||this.type==='heatmap'){
           var htm = ''
           + '<span class="-ccchart-ttip-sct-colnamestitle">'+colNamesTitle + '</span>'+ '<br>'
           + '<span class="-ccchart-ttip-sct-colname">'+colName + '</span>' + ' '
@@ -4559,12 +4926,12 @@ window.ccchart.m.CssHybrid =
     css_ring: function(op){
       op.classStr = 'css-ring';
       //  op.bgColor = op.bgColor || 'rgba(0,0,0,0.5)';
-      if(this.type!=='scatter')op.borderColor = op.borderColor || this.colorSet[op.row];
+      if(this.type==='scatter'||this.type==='heatmap')op.borderColor = op.borderColor || this.colorSet[op.row];
       this._css_arc(op);
     },
     css_maru: function(op){
       op.classStr = 'css-maru';
-      if(this.type!=='scatter')op.bgColor = op.bgColor || this.colorSet[op.row];
+      if(this.type==='scatter'||this.type==='heatmap')op.bgColor = op.bgColor || this.colorSet[op.row];
       this._css_arc(op);
     },
     css_lineTo:  function(op){
@@ -4648,6 +5015,7 @@ window.ccchart.m.Theme = {
         "bezi": ["#222", 5, 5, 5],
         "bezi2": ["#222", 5, 5, 5],
         "scatter": ["#222", 5, 5, 5],
+        "heatmap": ["#222", 5, 5, 5],
         "pie": ["#222", 5, 5, 5]
       }
     }
@@ -4687,6 +5055,7 @@ window.ccchart.m.Theme = {
         "bezi": ["#222", 5, 5, 5],
         "bezi2": ["#222", 5, 5, 5],
         "scatter": ["#222", 5, 5, 5],
+        "heatmap": ["#222", 5, 5, 5],
         "pie": ["#222", 5, 5, 5]
       }
     }
