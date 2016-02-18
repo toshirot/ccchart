@@ -30,7 +30,9 @@ YourDir/
         update.json
         plugins/</pre></code><li>etc...<hr>
 <h3>What's New</h3>  
-2016/02/13 Now it is in implementing a heat map. on issues/9
+2016/02/18 add heatmap Type
+Demo <a href=http://ccchart.org/#102>http://ccchart.org/#102</a>
+Demo Realtime<a href=http://ccchart.org/test/heatmap/test1-hmp-v1.12.01-ws.htm>http://ccchart.org/test/heatmap/test1-hmp-v1.12.01-ws.htm</a>
 <a href=https://github.com/toshirot/ccchart/issues/9>https://github.com/toshirot/ccchart/issues/9</a>
 <a href=https://github.com/toshirot/ccchart/issues/9><img src=http://ccchart.org/test/heatmap/1.11.07b4-heatmap-mk5.png></a>
 <hr>
