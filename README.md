@@ -30,14 +30,14 @@ YourDir/
         update.json
         plugins/</pre></code><li>etc...<hr>
 <h3>What's New</h3>  
-2016/02/18 add heatmap Type
+2016/02/18 add heatmap Type<br>
 Demo <a href=http://ccchart.org/#102>http://ccchart.org/#102</a><br>
 Demo Realtime <a href=http://ccchart.org/test/heatmap/test1-hmp-v1.12.01-ws.htm>http://ccchart.org/test/heatmap/test1-hmp-v1.12.01-ws.htm</a><br>
 <a href=https://github.com/toshirot/ccchart/issues/9>https://github.com/toshirot/ccchart/issues/9</a><br>
 @see <a href="http://ngw.jp/~tato/wp/?p=3737">http://ngw.jp/~tato/wp/?p=3737</a><br>
 <a href=https://github.com/toshirot/ccchart/issues/9><img src=http://ccchart.org/test/heatmap/1.11.07b4-heatmap-mk5.png></a>
 <hr>
-2015/09/08 add Candle Type 
+2015/09/08 add Candle Type<br>
 <a href=http://ngw.jp/~tato/wp/?page_id=3612>http://ngw.jp/~tato/wp/?page_id=3612</a><br>
 Demo ccchart.com: <a href=http://ccchart.com/#100>http://ccchart.com/#100</a>
 <a href=http://ccchart.org/test/candle/test-ws.htm>http://ccchart.org/test/candle/test-ws.htm</a>
