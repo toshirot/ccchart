@@ -36,6 +36,10 @@ Demo Realtime <a href=http://ccchart.org/test/heatmap/test1-hmp-v1.12.01-ws.htm>
 <a href=https://github.com/toshirot/ccchart/issues/9>https://github.com/toshirot/ccchart/issues/9</a><br>
 @see <a href="http://ngw.jp/~tato/wp/?p=3737">http://ngw.jp/~tato/wp/?p=3737</a><br>
 <a href=https://github.com/toshirot/ccchart/issues/9><img src=http://ccchart.org/test/heatmap/1.11.07b4-heatmap-mk5.png></a>
+
+Demo heatmap　Fit the image
+<a href=http://ccchart.org/test/heatmap/test1.htm>http://ccchart.org/test/heatmap/test1.htm</a><br>
+<a href=http://ccchart.org/test/heatmap/test1.htm><img src=http://ccchart.org/test/heatmap/photo.png></a>
 <hr>
 2015/09/08 add Candle Type<br>
 <a href=http://ngw.jp/~tato/wp/?page_id=3612>http://ngw.jp/~tato/wp/?page_id=3612</a><br>
