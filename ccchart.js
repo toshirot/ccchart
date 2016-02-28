@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.12.01',
-      update: 20160218,
+      version: '1.12.02',
+      update: 20160229,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -1582,101 +1582,101 @@ window.ccchart =
       if (this.type === 'ampli')return;
 
       var that = this;
-      var it=this.coj[this.id];
-      it.ctx.save();
-      if (!op) var op = it.op || {};
-      var markerWidth = op.markerWidth || it.markerWidth;
-      var colorSet = op.colorSet || it.colorSet;
-      var wkOffset = (it.type==='scatter'||it.type==='heatmap') ? 0 : it.xGap / 2;
+      //var it=this.coj[this.id];
+      that.ctx.save();
+      if (!op) var op = that.op || {};
+      var markerWidth = op.markerWidth || that.markerWidth;
+      var colorSet = op.colorSet || that.colorSet;
+      var wkOffset = (that.type==='scatter'||that.type==='heatmap') ? 0 : that.xGap / 2;
       var colorIndex = 0;
 
 
-      if (it.type === 'stackedarea') {
-        var data = it.stackedData;
-      } else if (it.type === 'stacked%') {
-        var data = it.stackedPData;
+      if (that.type === 'stackedarea') {
+        var data = that.stackedData;
+      } else if (that.type === 'stacked%') {
+        var data = that.stackedPData;
       } else {
-        var data = it.data;
+        var data = that.data;
       }
      // console.log(data)
-      if (it.useCss === 'yes' && it.hybridBox) {
+      if (that.useCss === 'yes' && that.hybridBox) {
         var cssGroup =
-          document.querySelector('#-ccchart-css-group-' + it.id);
+          document.querySelector('#-ccchart-css-group-' + that.id);
         cssGroup.innerHTML = '';
       }
 
-      if (it.type === 'scatter') {
-        for (var i = 0; i < it.dataColLen; i++) {
+      if (that.type === 'scatter') {
+        for (var i = 0; i < that.dataColLen; i++) {
 
-          colorIndex = it.hanreiNames.indexOf(it.colNames[i]);
+          colorIndex = that.hanreiNames.indexOf(that.colNames[i]);
           if (colorIndex < 0) colorIndex = 0;
 
-          var x = ((data[0])?((data[0][i] || 0) * it.unitW):0)
-                   +it.paddingLeft - it.minX * it.unitW;
-          var posy =(data[0])?((data[1][i] || 0) * it.unitH):0;
-          var y = (it.chartBottom - (posy  - it.minY * it.unitH));
+          var x = ((data[0])?((data[0][i] || 0) * that.unitW):0)
+                   +that.paddingLeft - that.minX * that.unitW;
+          var posy =(data[0])?((data[1][i] || 0) * that.unitH):0;
+          var y = (that.chartBottom - (posy  - that.minY * that.unitH));
 
           //draw
           _drawmarkers(x || 0, y || 0, 0, i, data, colorSet, colorIndex);
         }
 
-      } else if (it.type === 'stacked') {
-        var x = it.barPadding + it.chartLeft +it.barWidth/2;
-        for (var k = 0; k < it.dataColLen; k++) {
+      } else if (that.type === 'stacked') {
+        var x = that.barPadding + that.chartLeft +that.barWidth/2;
+        for (var k = 0; k < that.dataColLen; k++) {
           var sumHeight = 0; //積重ねた高さ
-          for (var l = 0; l < it.dataRowLen; l++) {
+          for (var l = 0; l < that.dataRowLen; l++) {
             var y = (
-              it.chartBottom
-                 - ((it.data[l][k]||0) + sumHeight)
-                 * it.unitH
-            ) + it.barWidth/2;
+              that.chartBottom
+                 - ((that.data[l][k]||0) + sumHeight)
+                 * that.unitH
+            ) + that.barWidth/2;
 
-            sumHeight =  it.data[l][k]
+            sumHeight =  that.data[l][k]
             //draw
-           _drawmarkers(x, y, k, l, data, it.colorSet[k], colorIndex);
+           _drawmarkers(x, y, k, l, data, that.colorSet[k], colorIndex);
           }
-          x += it.xGap;
+          x += that.xGap;
         }
 
-      } else if (it.type === 'bar') {
+      } else if (that.type === 'bar') {
 
-         var x = it.barPadding + it.chartLeft +it.barWidth/2;
+         var x = that.barPadding + that.chartLeft +that.barWidth/2;
          var _initX = x; //初期 left
          var barLeft =0; //各バーのleft位置 の初期値
 
-         for (var k = 0; k < it.dataRowLen; k++) {//bar
-            for (var l = 0; l < it.data[k].length; l++) {//col
+         for (var k = 0; k < that.dataRowLen; k++) {//bar
+            for (var l = 0; l < that.data[k].length; l++) {//col
 
-              var _bityousei = ((it.data[k][l]>0)?it.barWidth/2:-it.barWidth/2)
-              _bityousei = ((it.data[k][l]==0)?-it.markerWidth/4:_bityousei)
+              var _bityousei = ((that.data[k][l]>0)?that.barWidth/2:-that.barWidth/2)
+              _bityousei = ((that.data[k][l]==0)?-that.markerWidth/4:_bityousei)
               var y = (
-                it.chartBottom - (it.data[k][l] - it.minY) * it.unitH
+                that.chartBottom - (that.data[k][l] - that.minY) * that.unitH
               ) + _bityousei;
 
               //draw
-              _drawmarkers(x, y, k, l, data, it.colorSet[k], colorIndex);
-              x += it.xGap;
+              _drawmarkers(x, y, k, l, data, that.colorSet[k], colorIndex);
+              x += that.xGap;
             }
-            barLeft += it.barWidth + it.barGap;
+            barLeft += that.barWidth + that.barGap;
             x = _initX + barLeft;
           }
-      } else if (it.type === 'stacked%' ||it.type ===  'stackedarea') {
+      } else if (that.type === 'stacked%' ||that.type ===  'stackedarea') {
 
-        for (var k = 0; k < it.dataRowLen; k++) {
-          var x = it.chartLeft;
+        for (var k = 0; k < that.dataRowLen; k++) {
+          var x = that.chartLeft;
           x += wkOffset;
           for (var l = 0; l < data[k].length; l++) {
             colorIndex = k;
             var posy =
-              data[k][l] * it.unitH;
-            var y = it.chartBottom - (posy - it.minY * it.unitH);
+              data[k][l] * that.unitH;
+            var y = that.chartBottom - (posy - that.minY * that.unitH);
             //draw
             _drawmarkers(x, y, k, l, data, colorSet, colorIndex);
-            x += it.xGap;
+            x += that.xGap;
           }
         }
 
-      } else  if (it.type==='heatmap') {
+      } else  if (that.type==='heatmap') {
 
           var ctx = op.ctx;//heatmap描画専用
 
@@ -1685,65 +1685,65 @@ window.ccchart =
               1.0: 'rgba(0,0,0,0.0)'
           }
 
-          var innerCircle = it.innerCircle;
-          var outerCircle = it.outerCircle;
+          var innerCircle = that.innerCircle;
+          var outerCircle = that.outerCircle;
 
           var cdata=[]
-          var _xoffset = it.paddingLeft - it.minX * it.unitW;
-          var _yoffset = it.chartBottom + it.minY * it.unitH;
+          var _xoffset = that.paddingLeft - that.minX * that.unitW;
+          var _yoffset = that.chartBottom + that.minY * that.unitH;
           for(var i=0;i<data[0].length;i++){
-            var x = _xoffset + (data[0][i] || 0) * it.unitW;
-            var y = _yoffset - (data[1][i] || 0) * it.unitH;
+            var x = _xoffset + (data[0][i] || 0) * that.unitW;
+            var y = _yoffset - (data[1][i] || 0) * that.unitH;
             _drawheatmap(ctx, x || 0, y || 0);
           }
 
           that._hm_grayGrad = ctx.getImageData(0, 0, that.width, that.height);//defoult 600*400
           var colorGrad = op.colorGrad;
-          var colord=it.util.hm.coloring(that._hm_grayGrad, colorGrad);
+          var colord=that.util.hm.coloring(that._hm_grayGrad, colorGrad);
 
           ctx.putImageData(colord, 0, 0);
           ctx=null;
 
       } else {
-        for (var k = 0; k < it.dataRowLen; k++) {
-          var x = it.chartLeft;
+        for (var k = 0; k < that.dataRowLen; k++) {
+          var x = that.chartLeft;
           x += wkOffset;
           for (var l = 0; l < data[k].length; l++) {
             colorIndex = k;
             var y = (
-                it.chartBottom - (it.data[k][l] - it.minY) * it.unitH
+                that.chartBottom - (that.data[k][l] - that.minY) * that.unitH
               )
-            if(it.type === 'line' || it.type === 'bezi2' || it.type === 'bezi'){
-               if(it.yScaleOrder === 'ASC'){
-                  var y = it.chartTop +  (it.data[k][l] - it.minY) * it.unitH;
+            if(that.type === 'line' || that.type === 'bezi2' || that.type === 'bezi'){
+               if(that.yScaleOrder === 'ASC'){
+                  var y = that.chartTop +  (that.data[k][l] - that.minY) * that.unitH;
                }
             }
              // console.log(y)
             //draw
             _drawmarkers(x, y, k, l, data, colorSet, colorIndex);
-            x += it.xGap;
+            x += that.xGap;
           }
         }
       }
-      it.ctx.restore();
+      that.ctx.restore();
 
 
       function _drawheatmap(ctx, x, y) {
 
-        ctx = it.util.hm.mkGrayImgData(_GRADIENT1, it, ctx, x, y, innerCircle, outerCircle);
+        ctx = that.util.hm.mkGrayImgData(_GRADIENT1, that, ctx, x, y, innerCircle, outerCircle);
 
       }
 
       function _drawmarkers(x, y, row, col, data, colorSet, colorIndex) {
         var curdata = data[row][col];
         if(curdata===''||curdata===undefined||isNaN(curdata)){ return }
-        it.ctx.beginPath();
-        it.ctx.fillStyle = colorSet[colorIndex];
-        var scatterX = (it.type==='scatter'||it.type==='heatmap') ? ((data[0])?(data[0][col]):'') : '';
-        var scatterY = (it.type==='scatter'||it.type==='heatmap') ? ((data[1])?(data[1][col]):'') : '';
-        if (it.useCss === 'yes' &&
-          (it.useMarker === 'css-ring' ||
-          it.useMarker === 'css-maru')) {
+        that.ctx.beginPath();
+        that.ctx.fillStyle = colorSet[colorIndex];
+        var scatterX = (that.type==='scatter'||that.type==='heatmap') ? ((data[0])?(data[0][col]):'') : '';
+        var scatterY = (that.type==='scatter'||that.type==='heatmap') ? ((data[1])?(data[1][col]):'') : '';
+        if (that.useCss === 'yes' &&
+          (that.useMarker === 'css-ring' ||
+          that.useMarker === 'css-maru')) {
           var op = {
             x: x,
             y: y,
@@ -1751,23 +1751,23 @@ window.ccchart =
             row: row,
             col: col, //scatterではrowは常に0
             data: curdata,
-            percent: it.util.mkPercentVal(it, curdata, row, col),
+            percent: that.util.mkPercentVal(that, curdata, row, col),
             scatterX: scatterX,
             scatterY: scatterY,
             colorSet: colorSet,
             colorIndex: colorIndex
           }
-          if (it.useMarker === 'css-ring') {
-            it.css_ring(op);
-          } else if (it.useMarker === 'css-maru') {
-            it.css_maru(op);
+          if (that.useMarker === 'css-ring') {
+            that.css_ring(op);
+          } else if (that.useMarker === 'css-maru') {
+            that.css_maru(op);
           }
         } else {
-          it.ctx.arc( //丸を打つ
+          that.ctx.arc( //丸を打つ
           x, y, markerWidth / 2, 0, Math.PI * 2);
         }
-        it.ctx.closePath();
-        it.ctx.fill();
+        that.ctx.closePath();
+        that.ctx.fill();
       }
       return this;
     },

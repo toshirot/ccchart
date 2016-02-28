@@ -3,7 +3,7 @@
 
   "name": "ccchart",
   "description": "This is a Realtime and Simple JavaScript chart library that does not depend on libraries such as jQuery or google APIs.",
-  "version": "1.12.01",
+  "version": "1.12.02",
   "main": "ccchart.js",
   "homepage": "http://ccchart.com",
   "license": "MIT",
