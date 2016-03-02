@@ -22,6 +22,15 @@
 if (!window.ccchart) window.ccchart = {};
 ccchart.update = [
 
+
+  {
+    ver: "1.12.02",
+    date: "2016.02.28",
+    status: "release",
+    updates: [
+          ["1. fixed stacked%. https://github.com/toshirot/ccchart/issues/18"]
+    ]
+  },
   {
     ver: "1.12.01",
     date: "2016.02.18",
