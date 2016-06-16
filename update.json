@@ -23,6 +23,16 @@ if (!window.ccchart) window.ccchart = {};
 ccchart.update = [
 
 
+
+  {
+    ver: "1.12.03",
+    date: "2016.05.15",
+    status: "release",
+    updates: [
+          ["1. add function for ws. wscase.allColsAtATime. http://ccchart.org/test/wscase/allColsAtATime.htm"],
+          ["2. bug fixed. about Y position of bar. on okDrowBar. https://github.com/toshirot/ccchart/issues/22"]
+    ]
+  },
   {
     ver: "1.12.02",
     date: "2016.02.28",

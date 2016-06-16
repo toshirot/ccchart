@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.12.02',
-      update: 20160229,
+      version: '1.12.03',
+      update: 20160615,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -2084,7 +2084,7 @@ window.ccchart =
           that.ctx.fillRect(
             x, y,
             that.barWidth,
-            (that.data[k][l] - that.minY) * that.unitH
+            that.data[k][l] * that.unitH
           );
         });
         //値描画
@@ -3217,11 +3217,33 @@ window.ccchart =
             that.op.data[i].unshift(rowTitle); // 先頭へ行タイトルを戻す
           }
         }
-       // ccchart.init(that.id, that.op); //再起へ
+        //再起へ
         if(that.callback)ccchart.init(that.id, that.op, that.callback);
         else ccchart.init(that.id, that.op);
       },
-
+      
+      allColsAtATime: function (msg) {
+        //届いたデータを加工せずにそのままccchartデータとして利用するケース
+        // こんな風に使います ws.on('message', allColsAtATime)
+        //  http://ccchart.org/test/someCols/test-2.htm 
+        //    にプラグインとして動かしているサンプルがあります
+        this.op.wscaseName = 'allColsAtATime';
+        
+        //受信処理
+        try { var msgs = JSON.parse(msg.data); } catch(e) { return }
+        
+        var that = ccchart.coj[this.op.id];
+        //加工せずにそのまま代入する。
+        that.op.data = msgs;
+        if (that.drawing) {
+          console.log('I threw away the data: ', JSON.stringify(msgs));
+          return; // グラフ描画中なら着信データを捨てる
+        }
+        //再起へ
+        if(that.callback)ccchart.init(that.id, that.op, that.callback);
+        else ccchart.init(that.id, that.op);
+      },
+  
       // wscase用メソッド群　これはまだ使っていない不安定
       //
 
