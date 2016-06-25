@@ -1,5 +1,5 @@
 {
-  "private": true,
+  "private": false,
 
   "name": "ccchart",
   "description": "This is a Realtime and Simple JavaScript chart library that does not depend on libraries such as jQuery or google APIs.",
