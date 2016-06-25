@@ -22,8 +22,14 @@
 if (!window.ccchart) window.ccchart = {};
 ccchart.update = [
 
-
-
+  {
+    ver: "1.12.04",
+    date: "2016.06.24",
+    status: "release",
+    updates: [
+          ["1. Eliminate flickering on the heatmap type with image. https://github.com/toshirot/ccchart/issues/23"]
+    ]
+  },
   {
     ver: "1.12.03",
     date: "2016.05.15",

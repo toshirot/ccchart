@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.12.03',
-      update: 20160615,
+      version: '1.12.04',
+      update: 20160624,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -61,8 +61,16 @@ window.ccchart =
 
         this.cssgs = []; //CSS group lists
         this.cssTooltips = []; //CSS cssTooltips
-
       }
+      //this.ops[this.id]が既に存在していて
+      if(this.ops[this.id]){
+        //configが同じ場合
+        if(this.ops[this.id].op.config===op.config){
+          //heatmapの時には軸線描画等をパスする為にフラグをtrueにセットする
+          this.ops[this.id].secondTime = true;
+        }
+      }
+
 
       if(typeof this._addsFlg === 'undefined'){
         this._addsFlg = 0; //undefined is before the init Method or drew the add Method
@@ -870,6 +878,14 @@ window.ccchart =
       if(typeof func === 'function')this.bind('load', func);
     },
     draw: function (op) {
+    
+      //ヒートマップの時はWS時などに軸などのチャートベースを再描画しない
+      if(this.ops[this.id].secondTime && this.type === 'heatmap'){
+        this.drawHeatmap();
+        this.ops[this.id].secondTime = false;
+        return;
+      }
+    
       //描画メソッド
       this.drawing = true;
       if (this._addsFlg === 0 || this._addsFlg === 1) {
@@ -913,7 +929,7 @@ window.ccchart =
 
       if (this.onlyChart === 'no' &&  this.useHanrei !== 'no') this.drowHanrei();
       if (typeof this._img === 'object') {
-        this.drawImg(this._img);
+          this.drawImg(this._img);
       }
       if (typeof this._memo === 'object') {
         this.drawMemo();
@@ -2936,6 +2952,7 @@ window.ccchart =
           .ws(url, op)
           .on('open', function(){that.wsReCnt['-ccchart-ws-'+id+'-'+url] = 0;})
           .on('message', ccchart.wscase[op.wscaseName])
+          
         if (that.wsDbg) console.log('\n================================'
               , '\n re inited '
               , id, ('-ccchart-ws-' + id + '-' + url)
@@ -3189,6 +3206,7 @@ window.ccchart =
           that.op.config.maxWsColLen = 1
         }
         that.coj[that.id]['s'] = (new Date).getTime(); //描画開始時間
+        
         //再起へ
         ccchart.init(that.id, that.op, function () {
           that.coj[that.id].e = (new Date).getTime(); //描画終了時間
