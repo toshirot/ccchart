@@ -23,6 +23,14 @@ if (!window.ccchart) window.ccchart = {};
 ccchart.update = [
 
   {
+    ver: "1.12.05",
+    date: "2016.06.29",
+    status: "release",
+    updates: [
+          ["1. add useXscale, useYscale. Turn off the scale values of the X and Y axes. https://github.com/toshirot/ccchart/issues/24"]
+    ]
+  },
+  {
     ver: "1.12.04",
     date: "2016.06.24",
     status: "release",

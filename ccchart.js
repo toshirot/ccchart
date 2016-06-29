@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.12.04',
-      update: 20160624,
+      version: '1.12.05',
+      update: 20160629,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -358,7 +358,15 @@ window.ccchart =
       if(this.type === 'candle') this.useHanrei = "no";
       if(this.type === 'heatmap') this.useHanrei = "no";
 
-      //チャートのみを表示(タイトル,サブタイトル,水平垂直目盛無し) no|yes
+      //X軸目盛値（下の目盛）を表示するか？
+      this.useXscale =
+        this.op.config.useXscale || this.gcf.useXscale || "yes";
+        
+      //Y軸目盛値（左右の目盛）を表示するか？
+      this.useYscale =
+        this.op.config.useYscale || this.gcf.useYscale || "yes";
+
+      //チャートのみを表示(タイトル,サブタイトル,X軸Y軸目盛値無し) no|yes
       this.onlyChart = op.config.onlyChart || this.gcf.onlyChart || "no";
       this.onlyChartWidthTitle =
         op.config.onlyChartWidthTitle || this.gcf.onlyChartWidthTitle || "no";
@@ -391,6 +399,15 @@ window.ccchart =
         if(this._addsFlg > 0){
           //addメソッド時。通常は this.paddingDefaultで10
           this.paddingRightDefault = 160;
+        }
+      }
+      //複合チャートではない場合にXY軸値を使わないときはパディング調整する 複合チャートは大変なのでパス
+      if(this._addsFlg === 0){
+        if(this.useXscale !== 'yes'){
+          this.paddingBottomDefault = this.paddingDefault +20;
+        }
+        if(this.useYscale !== 'yes'){
+          this.paddingLeftDefault = this.paddingDefault +20;
         }
       }
       if(this.useHanrei !== 'yes'){//candle とheatmapは 凡例が無い
@@ -460,7 +477,7 @@ window.ccchart =
           this._useDecimal = 'no'; //configに指定がなければ no。文字列の数字'2'もダメ
         }
       }
-
+        
       //Y軸の天地を反転する デフォルトは 降順'DESC'　昇順'ASC' line,bezi2,bezi のみ
       this.yScaleOrder =
         this.op.config.yScaleOrder || this.gcf.yScaleOrder || 'DESC';
@@ -469,7 +486,6 @@ window.ccchart =
       this.xScaleDecimal = this._useDecimal;
       //Y目盛を小数点有りにするか？
       this.yScaleDecimal = this._useDecimal;
-
 
       //scatter heatmap時、maxY と maxX minX
       if (this.type === 'scatter' || this.type === 'heatmap') {
@@ -598,7 +614,6 @@ window.ccchart =
         this.unitW = this.chartWidth / (this.maxX - this.minX);
         //ラベルの値初期値
         this.wkXScale = this.minX;
-
       }
 
       //位置記録用readonly psition leftとtopを返す axisYsはyTitleでその列のタイトルも返す
@@ -1116,6 +1131,7 @@ window.ccchart =
       return this;
     },
     drawXscale: function (left, count){
+      if( this.useXscale==='no')return this;
       if(!(this.type==='scatter'||this.type==='heatmap')){
         if(!this.colNames[count])return this;
       }
@@ -1212,8 +1228,7 @@ window.ccchart =
       return this;
     },
     drawYscale: function(top, count){
-
-      this.ctx.save();
+      if( this.useYscale==='no')return this;
       var yScaleDecimal = this.yScaleDecimal;
       var yScaleColor =
         this.op.config.yScaleColor || this.gcf.yScaleColor ||
@@ -1255,6 +1270,7 @@ window.ccchart =
       this.wkYScaleStr = val + percent;//change type to string
 
       this.ctx.save();
+      this.ctx.save();//scatterとheatmapでなぜか2回saveしないと水平が崩れる
       if(yScaleFont)this.ctx.font = yScaleFont;
       this.ctx.fillStyle = yScaleColor;
       this.ctx.textAlign = yScaleAlign;
