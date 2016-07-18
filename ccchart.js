@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.12.05',
-      update: 20160629,
+      version: '1.12.06',
+      update: 20160718,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -361,7 +361,7 @@ window.ccchart =
       //X軸目盛値（下の目盛）を表示するか？
       this.useXscale =
         this.op.config.useXscale || this.gcf.useXscale || "yes";
-        
+
       //Y軸目盛値（左右の目盛）を表示するか？
       this.useYscale =
         this.op.config.useYscale || this.gcf.useYscale || "yes";
@@ -477,7 +477,7 @@ window.ccchart =
           this._useDecimal = 'no'; //configに指定がなければ no。文字列の数字'2'もダメ
         }
       }
-        
+
       //Y軸の天地を反転する デフォルトは 降順'DESC'　昇順'ASC' line,bezi2,bezi のみ
       this.yScaleOrder =
         this.op.config.yScaleOrder || this.gcf.yScaleOrder || 'DESC';
@@ -487,67 +487,131 @@ window.ccchart =
       //Y目盛を小数点有りにするか？
       this.yScaleDecimal = this._useDecimal;
 
+      //maxY　minY maxX minX の初期値は以降で設定
+      this.maxY = this.op.config.maxY || this.gcf.maxY;
+      this.minY = this.op.config.minY || this.gcf.minY;
+      this.maxX = this.op.config.maxX || this.gcf.maxX;
+      this.minX = this.op.config.minX || this.gcf.minX;
+      this.maxYDefault = this.maxXDefault = 10;
+      this.minYDefault = this.minXDefault = 0;
+
       //scatter heatmap時、maxY と maxX minX
       if (this.type === 'scatter' || this.type === 'heatmap') {
 
-        //maxY
-        if (this.op.config.maxY) {
-          this.maxY = this.op.config.maxY || this.gcf.maxY;
+        //maxY　minY
+        if (typeof this.maxY === 'number') {
+          this.maxY = this.maxY;
         } else {
-          var wk = this.util.hCopy(this.data[1]); //ハードコピー
-          this.maxY = wk.sort(function (a, b) {
-            return b - a
-          })[0];
+          this.maxY = _getSatterMax(this, 1)||this.maxYDefault; //index0　is X, 1 is Y
         }
         //データ最大値this.maxYの切り上げ処理 デフォルトmaxYの1/10桁
         if(this.yScaleDecimal !== 'yes')
           _setRoundedUpMax(this, 'maxY', 'roundedUpMaxY');
 
-        this.minY = this.op.config.minY || this.gcf.minY;
         if (typeof this.minY === 'number') {
-          this.minY = this.minY || 0;
+          this.minY = this.minY;
         } else {
-          var wk = this.util.hCopy(this.data[1]); //ハードコピー
-          this.minY = wk.sort(function (b, a) {
-            return b - a
-          })[0];
+          this.minY = _getSatterMin(this, 1)||this.minYDefault; //index0　is X, 1 is Y
         }
-
         //maxX minX
-        if (this.op.config.maxX) {
-          this.maxX = this.op.config.maxX || this.gcf.maxX;
+        if (typeof this.maxX === 'number') {
+          this.maxX = this.maxX;
         } else {
-          var wk = this.util.hCopy(this.data[0]); //ハードコピー
-          this.maxX = wk.sort(function (a, b) {
-            return b - a
-          })[0];
+          this.maxX = _getSatterMax(this, 0)||this.maxXDefault; //index0　is X, 1 is Y
         }
-        _setRoundedUpMax(this, 'maxX', 'roundedUpMaxX');
-        this.minX = this.op.config.minX || this.gcf.minX;
+        if(this.xScaleDecimal !== 'yes')
+          _setRoundedUpMax(this, 'maxX', 'roundedUpMaxX');
+
         if (typeof this.minX === 'number') {
           this.minX = this.minX || 0;
         } else {
-          var wk = this.util.hCopy(this.data[0]); //ハードコピー
-          this.minX = wk.sort(function (b, a) {
+          this.minX = _getSatterMin(this, 0)||this.minXDefault; //index0　is X, 1 is Y
+        }
+
+        function _getSatterMin(it, index){ //index0　is X, 1 is Y
+          var wk = it.util.hCopy(it.data[index]); //ハードコピー　data[1]はY
+          return wk.sort(function (b, a) {
             return b - a
           })[0];
         }
-
+        function _getSatterMax(it, index){ //index0　is X, 1 is Y
+          var wk = it.util.hCopy(it.data[index]); //ハードコピー　data[1]はY
+          return wk.sort(function (a, b) {
+            return b - a
+          })[0];
+        }
       } else {
-
+        //scatter heatmap 以外のタイプ
         //Yデータの最大値maxYを求めるfor drawYscale
-        this.maxY = _getMax(this, 'maxY')||0;
+        if (typeof this.maxY === 'number') {
+          this.maxY = this.maxY;
+        } else {
+          this.maxY = _getMax(this, 'maxY')||this.maxYDefault;
+        }
+
         //データ最大値this.maxYの切り上げ処理 デフォルトmaxYの1/10桁
         if(this.yScaleDecimal !== 'yes')
           _setRoundedUpMax(this, 'maxY', 'roundedUpMaxY');
 
-      //データの最小値を求める
-      this.minY = _getMin(this, 'minY') || 0;
+        //データの最小値を求める
+        if (typeof this.minY === 'number') {
+          this.minY = this.minY;
+        } else {
+          this.minY = _getMin(this, 'minY')||this.minYDefault;
+        }
+
+        function _getMin(that, prop){
+          //データの最小値を求める
+          if( that.type==='line' ||
+              that.type==='bar' ||
+              that.type==='candle' ||
+              that.type==='bezi2' ||
+              that.type==='bezi' ||
+              that.type==='area' ||
+              that.type==='scatter' ||
+              that.type==='heatmap' ||
+              that.type==='ampli'){
+            return that.util.getMin(that);
+          } else if(that.type === 'stacked'){
+            //stackedはマイナス方向の積み上げ最小値
+            return that.util.getMinSum(that);
+              //※stacked%のminYは0%, stackedareaはいま自動にしてないけどどうする？
+          }
+        }
+        function _getMax(that, prop){
+          //データの最大値を求める
+          if(that.type === 'stacked' ||
+             that.type === 'stackedarea' ||
+             that.type === 'stacked%'){
+
+            //積み重ねた時の最大値　※stackedはプラス方向の積み上げ最大値
+            return that.util.getMaxSum(that);
+
+          } else {
+            return that.util.getMax(that);
+          }
+
+        }
 
       }
 
-
-
+      function _setRoundedUpMax(that, max, roundedUp) {
+          //データ最大値this[maxY|maxX]の切り上げ処理 デフォルトmaxYまたはmaxXの1/10桁
+          if (that.yScalePercent === 'no') {
+            var _rumy = Math.pow(10, ("" + that[max]).split('.')[0].length - 2);
+            //デフォルトmaxY|maxXの1/10桁
+            that[roundedUp] =
+              (op.config[roundedUp] !== undefined) ?
+              op.config[roundedUp] : _rumy;
+            if (that[roundedUp] !== 0) {
+              that[max] = Math.ceil(
+                that[max] / that[roundedUp]) * that[roundedUp];
+            } else {
+              that[max] = that[max];
+            }
+          }
+      }
+        
       //水平目盛り線AxisXの本数
       if(typeof this.op.config.axisXLen === 'number'){
         this.axisXLen = this.op.config.axisXLen;
@@ -672,8 +736,10 @@ window.ccchart =
         this.op.config.pieRingWidth || this.gcf.pieRingWidth || 40;
 
       //棒グラフ用パラメータ
-      this.barPadding = op.config.barPadding || this.gcf.barPadding || 10;
       this.barWidth = op.config.barWidth || this.gcf.barWidth || 10;
+      this.barPadding = (op.config.barPadding!==undefined)?op.config.barPadding:
+                          (this.gcf.barPadding!==undefined)?this.gcf.barPadding:
+                            undefined;
       this.barGap = op.config.barGap || this.gcf.barGap || 1;
 
       //単位を表示
@@ -760,60 +826,6 @@ window.ccchart =
 
        this.draw(op);
 
-      function _getMax(that, prop){
-        //データの最大値を求める
-        if(
-          typeof op.config[prop] === 'undefined'||
-          typeof op.config[prop]===null||
-          typeof op.config[prop]==='none'){
-            if(
-              that.type === 'stacked' ||
-              that.type === 'stackedarea' ||
-              that.type === 'stacked%'){
-                //積み重ねた時の最大値
-                return that.util.getMaxSum(that);
-            } else {
-              return that.util.getMax(that);
-            }
-        } else  {
-          return parseFloat(op.config[prop]);
-        }
-      }
-
-      function _setRoundedUpMax(that, max, roundedUp) {
-        //データ最大値this[maxY|maxX]の切り上げ処理 デフォルトmaxYまたはmaxXの1/10桁
-        if (that.yScalePercent === 'no') {
-          var _rumy = Math.pow(10, ("" + that[max]).split('.')[0].length - 2);
-          //デフォルトmaxY|maxXの1/10桁
-          that[roundedUp] =
-            (op.config[roundedUp] !== undefined) ?
-            op.config[roundedUp] : _rumy;
-          if (that[roundedUp] !== 0) {
-            that[max] = Math.ceil(
-              that[max] / that[roundedUp]) * that[roundedUp];
-          } else {
-            that[max] = that[max];
-          }
-        }
-      }
-
-      function _getMin(that, prop){
-        //データの最小値を求める
-        if( that.type==='line' ||
-        that.type==='bar' ||
-        that.type==='candle' ||
-        that.type==='bezi2' ||
-        that.type==='bezi' ||
-        that.type==='area' ||
-        that.type==='scatter' ||
-        that.type==='heatmap' ||
-        that.type==='ampli')
-        if(typeof op.config[prop] === 'undefined'){
-          return that.util.getMin(that);
-        } else  {
-          return parseFloat(op.config[prop])||0;
-        }
-      }
     },
     get: function (url, fnc, async) {
       var that = this;
@@ -893,14 +905,14 @@ window.ccchart =
       if(typeof func === 'function')this.bind('load', func);
     },
     draw: function (op) {
-    
+
       //ヒートマップの時はWS時などに軸などのチャートベースを再描画しない
       if(this.ops[this.id].secondTime && this.type === 'heatmap'){
         this.drawHeatmap();
         this.ops[this.id].secondTime = false;
         return;
       }
-    
+
       //描画メソッド
       this.drawing = true;
       if (this._addsFlg === 0 || this._addsFlg === 1) {
@@ -1653,7 +1665,7 @@ window.ccchart =
         }
 
       } else if (that.type === 'stacked') {
-        var x = that.barPadding + that.chartLeft +that.barWidth/2;
+        var x = that.chartLeft + that.barPadding||((that.chartWidth/that.dataColLen)-that.barWidth)/2;
         for (var k = 0; k < that.dataColLen; k++) {
           var sumHeight = 0; //積重ねた高さ
           for (var l = 0; l < that.dataRowLen; l++) {
@@ -1672,7 +1684,8 @@ window.ccchart =
 
       } else if (that.type === 'bar') {
 
-         var x = that.barPadding + that.chartLeft +that.barWidth/2;
+         var x = that.barPadding + that.chartLeft +that.barWidth/2;//x初期位置
+
          var _initX = x; //初期 left
          var barLeft =0; //各バーのleft位置 の初期値
 
@@ -2080,6 +2093,7 @@ window.ccchart =
     drawBar: function () {
       var that = this;
       var shdw = (this.shadows)?this.shadows.bar||this.shadows.all||['#222', 5, 5, 5]:'';
+      that.barPadding = (that.barPadding||(((that.chartWidth/that.dataColLen)-that.barWidth)/2));
 
       //全幅サイズを取得
       that.widthOfAllBar = getWidthOfAllBar();
@@ -2104,7 +2118,7 @@ window.ccchart =
         //垂直目盛線1本の間にあるすべてのバーの
         //幅barWithと隙間barGapとパディングbarPadding
         //を足した幅をwidthOfAllBarとする
-        return  that.barPadding
+        return  that.barPadding*2
           + that.barWidth * that.dataRowLen
           + that.barGap * (that.dataRowLen-1);
       }
@@ -2113,10 +2127,11 @@ window.ccchart =
       function okDrowBar(){
         //棒描画
         _drowBar(function(that,k,l,x,y,yVal){
+          var tyouseiY=(that.minY<0)?0:that.minY;
           that.ctx.fillRect(
             x, y,
             that.barWidth,
-            that.data[k][l] * that.unitH
+           (that.data[k][l] -tyouseiY) * that.unitH
           );
         });
         //値描画
@@ -2144,12 +2159,13 @@ window.ccchart =
         function _drowBar(func){
           that.ctx.save();
           for (var k = 0; k < that.dataRowLen; k++) {
-            var x = that.barPadding + that.chartLeft;
+            var x = that.chartLeft +that.barPadding;
             that.ctx.beginPath();
             that.ctx.fillStyle = that.colorSet[k];
             if(that.useShadow === 'yes')that.drawShadow(shdw[0],shdw[1],shdw[2],shdw[3]);
             for (var l = 0; l < that.data[k].length; l++) {
-              var y = that.chartBottom - (that.data[k][l] - that.minY) * that.unitH;
+              var tyouseiY=(that.minY<0)?that.minY:that.minY;
+              var y = that.chartBottom - (that.data[k][l]-tyouseiY)* that.unitH;
               var yVal = that.data[k][l];
               func(that,k,l,x,y,yVal);
               x += that.xGap;
@@ -2165,26 +2181,31 @@ window.ccchart =
       //積重ねグラフを描く
       this.ctx.save();
       var that = this;
-      var x = that.barPadding + that.chartLeft;
+      var useSumLine = 'yes';
+      var x = that.chartLeft +(that.barPadding||(((that.chartWidth/that.dataColLen)-that.barWidth)/2));
       var shdw =
         (this.shadows)?this.shadows.stacked||this.shadows.all||['#222', 5, -5, 5]:'';
+      var zeroBase = (this.minY<0)? this.minY * this.unitH:0;
 
-       // if(this.type==='stacked')--that.dataColLen;//暫定：あとでチェック
+      //Cols
       for (var k = 0; k < that.dataColLen; k++) {
-        var sumHeight = 0; //積重ねた高さ
+        var currntY = 0; //積重ねた現在地
+        var currntYUp = 0; //積重ねた現在地
+        var currntYDown = 0; //積重ねた現在地
+
+        //Rows
         for (var l = 0; l < that.dataRowLen; l++) {
-          var y = (
-            that.chartBottom
-               - (that.data[l][k]||0)
-               * that.unitH
-          );
+          var direction = (that.data[l][k]>=0)?1:-1;//1===up -1===down ブロックの向き 値が-なら下向き
+          var blockHeight = (that.data[l][k]||0) * that.unitH;//各ブロックの高さ
+
           that.ctx.beginPath();
           that.ctx.fillStyle = that.colorSet[l];
           if(that.useShadow === 'yes')that.drawShadow(shdw[0],shdw[1],shdw[2],shdw[3]);
           that.ctx.fillRect(
-            x, y,
+            x,
+            that.chartBottom+zeroBase-blockHeight,
             that.barWidth,
-            that.chartBottom - y
+            blockHeight
           );
           //値
           that._drawVals({
@@ -2197,12 +2218,47 @@ window.ccchart =
             xoff:2,
             yoff:-20,
             x: x  ,
-            y: that.chartBottom + 15
+            y: that.chartBottom +zeroBase+ 15
+                    -((direction<0)?blockHeight:0)//ブロックの向きが下なら位置調整
           });
-          that.ctx.translate(0, -(that.chartBottom - y));
-          sumHeight += that.chartBottom - y;
+
+          //ブロック高累計
+          currntY+=blockHeight;
+          if(direction===1){
+            currntYUp+=blockHeight;
+          } else　{
+            currntYDown+=blockHeight
+          }
+
+          //次のブロックの方向によりtranslateのY値を決める
+          var nextDirection =direction;//デフォルトdirection
+          //ブロックのオフセットY
+          var transOffsetY;
+          //次のブロックが存在するなら方向を調べてセットする
+          if(that.data[l+1]){
+            //次のブロックの方向  1===up -1===down
+            nextDirection = (that.data[l+1][k]>=0)?1:-1;
+            if(direction === nextDirection){
+              //方向が同じならブロック高を引く
+              that.ctx.translate(0,   -blockHeight );
+            } else {
+              //ブロックの方向が違えばブロック高の合計を引く(つまり逆方向へ)
+              if(direction===1){
+                that.ctx.translate(0,  currntYUp+currntYDown-blockHeight);
+              } else {
+                that.ctx.translate(0,  -currntYUp+currntYDown-blockHeight);
+              }
+            }
+
+          } else {
+            //次のブロックが存在しないならその列は最後なので列毎のtranslateは無い 行毎のリセット
+            if(direction===1){
+              that.ctx.translate(0,  currntYUp-blockHeight);
+            } else {
+              that.ctx.translate(0,  currntYDown-blockHeight);
+            }
+          }
         }
-        that.ctx.translate(0, sumHeight);
         x += that.xGap;
       }
       that.ctx.restore();
@@ -2968,7 +3024,7 @@ window.ccchart =
           .ws(url, op)
           .on('open', function(){that.wsReCnt['-ccchart-ws-'+id+'-'+url] = 0;})
           .on('message', ccchart.wscase[op.wscaseName])
-          
+
         if (that.wsDbg) console.log('\n================================'
               , '\n re inited '
               , id, ('-ccchart-ws-' + id + '-' + url)
@@ -3222,7 +3278,7 @@ window.ccchart =
           that.op.config.maxWsColLen = 1
         }
         that.coj[that.id]['s'] = (new Date).getTime(); //描画開始時間
-        
+
         //再起へ
         ccchart.init(that.id, that.op, function () {
           that.coj[that.id].e = (new Date).getTime(); //描画終了時間
@@ -3255,17 +3311,17 @@ window.ccchart =
         if(that.callback)ccchart.init(that.id, that.op, that.callback);
         else ccchart.init(that.id, that.op);
       },
-      
+
       allColsAtATime: function (msg) {
         //届いたデータを加工せずにそのままccchartデータとして利用するケース
         // こんな風に使います ws.on('message', allColsAtATime)
-        //  http://ccchart.org/test/someCols/test-2.htm 
+        //  http://ccchart.org/test/someCols/test-2.htm
         //    にプラグインとして動かしているサンプルがあります
         this.op.wscaseName = 'allColsAtATime';
-        
+
         //受信処理
         try { var msgs = JSON.parse(msg.data); } catch(e) { return }
-        
+
         var that = ccchart.coj[this.op.id];
         //加工せずにそのまま代入する。
         that.op.data = msgs;
@@ -3277,7 +3333,7 @@ window.ccchart =
         if(that.callback)ccchart.init(that.id, that.op, that.callback);
         else ccchart.init(that.id, that.op);
       },
-  
+
       // wscase用メソッド群　これはまだ使っていない不安定
       //
 
@@ -4187,6 +4243,7 @@ window.ccchart =
         .sort(function(a,b){return a-b})[0];
       },
       _preGetMinMax: function (that){
+        //全データを連結した配列を返す
         var _ary = [];
         for(var i = 0; i < that.dataRowLen; i++){
           var _aryR=[];
@@ -4243,12 +4300,38 @@ window.ccchart =
         var _sum = 0;
         for(var i = 0; i < that.dataColLen; i++){
           for(var j = 0; j < that.dataRowLen; j++){
-            if(that.data[j][i])_sum += parseFloat(that.data[j][i]);
+            if(that.type==='stacked'){
+              //only plus data
+              if(that.data[j][i]>0){
+                if(that.data[j][i])_sum += parseFloat(that.data[j][i]);
+              }
+            } else {
+              //stacked% or stackedarea
+              if(that.data[j][i])_sum += parseFloat(that.data[j][i]);
+            }
           }
           _ary.push(_sum);
           _sum =0;
         }
         return _ary.sort(function(a,b){return b-a})[0];
+      },
+      getMinSum: function(that){
+        //for stacked 積み重ねた時に最小になる列の合計値を求める
+        var _ary = [];
+        var _sum = 0;
+        for(var i = 0; i < that.dataColLen; i++){
+          for(var j = 0; j < that.dataRowLen; j++){
+            if(that.type==='stacked'){
+              //only minus data
+              if(that.data[j][i]<0){
+                if(that.data[j][i])_sum += parseFloat(that.data[j][i]);
+              }
+            }
+          }
+          _ary.push(_sum);
+          _sum =0;
+        }
+        return _ary.sort(function(a,b){return a-b})[0];
       },
       aryToPercent: function(ary){
         // 配列内の各要素をその合計に対するパーセントに置き換えた配列を返す

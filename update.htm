@@ -1,0 +1,65 @@
+<meta charset="utf-8">
+<style>
+*{      
+  font-family: Arial;
+}
+body{
+  margin: 12px;
+  padding: 12px;
+}
+.versions{
+  font-size:18px;
+  background: gold;
+  display: inline-block;
+  padding: 2px 18px;
+  margin: 4px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  box-shadow:
+    4px 4px 4px rgba(000,000,000,0.3);
+  border-radius: 12px;
+}
+</style>
+<script src="update.json"></script>
+<pre>
+/* ccchart updateMemo
+ *
+ *   Canvas & CSS based Chart
+ *
+ *    History: 2007: jQchart=&gt; 2011: canvasChart=&gt; 2012: ccchart
+ *
+ *    Write the &lt;script src="ccchart.js" charset="utf-8"&gt;&lt;/script&gt;,
+ *    Write the &lt;canvas id="hoge"&gt;&lt;/canvas&gt;,
+ *    And enjoy sample codes & customize!
+ *
+ *   This is a Simple JavaScript chart that does not depend on libraries such as jQuery or google APIs.
+ *   ---------------------------------------------------------------------------
+ *   Demo      : http://ccchart.com/
+ *   Code      : http://ccchart.com/js/ccchart.js
+ *   Blog      : http://ngw.jp/~tato/wp/?cat=6
+ *   URL       : http://www.facebook.com/javascripting
+ *   Chat      : http://socketapi.com/user/wschat/1/wschat/chat.htm
+ *   useable   : http://ccchart.com/lib/jquery/plugin/csv2table/v002/test.htm#nview40
+ *   Lisence   : MIT (before 0.9 version are 'public dmain')
+ *   Author    : Toshiro Takahashi @toshirot
+ *   ---------------------------------------------------------------------------
+ */
+
+http://ccchart.com/update.json
+<hr>
+<script>
+  var varsionReg = /ver\":\"(\d\.\d*[\.\d|\w]*|v[\w|\.]*)\",/g;
+  var varsionTmp = "ver\":\"<b class=\"versions\">$1</b>\",";
+  var httpReg =/(s?https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/g;
+  var httpTmp ="<a href='$1' target='_blank'>$1</a>";
+  document.write(
+    JSON.stringify(ccchart.update)
+      .replace(varsionReg, varsionTmp)
+      .replace(httpReg, httpTmp)
+      .split('"updates":[[').join('"<b>updates</b>":[<br>  [')
+      .split('},').join('<hr>')
+      .split('],[').join('],<br>  [')
+      .split(']]').join(']<br>]')
+  );
+</script>
+</pre>

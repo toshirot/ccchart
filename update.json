@@ -23,11 +23,20 @@ if (!window.ccchart) window.ccchart = {};
 ccchart.update = [
 
   {
+    ver: "1.12.06",
+    date: "2016.07.18",
+    status: "release",
+    updates: [
+          ["1. bug fixed. bug at the bar type in v1.12.03 - v1.12.05. about Y starting point falls."],
+          ["2. Corresponding to the Minus data in a stacked chart. http://ccchart.org/test/barYMinus/test-b4-6.htm"]
+    ]
+  },
+  {
     ver: "1.12.05",
     date: "2016.06.29",
     status: "release",
     updates: [
-          ["1. add useXscale, useYscale. Turn off the scale values of the X and Y axes. https://github.com/toshirot/ccchart/issues/24"]
+          ["1. Turn off the scale values of the X and Y axes. https://github.com/toshirot/ccchart/issues/24"]
     ]
   },
   {
