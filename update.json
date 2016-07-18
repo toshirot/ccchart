@@ -28,7 +28,7 @@ ccchart.update = [
     status: "release",
     updates: [
           ["1. bug fixed. bug at the bar type in v1.12.03 - v1.12.05. about Y starting point falls."],
-          ["2. Corresponding to the Minus data in a stacked chart. http://ccchart.org/test/barYMinus/test-b4-6.htm"]
+          ["2. Corresponding to the Minus data in a stacked chart. thanx t.k http://ccchart.org/test/barYMinus/test-b4-6.htm"]
     ]
   },
   {
