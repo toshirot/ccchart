@@ -30,6 +30,7 @@ YourDir/
         update.json
         plugins/</pre></code><li>etc...<hr>
 <h3>What's New</h3>  
+Current Release: 2016/07/18 v1.12.06 
 2016/02/18 add heatmap Type<br>
 Demo <a href=http://ccchart.org/#102>http://ccchart.org/#102</a><br>
 Demo Realtime <a href=http://ccchart.org/test/heatmap/test1-hmp-v1.12.01-ws.htm>http://ccchart.org/test/heatmap/test1-hmp-v1.12.01-ws.htm</a><br>
