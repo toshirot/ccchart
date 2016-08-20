@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.12.06',
-      update: 20160718,
+      version: '1.12.07',
+      update: 20160820,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -42,7 +42,7 @@ window.ccchart =
         this.ids = []; //this.ids[id] canvas element by dom id
         this.cxs = []; //this.cxs[id] ctx by dom id
         this.coj = this.ops = []; //v1.11.07 renamed from ops to coj this.coj[id] is the 'this' of the id's ccchart oj.
-        this.gcf = this.gcf || {}; //gloval options
+        this.gcf = this.gcf || {}; //gloval config options
         this.wses = []; //廃止予定
           //websocket lists e.g. ccchart.wses['-ccchart-ws-'+id+'-'+url]
         this.wsuids = [];
@@ -135,8 +135,8 @@ window.ccchart =
       this.op = op;
       this.display = op.config.display || this.gcf.display || this.canvas.style.display || 'block';
       this.canvas.style.display = this.display;
-      this.width = op.config.width || this.gcf.width || 600;
-      this.height = op.config.height || this.gcf.height || 400;
+      this.width = this.util.setConfigNum(this, 'width', this.op.config.width, this.gcf.width, 600)
+      this.height = this.util.setConfigNum(this, 'height', this.op.config.height, this.gcf.height, 400)
       this.bg = op.config.bg || this.gcf.bg || undefined;
       this.bgGradient = op.config.bgGradient || this.gcf.bgGradien || '';
       if (this.bgGradient === '' && this.bg === undefined) {
@@ -192,7 +192,8 @@ window.ccchart =
       if(this.type === 'pie')this.useMarker = 'none';
 
       //マーカーの幅または直径
-      this.markerWidth = op.config.markerWidth || this.gcf.markerWidth || this.lineWidth * 2 || 2;
+      this.markerWidth = this.util.setConfigNum(this, 'markerWidth', this.op.config.markerWidth, this.gcf.markerWidth)
+      this.markerWidth = this.util.setConfigNum(this, 'markerWidth', this.markerWidth, this.lineWidth * 2 , 2)
 
       if(this.useCss === 'yes'){
         this.bind('scroll', '_adjustcsspos');
@@ -200,9 +201,7 @@ window.ccchart =
         this.bind('resize', '_adjustcsspos');
       }
       //canvasのzIndex
-      this.defaultZindex =
-        (op.config.defaultZindex !== undefined)?op.config.defaultZindex:
-        (this.gcf.defaultZindex !== undefined)?this.gcf.defaultZindex:0;
+      this.defaultZindex = this.util.setConfigNum(this, 'defaultZindex', this.op.config.defaultZindex, this.gcf.defaultZindex, 0)
 
       //チャートデータの列と行を変換するか
       this.changeRC = op.config.changeRC || this.gcf.changeRC || 'no';
@@ -312,8 +311,7 @@ window.ccchart =
       this.dataColLen = this.data[0].length;
 
       //WebSocket受信時の最大データ列数
-      this.maxWsColLen =
-        this.op.config.maxWsColLen || this.gcf.maxWsColLen || 10;
+      this.maxWsColLen = this.util.setConfigNum(this, 'maxWsColLen', this.op.config.maxWsColLen, this.gcf.maxWsColLen, 10);
 
       //this.wsKeepAlive = this.op.config.wsKeepAlive || this.gcf.wsKeepAlive || true;
 
@@ -487,14 +485,15 @@ window.ccchart =
       //Y目盛を小数点有りにするか？
       this.yScaleDecimal = this._useDecimal;
 
+      //デフォルトはここではまだundefined
+      this.minY = this.util.setConfigNum(this, 'minY', this.op.config.minY, this.gcf.minY)
+      this.maxY = this.util.setConfigNum(this, 'maxY', this.op.config.maxY, this.gcf.maxY)
+      this.minX = this.util.setConfigNum(this, 'minX', this.op.config.minX, this.gcf.minX)
+      this.maxX = this.util.setConfigNum(this, 'maxX', this.op.config.maxX, this.gcf.maxX)
       //maxY　minY maxX minX の初期値は以降で設定
-      this.maxY = this.op.config.maxY || this.gcf.maxY;
-      this.minY = this.op.config.minY || this.gcf.minY;
-      this.maxX = this.op.config.maxX || this.gcf.maxX;
-      this.minX = this.op.config.minX || this.gcf.minX;
       this.maxYDefault = this.maxXDefault = 10;
       this.minYDefault = this.minXDefault = 0;
-
+      
       //scatter heatmap時、maxY と maxX minX
       if (this.type === 'scatter' || this.type === 'heatmap') {
 
@@ -502,7 +501,7 @@ window.ccchart =
         if (typeof this.maxY === 'number') {
           this.maxY = this.maxY;
         } else {
-          this.maxY = _getSatterMax(this, 1)||this.maxYDefault; //index0　is X, 1 is Y
+          this.maxY = this.util.setConfigNum(this, 'maxY', _getSatterMax(this, 1), this.maxYDefault)//index0　is X, 1 is Y
         }
         //データ最大値this.maxYの切り上げ処理 デフォルトmaxYの1/10桁
         if(this.yScaleDecimal !== 'yes')
@@ -511,13 +510,13 @@ window.ccchart =
         if (typeof this.minY === 'number') {
           this.minY = this.minY;
         } else {
-          this.minY = _getSatterMin(this, 1)||this.minYDefault; //index0　is X, 1 is Y
+          this.minY = this.util.setConfigNum(this, 'minY', _getSatterMin(this, 1), this.minYDefault)//index0　is X, 1 is Y
         }
         //maxX minX
         if (typeof this.maxX === 'number') {
           this.maxX = this.maxX;
         } else {
-          this.maxX = _getSatterMax(this, 0)||this.maxXDefault; //index0　is X, 1 is Y
+          this.maxX = this.util.setConfigNum(this, 'maxX', _getSatterMax(this, 0), this.maxXDefault)//index0　is X, 1 is Y
         }
         if(this.xScaleDecimal !== 'yes')
           _setRoundedUpMax(this, 'maxX', 'roundedUpMaxX');
@@ -525,7 +524,7 @@ window.ccchart =
         if (typeof this.minX === 'number') {
           this.minX = this.minX || 0;
         } else {
-          this.minX = _getSatterMin(this, 0)||this.minXDefault; //index0　is X, 1 is Y
+          this.minX = this.util.setConfigNum(this, 'minX', _getSatterMin(this, 0), this.minXDefault)//index0　is X, 1 is Y
         }
 
         function _getSatterMin(it, index){ //index0　is X, 1 is Y
@@ -546,7 +545,8 @@ window.ccchart =
         if (typeof this.maxY === 'number') {
           this.maxY = this.maxY;
         } else {
-          this.maxY = _getMax(this, 'maxY')||this.maxYDefault;
+          this.maxY = this.util.setConfigNum(this, 'maxY', _getMax(this, 'maxY'), this.maxYDefault)
+          
         }
 
         //データ最大値this.maxYの切り上げ処理 デフォルトmaxYの1/10桁
@@ -557,7 +557,7 @@ window.ccchart =
         if (typeof this.minY === 'number') {
           this.minY = this.minY;
         } else {
-          this.minY = _getMin(this, 'minY')||this.minYDefault;
+          this.minY = this.util.setConfigNum(this, 'minY', _getMin(this, 'minY'), this.minYDefault)
         }
 
         function _getMin(that, prop){
@@ -713,8 +713,10 @@ window.ccchart =
 
       if(this.type === 'heatmap'){
         this.hm_grad = op.config.hm_grad || this.gcf.hm_grad  || undefined;
-        this.innerCircle= op.config.innerCircle || this.gcf.innerCircle  || 1;
-        this.outerCircle= op.config.outerCircle || this.gcf.outerCircle  || 30;
+        this.innerCircle = 
+          this.util.setConfigNum(this, 'innerCircle', this.op.config.innerCircle, this.gcf.innerCircle, 1);
+        this.outerCircle= 
+          this.util.setConfigNum(this, 'outerCircle', this.op.config.outerCircle, this.gcf.outerCircle, 30);
       }
 
       //for drowHanrei
@@ -724,19 +726,21 @@ window.ccchart =
 
       //for drawLine, drawAmplitude
       //線幅 デフォルトで2
-      this.lineWidth = op.config.lineWidth || this.gcf.lineWidth || 2;
+      this.lineWidth = 
+        this.util.setConfigNum(this, 'lineWidth', this.op.config.lineWidth, this.gcf.lineWidth, 2);
       //線幅セット
       this.lineWidthSet = this.util.setLineWidthSet(this, op);
 
       //円グラフのドーナツ穴の半径
-      this.pieHoleRadius =
-        op.config.pieHoleRadius || this.gcf.pieHoleRadius || 40;
+      this.pieHoleRadius = 
+        this.util.setConfigNum(this, 'pieHoleRadius', this.op.config.pieHoleRadius, this.gcf.pieHoleRadius, 40);
       //円グラフのドーナツ幅
-      this.pieRingWidth =
-        this.op.config.pieRingWidth || this.gcf.pieRingWidth || 40;
+      this.pieRingWidth = 
+        this.util.setConfigNum(this, 'pieRingWidth', this.op.config.pieRingWidth, this.gcf.pieRingWidth, 40);
 
       //棒グラフ用パラメータ
-      this.barWidth = op.config.barWidth || this.gcf.barWidth || 10;
+      this.barWidth = 
+        this.util.setConfigNum(this, 'barWidth', op.config.barWidth, this.gcf.barWidth, 10);
       this.barPadding = (op.config.barPadding!==undefined)?op.config.barPadding:
                           (this.gcf.barPadding!==undefined)?this.gcf.barPadding:
                             undefined;
@@ -800,7 +804,7 @@ window.ccchart =
        this.util.setPfx('box-sizing'); //this.pfx['box-sizing']
 
        this.borderWidth =
-        op.config.borderWidth || this.gcf.borderWidth || 3;
+        this.util.setConfigNum(this, 'borderWidth', op.config.borderWidth, this.gcf.borderWidth, 3);
 
        //copy the preProcessing data to ids.
        this.cojLen = 0;
@@ -1150,8 +1154,10 @@ window.ccchart =
       this.ctx.save();
       var xScaleDecimal = this.xScaleDecimal;
       var xScaleColor =
-        this.op.config.xScaleColor || this.gcf.xScaleColor ||
-        this.textColor || this.gcf.textColor ||
+        this.op.config.xScaleColor || 
+        this.gcf.xScaleColor ||
+        this.textColor || 
+        this.gcf.textColor ||
         this.textColors.all ||
         (this.gcf.textColors?
           this.gcf.textColors.all:(this.textColors.x || this.gcf.x)) ||
@@ -1161,12 +1167,12 @@ window.ccchart =
       var xScaleAlign =
         this.op.config.xScaleAlign || this.gcf.xScaleAlign || "center";
       var xOffset =
-        this.op.config.xScaleXOffset || this.gcf.xScaleXOffset || 0;
+        this.util.setConfigNum(this, 'xScaleXOffset', this.op.config.xScaleXOffset, this.gcf.xScaleXOffset, 0);
       var yOffset =
-        this.op.config.xScaleYOffset || this.gcf.xScaleYOffset || 22;
+        this.util.setConfigNum(this, 'xScaleYOffset', this.op.config.xScaleYOffset, this.gcf.xScaleYOffset, 22);
 
       this.colNamesTitleOffset =
-        this.op.config.colNamesTitleOffset || this.gcf.colNamesTitleOffset || 15;
+        this.util.setConfigNum(this, 'colNamesTitleOffset', this.op.config.colNamesTitleOffset, this.gcf.colNamesTitleOffset, 15);
       var tcXOffset =
         this.op.config.colNameXTitleOffset || this.gcf.colNameYTitleOffset || this.colNamesTitleOffset;
       var tcYOffset =
@@ -1177,7 +1183,7 @@ window.ccchart =
       }
 
       var xScaleRotate =
-        this.op.config.xScaleRotate || this.gcf.xScaleRotate || 0;
+        this.util.setConfigNum(this, 'xScaleRotate', this.op.config.xScaleRotate, this.gcf.xScaleRotate, 0);
 
       if(this.type==='scatter'||this.type==='heatmap'){
         var val = '', percent = '';
@@ -1243,7 +1249,8 @@ window.ccchart =
       if( this.useYscale==='no')return this;
       var yScaleDecimal = this.yScaleDecimal;
       var yScaleColor =
-        this.op.config.yScaleColor || this.gcf.yScaleColor ||
+        this.op.config.yScaleColor || 
+        this.gcf.yScaleColor ||
         this.textColor ||
         this.textColors.all||
         this.textColors.y ||
@@ -1253,11 +1260,11 @@ window.ccchart =
       var yScaleAlign =
         this.op.config.yScaleAlign || this.gcf.yScaleAlign || "right";
       var xOffset =
-        this.op.config.yScaleXOffset || this.gcf.yScaleXOffset || this.paddingLeft - 10 ;
+        this.util.setConfigNum(this, 'yScaleXOffset', this.op.config.yScaleXOffset, this.gcf.yScaleXOffset, this.paddingLeft - 10);
       var yOffset =
-        this.op.config.yScaleYOffset || this.gcf.yScaleYOffset || 6;
+        this.util.setConfigNum(this, 'yScaleYOffset', this.op.config.yScaleYOffset, this.gcf.yScaleYOffset, 6);
       var yScaleRotate =
-        this.op.config.yScaleRotate || this.gcf.yScaleRotate || 0;
+        this.util.setConfigNum(this, 'yScaleRotate', this.op.config.yScaleRotate, this.gcf.yScaleRotate, 0);
 
       xOffset = (this._addsFlg === 2)?(this.chartRight+10):xOffset;
       yScaleAlign = (this._addsFlg === 2)?'left':yScaleAlign;
@@ -1377,17 +1384,17 @@ window.ccchart =
       this.ctx.save();
       var len = this.hanreiNames.length;
       var xOffset =
-        this.op.config.hanreiXOffset || this.gcf.hanreiXOffset || 14;
+        this.util.setConfigNum(this, 'hanreiXOffset', this.op.config.hanreiXOffset, this.gcf.hanreiXOffset, 14);
       //var yOffset =
       //  this.op.config.hanreiYOffset || this.gcf.hanreiYOffset || 40;
       var yOffset =
-        this.op.config.hanreiYOffset || this.gcf.hanreiYOffset || 20;
+        this.util.setConfigNum(this, 'hanreiYOffset', this.op.config.hanreiYOffset, this.gcf.hanreiYOffset, 20);
       //addメソッド用最初の凡例と次の凡例の隙間
       var hanreisYSpace =
-        this.op.config.hanreisYSpace || this.gcf.hanreisYSpace || 12;
+        this.util.setConfigNum(this, 'hanreisYSpace', this.op.config.hanreisYSpace, this.gcf.hanreisYSpace, 12);
       if(!this._baseY)this._baseY = 0;
       var radius =
-        this.op.config.hanreiRadius || this.gcf.hanreiRadius || ((len < 10)?8:(len < 20)?5:3);
+        this.util.setConfigNum(this, 'hanreiRadius', this.op.config.hanreiRadius, this.gcf.hanreiRadius, ((len < 10)?8:(len < 20)?5:3));
       var offradius = 0;
       if(this.type==='line' ||this.type==='bezi' ||this.type==='bezi2'){
         offradius = radius/5;
@@ -3957,6 +3964,18 @@ window.ccchart =
       }, async);
     },
     util:{
+         
+      setConfigNum: function(it, propName, configVal, gfcVal, defaultVal){
+        //暫定
+        //数値タイプのコンフィグ値をセットする configVal||gfcVal では0の時にうまく動作しないので
+        //defaultValが無ければundefinedを返す
+        //e.g. setConfigNum(this, 'minY', this.op.config.minY, this.gcf.minY, 0)
+        it[propName+'Default'] = defaultVal;
+        if(typeof configVal === 'number') return it[propName] = configVal;
+        if(typeof gfcVal === 'number') return it[propName] = gfcVal;
+        if(typeof defaultVal === 'number')return it[propName] = defaultVal;
+        return undefined;
+      },
       getStyle: function (id, prop){
         // e.g. ccchart.util.getStyle('hoge2', 'position')//fixed
         var el=document.getElementById(id);
