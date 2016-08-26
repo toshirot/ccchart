@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.12.07',
-      update: 20160820,
+      version: '1.12.08',
+      update: 20160826,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -184,17 +184,24 @@ window.ccchart =
           this.useMarker = 'css-maru';
         }
       }
+      //pieにマーカーは使わない
+      if(this.type === 'pie')this.useMarker = 'none';
       //ツールチップカスタマイズ
       if(this.useToolTip === 'yes')
         this.tmpToolTip = op.config.tmpToolTip || this.gcf.tmpToolTip;
 
-      //pieにマーカーは使わない
-      if(this.type === 'pie')this.useMarker = 'none';
+      //for drawLine, drawAmplitude
+      //線幅 デフォルトで2
+      this.lineWidth = 
+        this.util.setConfigNum(this, 'lineWidth', this.op.config.lineWidth, this.gcf.lineWidth, 2);
+      //線幅セット
+      this.lineWidthSet = this.util.setLineWidthSet(this, op);
 
       //マーカーの幅または直径
       this.markerWidth = this.util.setConfigNum(this, 'markerWidth', this.op.config.markerWidth, this.gcf.markerWidth)
+      console.log(1,this.markerWidth)
       this.markerWidth = this.util.setConfigNum(this, 'markerWidth', this.markerWidth, this.lineWidth * 2 , 2)
-
+console.log(3,this.markerWidth)
       if(this.useCss === 'yes'){
         this.bind('scroll', '_adjustcsspos');
         this.bind('load', '_adjustcsspos');
@@ -723,13 +730,6 @@ window.ccchart =
       //凡例マーカーの形 arc|rect
       this.hanreiMarkerStyle =
         op.config.hanreiMarkerStyle || this.gcf.hanreiMarkerStyle  || 'arc';
-
-      //for drawLine, drawAmplitude
-      //線幅 デフォルトで2
-      this.lineWidth = 
-        this.util.setConfigNum(this, 'lineWidth', this.op.config.lineWidth, this.gcf.lineWidth, 2);
-      //線幅セット
-      this.lineWidthSet = this.util.setLineWidthSet(this, op);
 
       //円グラフのドーナツ穴の半径
       this.pieHoleRadius = 
@@ -4871,8 +4871,7 @@ window.ccchart.m.CssHybrid =
       var borderColor = op.borderColor || op.colorSet[colorIndex] || op.colorSet[colorIndex];
       var bgcolor = op.bgColor || op.colorSet[colorIndex] || op.colorSet[colorIndex];
       var tipBgcolor = bgcolor;
-      if( (this.type === 'bar' || this.type === 'stacked' )
-          && this.useToolTip==='yes'){
+      if( (this.type === 'bar' || this.type === 'stacked' ) && this.useToolTip==='yes'){
           bgcolor = (this.barTipAnchorColor === 'colorSet')?bgcolor:this.barTipAnchorColor;
       }
       var etc = (op.etcStyle?op.etcStyle:'');
@@ -4932,7 +4931,6 @@ window.ccchart.m.CssHybrid =
           +  this.pfx['box-sizing'] +': border-box;'
           +  this.pfx['transition'] +': background-color 200ms linear';
       el.setAttribute('style', xyr+etc);
-
       //マーカーをグループへ登録
       var arc = this.cssgs[id].appendChild(el);
       el = null;
@@ -4951,7 +4949,7 @@ window.ccchart.m.CssHybrid =
         var unit = e.target.getAttribute('data-unit');
         var bgcolor = e.target.getAttribute('data-bg');
         var colNamesTitle = (this.type==='scatter'||this.type==='heatmap')?
-             colname:((that.colNamesTitle)?that.colNamesTitle:'');
+             '':((that.colNamesTitle)?that.colNamesTitle:'');
         var unit = that.coj[id].unit
         if(typeof unit==='string'){
           unit = unit;
@@ -5012,9 +5010,9 @@ window.ccchart.m.CssHybrid =
         }, 0);
         //ツールチップのデフォルトHTMLテンプレート
         //.-ccchart-ttip-dataなどでCSSから指定可能です
-        if(this.type==='scatter'||this.type==='heatmap'){
+        if(that.type==='scatter'||that.type==='heatmap'){
           var htm = ''
-          + '<span class="-ccchart-ttip-sct-colnamestitle">'+colNamesTitle + '</span>'+ '<br>'
+          + '<span class="-ccchart-ttip-sct-colnamestitle"></span>'+ '<br>'
           + '<span class="-ccchart-ttip-sct-colname">'+colName + '</span>' + ' '
           + '<span class="-ccchart-ttip-sct-data-x">'+scatterXData + '</span>'+'<br>'
           + '<span class="-ccchart-ttip-sct-rowname">'+rowName + '</span>' + ' '
@@ -5034,7 +5032,6 @@ window.ccchart.m.CssHybrid =
             that.cssTooltips[id].innerHTML = toolTemp || htm;
             toolTemp = htm = '';
         }
-
         //同じセレクタのルールがあったら一旦除去して::before部分の吹き出しの色を設定
         that.deleteCssRule('#-ccchart-css-tooltip-'+id+'::before');
         that.hybridCss.insertRule(
@@ -5083,13 +5080,10 @@ window.ccchart.m.CssHybrid =
     },
     css_ring: function(op){
       op.classStr = 'css-ring';
-      //  op.bgColor = op.bgColor || 'rgba(0,0,0,0.5)';
-      if(this.type==='scatter'||this.type==='heatmap')op.borderColor = op.borderColor || this.colorSet[op.row];
       this._css_arc(op);
     },
     css_maru: function(op){
       op.classStr = 'css-maru';
-      if(this.type==='scatter'||this.type==='heatmap')op.bgColor = op.bgColor || this.colorSet[op.row];
       this._css_arc(op);
     },
     css_lineTo:  function(op){

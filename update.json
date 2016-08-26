@@ -23,7 +23,16 @@ if (!window.ccchart) window.ccchart = {};
 ccchart.update = [
 
 
-
+  {
+    ver: "1.12.08",
+    date: "2016.08.26",
+    status: "release",
+    updates: [
+          ["1.bug fixed. Not plot If you do not specify a markerWidth in the scatter. thanx mosy https://github.com/toshirot/ccchart/issues/27"],
+          ["2.bug fixed the color bug. When the css-maru and css-ring in the scatter. thanx mosy https://github.com/toshirot/ccchart/issues/28"],
+          ["3.bug fixed the tooltip bug. https://github.com/toshirot/ccchart/issues/29"]
+    ]
+  },
   {
     ver: "1.12.07",
     date: "2016.08.20",
