@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.12.08',
-      update: 20160826,
+      version: '1.12.081',
+      update: 20160831,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -199,9 +199,8 @@ window.ccchart =
 
       //マーカーの幅または直径
       this.markerWidth = this.util.setConfigNum(this, 'markerWidth', this.op.config.markerWidth, this.gcf.markerWidth)
-      console.log(1,this.markerWidth)
       this.markerWidth = this.util.setConfigNum(this, 'markerWidth', this.markerWidth, this.lineWidth * 2 , 2)
-console.log(3,this.markerWidth)
+
       if(this.useCss === 'yes'){
         this.bind('scroll', '_adjustcsspos');
         this.bind('load', '_adjustcsspos');
