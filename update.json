@@ -28,7 +28,7 @@ ccchart.update = [
     date: "2016.08.31",
     status: "release",
     updates: [
-          ["1.remove console.log for debug. thanx yiida"]
+          ["1.remove debug console.log. thanx yiida"]
     ]
   },
   {
