@@ -16,8 +16,8 @@ MIT
 <hr>
 <h3>Some of the download method</h3>
 <li>Download from this page: Download the zip file by clicking on the upper right [Download ZIP] button on this top page. And installing unzip. or etc...
-<li>Download from <a href=http://ccchart.com/>ccchart.com</a>
-<li id="bower">Bower<code><pre>$ cd ./YourDir
+<li>or Download from <a href=http://ccchart.com/>ccchart.com</a>
+<li id="bower">or Bower<code><pre>$ cd ./YourDir
 $ npm i -g bower
 $ bower i ccchart
 ccchart directory has been generated.
