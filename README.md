@@ -31,7 +31,7 @@ YourDir/
         plugins/</pre></code><li>etc...<hr>
 <h3>What's New</h3>  
 
-Current Release: 2016/08/31 v1.12.081 <br>
+Current Release: 2016/09/15 v1.12.082 <br>
 
 2016/02/18 add heatmap Type<br>
 Demo <a href=http://ccchart.org/#102>http://ccchart.org/#102</a><br>

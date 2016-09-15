@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.12.081',
-      update: 20160831,
+      version: '1.12.082',
+      update: 20160915,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -3969,11 +3969,21 @@ window.ccchart =
         //数値タイプのコンフィグ値をセットする configVal||gfcVal では0の時にうまく動作しないので
         //defaultValが無ければundefinedを返す
         //e.g. setConfigNum(this, 'minY', this.op.config.minY, this.gcf.minY, 0)
+        configVal=_regex(configVal);
+        gfcVal=_regex(gfcVal);
+        defaultVal=_regex(defaultVal);
         it[propName+'Default'] = defaultVal;
         if(typeof configVal === 'number') return it[propName] = configVal;
         if(typeof gfcVal === 'number') return it[propName] = gfcVal;
         if(typeof defaultVal === 'number')return it[propName] = defaultVal;
         return undefined;
+
+        function _regex(val){
+          //一旦文字列化して数値以外の文字列除去後Number化して返す
+          var _val=parseFloat((''+val).replace(/[^-{0,1}[0-9]\.]/g,''));
+          if(isNaN(_val))_val=undefined;//NaNはundefinedにする 
+          return _val
+        }
       },
       getStyle: function (id, prop){
         // e.g. ccchart.util.getStyle('hoge2', 'position')//fixed

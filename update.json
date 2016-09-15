@@ -24,6 +24,14 @@ ccchart.update = [
 
 
   {
+    ver: "1.12.082",
+    date: "2016.09.151",
+    status: "release",
+    updates: [
+          ["1.bug fixed. at ver.1.12.07 setConfigNum  https://github.com/toshirot/ccchart/issues/30"]
+    ]
+  },
+  {
     ver: "1.12.081",
     date: "2016.08.31",
     status: "release",
