@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.12.082',
-      update: 20160915,
+      version: '1.12.083',
+      update: 20161028,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -1941,12 +1941,12 @@ window.ccchart =
         x += this.xGap / 2; //オフセット
         this.ctx.beginPath();
         this.ctx.lineJoin = 'round';
-        this.ctx.lineWidth = this.lineWidthSet[k];
+        this.ctx.lineWidth = lineWidthSet[k];
         this.ctx.strokeStyle = colorSet[k];
         this.ctx.fillStyle = this.colorSet[k];
         if (this.useShadow === 'yes')
-          if (this.lineWidthSet[k] > 1) this.drawShadow(shdw[0], shdw[1], shdw[2], shdw[3]);
-          //lineWith=1の時影がおかしくなるのでthis.lineWidthSet[k]>1
+          if (lineWidthSet[k] > 1) this.drawShadow(shdw[0], shdw[1], shdw[2], shdw[3]);
+          //lineWith=1の時影がおかしくなるのでlineWidthSet[k]>1
         if (this.type === 'area') {
           this.ctx.moveTo(x, this.chartBottom);
         }
@@ -2385,7 +2385,7 @@ window.ccchart =
         var x = this.chartLeft;
         x += this.xGap/2; //オフセット
         this.ctx.beginPath();
-        this.ctx.lineWidth  = this.lineWidthSet[k];
+        this.ctx.lineWidth  = lineWidthSet[k];
         this.ctx.strokeStyle = this.colorSet[k];
         if(this.useShadow === 'yes')this.drawShadow(shdw[0],shdw[1],shdw[2],shdw[3]);
         for(var l = 0; l < this.data[k].length; l++ ){
@@ -4067,7 +4067,6 @@ window.ccchart =
         if(!op)op=that.op;
         var _lw = that.lineWidth;
         //線幅セット lineWidthSet:[] を指定すると すべてthis.lineWidthの配列になる
-
         _lineWidthSet = op.config.lineWidthSet || that.gcf.lineWidthSet || undefined;
         if(typeof _lineWidthSet === "object"){
           if(_lineWidthSet.length===0){
@@ -4092,7 +4091,6 @@ window.ccchart =
           //default length is dataRowLen
           for(var i=0; i<that.dataRowLen; i++){_lineWidthSet[i]=_lw}
         }
-
         return _lineWidthSet;
       },
       setNumberOfConfigVal: function(it, prop, def){//e.g. axisYSkipWidth...

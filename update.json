@@ -24,8 +24,16 @@ ccchart.update = [
 
 
   {
+    ver: "1.12.083",
+    date: "2016.10.28",
+    status: "release",
+    updates: [
+          ["1.fixed lineWidth bug.  https://github.com/toshirot/ccchart/issues/32"]
+    ]
+  },
+  {
     ver: "1.12.082",
-    date: "2016.09.151",
+    date: "2016.09.15",
     status: "release",
     updates: [
           ["1.bug fixed. at ver.1.12.07 setConfigNum  https://github.com/toshirot/ccchart/issues/30"]
