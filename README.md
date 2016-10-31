@@ -472,6 +472,7 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 <h4>markers methods</h4>
 <ul>
 <li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L1625>drawMarkers</a> </li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L3799>markers</a> </li>
 </ul>
 <h4>shadows methods</h4>
 <ul>
@@ -496,14 +497,11 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 <h4>memo methods</h4>
 <ul>
 <li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L3524>drawMemo</a> </li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L3800>memo</a> </li>
 </ul>
 <h4>transformation methods</h4>
 <ul>
 <li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L3654>toData</a> </li>
 </ul>
-
-
-
-
 
 <h4>to be continued</h4>
