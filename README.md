@@ -477,6 +477,12 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 <ul>
 <li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2735>drawShadow</a> </li>
 </ul>
+<h4>flip methods</h4>
+<ul>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2752>flip</a> </li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2804>flipX</a> </li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2805>flipY</a> </li>
+</ul>
 
 
 
