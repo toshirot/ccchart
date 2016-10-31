@@ -456,4 +456,9 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 <li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L1148>drawXscale</a> </li>
 <li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L1247>drawYscale</a> </li>
 </ul>
+<h4>scale methods</h4>
+<ul>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L1328>drawTitle</a> </li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L1355>drawSubTitle</a> </li>
+</ul>
 <h4>to be continued</h4>
