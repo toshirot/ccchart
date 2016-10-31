@@ -488,6 +488,15 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 <li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2814>ws</a> </li>
 :
 </ul>
+<h4>image methods</h4>
+<ul>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L3457>drawImg</a> </li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L3471>drawImgs</a> </li>
+</ul>
+<h4>memo methods</h4>
+<ul>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L3524>drawMemo</a> </li>
+</ul>
 
 
 
