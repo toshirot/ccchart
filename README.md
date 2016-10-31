@@ -450,6 +450,9 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 <ul>
 <li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L1021>drawAxisX</a> </li>
 <li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L1090>drawAxisY</a> </li>
+</ul>
+<h4>scale methods</h4>
+<ul>
 <li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L1148>drawXscale</a> </li>
 <li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L1247>drawYscale</a> </li>
 </ul>
