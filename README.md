@@ -483,6 +483,13 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 <li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2804>flipX</a> </li>
 <li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2805>flipY</a> </li>
 </ul>
+<h4>websockets methods</h4>
+<ul>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2814>ws</a> </li>
+:
+</ul>
+
+
 
 
 
