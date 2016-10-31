@@ -465,4 +465,10 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 <ul>
 <li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L1381>drowHanrei</a> </li>
 </ul>
+<h4>unit methods</h4>
+<ul>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L1520>drawUnit</a> </li>
+</ul>
+
+
 <h4>to be continued</h4>
