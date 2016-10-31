@@ -441,3 +441,16 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 <li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2419>drawHeatmap</a> heatmap</li>
 <li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2274>drawCandle</a> candle</li>
 </ul>
+<h4>background methods</h4>
+<ul>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L998>drawBG</a> </li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L1007>drawGradient</a> </li>
+</ul>
+<h4>axis methods</h4>
+<ul>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L1021>drawAxisX</a> </li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L1090>drawAxisY</a> </li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L1148>drawXscale</a> </li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L1247>drawYscale</a> </li>
+</ul>
+<h4>to be continued</h4>
