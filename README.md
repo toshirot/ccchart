@@ -473,5 +473,11 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 <ul>
 <li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L1625>drawMarkers</a> </li>
 </ul>
+<h4>shadows methods</h4>
+<ul>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2735>drawShadow</a> </li>
+</ul>
+
+
 
 <h4>to be continued</h4>
