@@ -424,3 +424,19 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 </ul>
 
 
+<h3>Codes (type methods)</h3>
+<ul>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2007>drawLine line</a></li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2099>drawBar bar</a></li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2594>drawPie pie</a></li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2352>drawbeziLine bezi</a></li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2378>drawbeziLine2 bezi2</a></li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2186>drawStackedBar stacked</a></li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2017>drawArea area</a></li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2088>drawStackedArea stackedarea</a></li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2093>drawStackedPercent stacked%</a></li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2012>drawAmplitude ampli</a></li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2408>drawScatter scatter</a></li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2419>drawHeatmap heatmap</a></li>
+<li><a href=https://github.com/toshirot/ccchart/blob/master/ccchart.js#L2274>drawCandle candle</a></li>
+</ul>
