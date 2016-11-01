@@ -33,6 +33,8 @@ YourDir/
 
 Current Release: 2016/10/28 v1.12.083 <br>
 
+2016/11/1 Automatic extraction <a href=http://ccchart.org/doc/refs/mkdoc.htm>ccchart Reference</a>
+
 2016/02/18 add heatmap Type<br>
 Demo <a href=http://ccchart.org/#102>http://ccchart.org/#102</a><br>
 Demo Realtime <a href=http://ccchart.org/test/heatmap/test1-hmp-v1.12.01-ws.htm>http://ccchart.org/test/heatmap/test1-hmp-v1.12.01-ws.htm</a><br>
