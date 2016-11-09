@@ -31,7 +31,7 @@ YourDir/
         plugins/</pre></code><li>etc...<hr>
 <h3>What's New</h3>  
 
-Current Release: 2016/10/28 v1.12.083 <br>
+Current Release: 2016/11/05 v1.12.084 <br>
 
 2016/11/1 Automatic extraction <a href=http://ccchart.org/doc/refs/mkdoc.htm>ccchart Reference</a>
 
