@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.12.083',
-      update: 20161028,
+      version: '1.12.084',
+      update: 20161105,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -14,7 +14,7 @@ window.ccchart =
       demoDevelopment: 'http://ccchart.org/',
       writer: 'Toshiro Takahashi @toshirot',
       see: 'http://www.facebook.com/javascripting',
-      blog: 'http://ngw.jp/~tato/wp/?cat=6',
+      blog: 'https://web.archive.org/web/20160419064517/http://ngw.jp/~tato/wp/?cat=6',
       branched: ''
          + 'This project has branched from the jQchart, that made by Toshiro Takahashi '
          + 'jQchart is the jQuery plugin. since 2007. '
@@ -2124,7 +2124,7 @@ window.ccchart =
         //垂直目盛線1本の間にあるすべてのバーの
         //幅barWithと隙間barGapとパディングbarPadding
         //を足した幅をwidthOfAllBarとする
-        return  that.barPadding*2
+        return  that.barPadding//*2
           + that.barWidth * that.dataRowLen
           + that.barGap * (that.dataRowLen-1);
       }

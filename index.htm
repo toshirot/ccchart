@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="google" content="notranslate">
+    <!--meta name="viewport" content="width=device-width"-->
+    <meta name="viewport" content="width=640">
+    <title>ccchart</title>
+
+    <!-- for menutab -->
+    <link rel="stylesheet" href="http://jqueryui.com/jquery-wp-content/themes/jquery/css/base.css?v=1">
+    <link href="jqueryui/css/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+    <script src="jqueryui/js/jquery-1.9.1.js"></script>
+    <script src="jqueryui/js/jquery-ui-1.10.3.custom.js"></script>
+
+<style>
+*{
+    border : 0px;
+}
+body {
+    background-color: #3F464C;
+    margin:0px;
+    font-family: Arial;
+}
+h1 a{
+  text-decoration: none;
+}
+
+#logo{
+    position:absolute;
+    top: 0px;
+    left: 0px;
+    width: 550px;
+    height: 168px;
+    overflow:hidden;
+    border: 0px;
+}
+
+#tabs{
+    position:absolute;
+    top: 168px;
+    left: 0px;
+    width: 480px;
+    height: 100%;
+    border: 0px;
+}
+.ui-tabs .ui-tabs-nav li{
+    border: 0px;
+    margin:0px;
+    padding:0px;
+}
+.ui-tabs .ui-tabs-nav li a{
+    padding-top: 5px;
+    padding-bottom: 4px;
+}
+
+.mytabs{
+    font-family: Arial;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.mytabs>h3{
+    padding-left: 12px;
+}
+
+.mytabs article h1{
+    font-weight: 100;
+    font-size: 13px;
+    padding-left: 18px;
+}
+.mytabs hr{
+    background: #666;
+    box-shadow:
+       8px 8px 8px rgba(20,20,20,0.3);
+}
+
+#menu{
+    position:absolute;
+    top: 40px;
+    left: 0px;
+    width: 480px;
+    height: 100%;
+    border: 0px;
+}
+#canvas{
+    position:absolute;
+    top:  0%;
+    left:  480px;
+    width: 640px;
+    height:  460px;
+    border: 0px;
+}
+#pre{
+    position:absolute;
+    top: 460px;
+    left:  480px;
+    width: 2000px;
+    height:  440px;
+    border: 0px;
+}
+.note{
+    color: #000;
+    padding-left: 18px;
+    font-size: 12px;
+}
+.new{
+    color: red;
+}
+</style>
+<script>
+
+var l18 = {
+        lang : navigator.language,
+        _$: function(ja,en){
+            return (l18.lang==='ja')?ja:en;
+        },
+        $: function(ja, en){return l18._$(ja,en)},
+
+}
+
+//for site control
+var ctrl = {
+    init: function(){
+        this.getHash();
+       /* msg1.innerHTML=l18.$(
+          'ccchart.orgでは現在 v1.08.7b4のテスト中です。バグなどあればお知らせください。<a href="http://ccchart.org/test/adds/add-xhr2-3.htm">参照0</a> ,<a href="https://web.archive.org/web/http://ngw.jp/~tato/wp/?p=1792">参照1</a> , <a href="https://web.archive.org/web/http://ngw.jp/~tato/wp/?p=1818">参照2</a>',
+          'It is a test of the current v1.08.7b4 in ccchart.org. Please let us know if there is a bug.<a href="http://ccchart.org/test/adds/add-xhr2-3.htm">参照0</a> ,<a href="https://web.archive.org/web/http://ngw.jp/~tato/wp/?p=1792">Ref1</a> , <a href="https://web.archive.org/web/http://ngw.jp/~tato/wp/?p=1818">Ref2</a>'
+        );*/
+
+
+    },
+    currHash: '',
+    ua: function (){return navigator.userAgent},
+    getHash: function(){
+        var hash = location.hash;
+        var pathname = location.pathname;
+        var isIndex = pathname.substr(pathname.lastIndexOf('/'))==='/index.htm';
+
+          if(this.currHash !== hash){
+
+              switch(hash){
+                  case '#license': this.sendMsg('license');break;
+                  case '#faq': this.sendMsg('faq');break;
+                  case '#usecase': this.sendMsg('usecase');break;
+                  case '#help': this.sendMsg('help');break;
+                  case '#donate': this.sendMsg('donate');break;
+                  default: this.sendMsg(hash.split('#')[1]);
+              }
+
+          } else {
+
+          }
+
+
+        this.currHash = hash;
+    },
+    sendMsg: function (msg, to, from){
+        var pre = document.getElementById('pre');
+        var menu = document.getElementById('menu');
+        var canvas = document.getElementById('canvas');
+       // var msg = JSON.stringify(msg);//ここでstringify化すると下のnumber判定がおかしくなる
+
+        if(!!msg){
+           // if(typeof parseInt(msg) !== 'number'){//"hoge" false, "123" false
+           // if( isNaN(parseInt(msg)) ){//"hoge" true, "123" false or true
+                //console.log('hash is '+msg +'  '+isNaN(parseInt(msg)+0))
+           // if( !isFinite(msg) ){//"hoge" true, "123" false
+                //console.log('hash is '+msg +'  '+!isFinite(msg+0))
+            if( isNaN(parseInt(msg)+0) ){
+                var msg = JSON.stringify(msg);
+                document.getElementById('canvas')
+                    .contentWindow.postMessage( msg, "*" );
+            } else {
+                var msg = JSON.stringify(msg);
+                document.getElementById('menu')
+                    .contentWindow.postMessage( msg, "*" );
+            }
+
+        }
+    }
+
+}
+window.addEventListener("load", function (){ctrl.init()});
+window.addEventListener('popstate', function(e) {
+      ctrl.init()
+});
+
+$(function() {
+  $( "#tabs" ).tabs({ event: "mouseover" });
+
+  $('#tabdemo').click(function(){
+    location.href = location.origin + "/#demo"
+  });
+  $('#tabmemo').click(function(){
+    location.href = location.origin + "/#memo"
+  });
+});
+</script>
+  </head>
+  </body>
+
+
+    <iframe id="logo" src="./f-logo.htm"></iframe>
+
+    <!-- Tabs -->
+    <h2 class="demoHeaders">Tabs</h2>
+    <div id="tabs">
+      <ul>
+        <li><a id="tabdemo" href="#demo" style="list-style-type: none;text-decoration: none;">Demo</a></li>
+        <li><a id="tabmemo" href="#memo" style="list-style-type: none;text-decoration: none;">Memo</a></li>
+      </ul>
+      <div id="demo" class="mytabs"><iframe id="menu" src="./f-menu.htm?1"></iframe></div>
+
+      <div id="memo" class="mytabs memos">
+
+
+
+
+<hr>
+<h3>Github</h3>
+
+<!-- //////////////////////////////////////  -->
+<article>
+<h1><a href="https://github.com/toshirot/ccchart">https://github.com/toshirot/ccchart</a></h1>
+</article>
+
+
+
+
+<hr>
+<h3>Documents</h3>
+<!-- //////////////////////////////////////  -->
+<article id="doc2">
+<h1>2016/11/01 Document Automatic extraction version </h1>
+
+  <ul style="padding-left:68px;">
+  <li><a href="http://ccchart.org/doc/refs/mkdoc.htm">ccchart Reference</a>--Under construction
+  </ul>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="doc1">
+<h1>2013/06/06 v1.06.3 Document</h1>
+  <ul style="padding-left:68px;">
+  <li><a href="http://ccchart.com/doc/ccchart-1.06.3.pdf">Doc v1.06.3</a>
+  </ul>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="blog1">
+<h1>Blog [THE LAST DAY] <a href="https://web.archive.org/web/http://ngw.jp/~tato/wp/?cat=6">#ccchart</a></h1>
+</article>
+
+
+<hr>
+<h3>Recommended browser</h3>
+
+<!-- //////////////////////////////////////  -->
+<article>
+<h1>Google Chrome is the fastest for the ccchart.</h1>
+</article>
+
+<hr>
+<h3>Bugs</h3>
+<!-- //////////////////////////////////////  -->
+<article>
+
+<h1>Bug at bar type in  v1.12.03 - v1.12.05</h1>
+
+
+  <ul style="padding-left:68px;">
+  <li>v1.12.03 - v1.12.05 There is a bug that bar starting point position of the falls.(v1.12.03 - v1.12.05　にバーの起点位置が下がるバグがあります)
+  <li>v1.12.02 is okay . v1.12.06 has been fixed a bug.(v1.12.02は大丈夫です。 v1.12.06はバグが修正されています。)
+  </ul>
+
+
+
+
+</article>
+
+
+
+<hr>
+<h3>Current Release</h3>
+
+<!-- //////////////////////////////////////  -->
+<article id="release21">
+
+<h1>2016/11/05 v1.12.084</h1>
+  <ul style="padding-left:68px;">
+
+      <li>fixed barWidth bug.  <a href="https://github.com/toshirot/ccchart/issues/33">https://github.com/toshirot/ccchart/issues/33</a> thanx leaf
+  </ul>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="release20">
+
+<h1>2016/09/28 v1.12.083</h1>
+  <ul style="padding-left:68px;">
+
+      <li>fixed lineWidth bug.  <a href="https://github.com/toshirot/ccchart/issues/32">https://github.com/toshirot/ccchart/issues/32</a> thanx Petbottle
+  </ul>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="release19">
+
+<h1>2016/09/15 v1.12.082</h1>
+  <ul style="padding-left:68px;">
+
+      <li>bug fixed. at ver.1.12.07 setConfigNum  <a href="https://github.com/toshirot/ccchart/issues/30">https://github.com/toshirot/ccchart/issues/30</a> thanx Petbottle
+  </ul>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="release18">
+
+<h1>2016/08/31 v1.12.081</h1>
+  <ul style="padding-left:68px;">
+
+      <li>remove debug console.log. thanx yiida
+  </ul>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="release17">
+
+<h1>2016/08/26 v1.12.08</h1>
+  <ul style="padding-left:68px;">
+
+      <li>fixed. Not plot If you do not specify a markerWidth in the scatter.<a href="https://github.com/toshirot/ccchart/issues/27"> issues/27</a>
+      <li>fixed the color bug. When the css-maru and css-ring in the scatter.<a href="https://github.com/toshirot/ccchart/issues/28"> issues/28</a>
+      <li> fixed the tooltip bug. <a href="https://github.com/toshirot/ccchart/issues/29"> issues/29</a>
+  </ul>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="release16">
+
+<h1>2016/08/20 v1.12.07</h1>
+  <ul style="padding-left:68px;">
+
+      <li>bug fixed. We changed the config value processing of numeric types.
+      <li>issue 26 <a href="https://github.com/toshirot/ccchart/issues/26">https://github.com/toshirot/ccchart/issues/26</a>
+  </ul>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="release15">
+
+<h1>2016/07/18 v1.12.06</h1>
+  <ul style="padding-left:68px;">
+
+      <li>bug fixed. Bug at the bar type in v1.12.03 - v1.12.05. about Y starting point falls.
+      <li>Corresponding to the Minus data in a stacked chart. <a href="http://ccchart.org/test/barYMinus/test-b4-6.htm">http://ccchart.org/test/barYMinus/test-b4-6.htm</a>
+  </ul>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="release15">
+
+<h1>2016/06/29 v1.12.05</h1>
+  <ul style="padding-left:68px;">
+
+      <li>add useXscale, useYscale. Turn off the scale values of the X and Y axes. <a href="https://github.com/toshirot/ccchart/issues/24">https://github.com/toshirot/ccchart/issues/24</a>
+  </ul>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="release15">
+
+<h1>2016/06/24 v1.12.04</h1>
+  <ul style="padding-left:68px;">
+
+      <li>Eliminate flickering on the heatmap type with image. <a href="https://github.com/toshirot/ccchart/issues/23">https://github.com/toshirot/ccchart/issues/23</a>
+  </ul>
+</article>
+
+
+<!-- //////////////////////////////////////  -->
+<article id="release15">
+
+<h1>2016/06/15 v1.12.03</h1>
+  <ul style="padding-left:68px;">
+
+      <li>add function for ws. wscase.allColsAtATime. <a href="http://ccchart.org/test/wscase/allColsAtATime.htm">allColsAtATime</a>
+      <li>fixed. about Y position of bar. on okDrowBar. <a href="https://github.com/toshirot/ccchart/issues/22">https://github.com/toshirot/ccchart/issues/22</a>
+  </ul>
+
+</article>
+
+
+<!-- //////////////////////////////////////  -->
+<article id="release14">
+
+<h1>2016/02/29 v1.12.02</h1>
+  <ul style="padding-left:68px;">
+
+      <li>fixed stacked%. <a href="https://github.com/toshirot/ccchart/issues/18">https://github.com/toshirot/ccchart/issues/18</a>
+  </ul>
+
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="release14">
+
+<h1>2016/02/18 v1.12.01</h1>
+  <ul style="padding-left:68px;">
+
+      <li>add type heatmap. <a href=https://github.com/toshirot/ccchart/issues/9>issue</a>
+      <li>add config hm_grad. Gradation of config property. <a href=http://ccchart.org/test/heatmap/test1-hmp-v1.12.01b1.htm>demo</a>
+      <li>add config outerCircle. Gradient outer radius default 30
+      <li>add config innerCircle. Gradient inner radius default 1
+      <li>add cchart.hmBox. div box to wrap ccchart canvas and heatmap canvas.
+      <li>add ccchart.hmCanvas. canvas for heartmap.
+      <li>add object ccchart.coj[idName]　current ccchrt object. same as ccchart.ops
+      <li>fixed className of ccchart canvas is '-ccchart'
+
+  </ul>
+
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="release13">
+
+<h1>2016/02/03 v1.11.06</h1>
+  <ul style="padding-left:68px;">
+    <li>Modify around ReConnect. <a href="https://github.com/toshirot/ccchart/issues/6"> changes </a>
+  </ul>
+
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="release12">
+
+<h1>2016/02/01 v1.11.04</h1>
+  <ul style="padding-left:68px;">
+    <li> add lineWidthSet. Specified using an array the width of the individual line. like the colorSet. <a href="https://github.com/toshirot/ccchart/issues/8"> added </a>
+  </ul>
+
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="release11">
+
+<h1>2016/01/31 v1.11.03</h1>
+  <ul style="padding-left:68px;">
+    <li> fix about xScaleColor of scatter type.. <a href="https://github.com/toshirot/ccchart/issues/11"> fixed </a>
+  </ul>
+
+</article>
+
+
+
+<!-- //////////////////////////////////////  -->
+<article id="release10">
+
+<h1>2015/12/31 v1.11.02</h1>
+  <ul style="padding-left:68px;">
+    <li> fix about className of canvas. <a href="https://web.archive.org/web/http://ngw.jp/~tato/wp/?p=3698"> fixed </a>
+    <li> change ccchart.display  https://web.archive.org/web/http://ngw.jp/~tato/wp/?p=3698"> changed </a>
+  </ul>
+
+</article>
+
+
+<!-- //////////////////////////////////////  -->
+<article id="release9">
+
+<h1>2015/11/17 v1.11.01</h1>
+  <ul style="padding-left:68px;">
+    <li> fix Css marker at the time of blank data<a href="https://web.archive.org/web/http://ngw.jp/~tato/wp/?p=3687"> fixed </a>
+  </ul>
+
+</article>
+
+
+<!-- //////////////////////////////////////  -->
+<article id="update1">
+<h1>update</h1>
+<ul style="padding-left:68px;">
+<li> <a href="http://ccchart.com/update.htm">http://ccchart.com/update.htm</a>
+</ul>
+</article>
+
+
+<hr>
+<h3>Plugins</h3>
+<!-- //////////////////////////////////////  -->
+<article id="plugins1">
+
+
+<h1>ccchart用プラグインの作り方 <a href="https://web.archive.org/web/http://ngw.jp/~tato/wp/?p=389">https://web.archive.org/web/http://ngw.jp/~tato/wp/?p=389</a></h1>
+<ul style="padding-left:68px;">
+<li>[ WebSocket func ] <a href="https://web.archive.org/web/http://ngw.jp/~tato/wp/?p=1080">blog</a> | <a href="http://ccchart.org/plugins/ws/wscase/plain/wscase-plain.htm">ccchart.wscase.plain</a></li>
+<li>[ Pointer ] <a href="https://web.archive.org/web/http://ngw.jp/~tato/wp/?p=836">blog</a> | <a href="http://ccchart.org/plugins/pointer/cross/cross-pointer2.htm">ccchart.crossPointer(op)</a></li>
+<li>[ Drop & Drow ] <a href="https://web.archive.org/web/http://ngw.jp/~tato/wp/?p=866">blog</a> | <a href="http://ccchart.org/plugins/dd/dropdraw/demo.htm">ccchart.dropDraw()</a></li>
+</ul>
+</article>
+
+
+
+<hr>
+<h3>Tips</h3>
+<!-- //////////////////////////////////////  -->
+<article id="showcase1">
+<h1>[ showcase ] <a href="http://ccchart.com/test/showcase.htm">さまざまなチャート</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="base1">
+<h1>[ base Method ] <a href="http://goo.gl/dKB7M">グローバル config のデフォルト値設定</a></h1>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="heatmap2">
+<h1>[ heatmap ] <a href="http://ccchart.org/test/heatmap/test1-hmp-v1.12.01.htm">ヒートマップ heatmap</a><span class=new> [new]</span></h1>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="heatmap1">
+<h1>[ heatmap ] <a href="http://ccchart.org/test/heatmap/test1-hmp-v1.12.01-ws.htm">ヒートマップ heatmap　Realtime</a><span class=new> [new]</span></h1>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="heatmap1">
+<h1>[ heatmap ] <a href="http://ccchart.org/test/heatmap/test1.htm">ヒートマップ heatmap　Fit the image</a><span class=new> [new]</span></h1>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="add1">
+<h1>[ add Method ] <a href="http://ccchart.org/test/adds/add-xhr2-3.htm">2つのチャートを複合させる.add, .after, .before</a><span class=new> [new]</span></h1>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="data1">
+<h1>[ data ] <a href="http://ccchart.org/test/col2row/test-1.htm">チャートデータの列と行を交換する</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="data2">
+<h1>[ data ] <a href="http://ccchart.org/test/onmessage/1.htm">データがしきい値に達したら何か実行する</a><span class=new> [new]</span></h1>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="data3">
+<h1>[ data ] <a href="http://ccchart.org/test/useFirstToRowName/test2.htm">データの1列目目を各行の項目名とする</a></h1>
+<h1>[ data ] <a href="http://ccchart.org/test/useFirstToColName/test2.htm">データの1行目を項目名とする</a></h1>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="data4">
+<h1>[ data ] <a href="http://ccchart.org/test/axisYs-axisXs/test3.htm">垂直線列位置情報配列axisYsと水平線行位置情報配列axisXs</a></h1>
+</article>
+
+
+<!-- //////////////////////////////////////  -->
+<article id="value1">
+<h1>[ value ] <a href="http://ccchart.org/test/useVal-percent/test.htm">値表示とパーセント表示</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="value2">
+<h1>[ value ] <a href="http://ccchart.com/test/useVal-percent/parcent-without-percentVal.htm">percentValを使わずにパーセント表示</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="img1">
+<h1>[ img ] <a href="http://ccchart.org/test/img/img.htm">複数画像の埋め込みと透明化 </a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="tooltip1">
+<h1>[ Tooltip ] <a href="http://qiita.com/items/fae3937363d1bb1b8090">ツールチップの CSS カスタマイズ </a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="tooltip2">
+<h1>[ Tooltip ] <a href="http://ccchart.com/test/tooltip-template/temp.htm">ツールチップのためのテンプレート記法</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="tooltip3">
+<h1>[ Tooltip ] <a href="http://ccchart.org/test/tooltip/a1-1.htm">Bar チャート用のツールチップ</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="tooltip4">
+<h1>[ Tooltip ] <a href="http://ccchart.org/test/tooltip/ws2-v1.06.6b2.htm">ツールチップ on the リアルタイム</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="ws1">
+<h1>[ WebSocket ] <a href="http://ccchart.com/test/ws2.htm">WebSocketの受信サンプル</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="ws2">
+<h1>[ WebSocket ] <a href="http://qiita.com/items/a461cdc8c2079d9b8530">ccchartへサーバー側WebSocketから流し込む</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="ws3">
+<h1>[ WebSocket ] <a href="http://ccchart.org/test/ws/IncomingCounter-1.htm">WebSocketで受信するデータパターン関数</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="ws4">
+<h1>[ WebSocket ] <a href="http://ccchart.org/test/wscaseName/test1.htm">受信パターン関数名を取得する</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="ws5">
+<h1>[ WebSocket ] <a href="http://ccchart.org/test/someCols/test-2.htm">着信データを間引く</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="ws6">
+<h1>[ WebSocket ] <a href="http://ccchart.org/test/wsidoj/test1.htm">id名/最新wsOjのkey/value</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="ws7">
+<h1>[ WebSocket ] <a href="http://ccchart.org/test/getWsById/test1.htm">ws接続のインスタンスをidで取得</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="ws7">
+<h1>[ WebSocket ] <a href="http://jsfiddle.net/UkdvS/622/">WebSocket+ヒートマップ+画像</a></h1>
+</article>
+
+
+
+<!-- //////////////////////////////////////  -->
+<article id="dbg1">
+<h1>[ WebSocket Debug ] <a href="http://ccchart.org/test/ws/test-1.htm">WebSocket使用時のデバック用プロパティ</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="dbg2">
+<h1>[ WebSocket Debug ] <a href="http://ccchart.org/test/_autoReConnect/test.htm">WebSocket切断時の再接続テスト</a><span class=new> [new]</span></h1>
+</article>
+
+
+<!-- //////////////////////////////////////  -->
+<article id="drag1">
+<h1>[ DragDrop ] <a href="http://ccchart.org/test/dragdrop/dd1.htm">ファイルドロップでチャート表示</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="scale1">
+<h1>[ Scale ] <a href="http://ccchart.org/test/decimal/test-4.htm">軸目盛値の端数処理(丸め)の桁数を指定する</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="scale2">
+<h1>[ Scale ] <a href="http://ccchart.org/test/decimal/test-4.htm">軸目盛値の端数処理(丸め)の桁数を指定する</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="scale3">
+<h1>[ Scale ] <a href="http://ccchart.org/test/axisXLen/test2.htm">水平目盛り線の本数を指定する axisXLen</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="scale4">
+<h1>[ Scale ] <a href="http://ccchart.org/test/rotate4scale/test-1.htm">水平軸目盛の傾き xScaleRotate</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="scale5">
+<h1>[ Scale ] <a href="http://ccchart.org/test/axisXWidth/test1.htm">水平目盛り線の幅 axisXWidth </a><span class=new> [new]</span></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="scale6">
+<h1>[ Scale ] <a href="http://ccchart.org/test/axisYWidth/test1.htm">垂直目盛り線の幅 axisYWidth </a><span class=new> [new]</span></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="scale7">
+<h1>[ Scale ] <a href="http://ccchart.org/test/axisYSkipWidth/test1.htm">垂直スキップ線の幅 axisYSkipWidth </a><span class=new> [new]</span></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="scale8">
+<h1>[ Scale ] <a href="http://ccchart.org/test/yScalePercent/test1.htm">垂直軸目盛値にパーセント yScalePercent </a><span class=new> [new]</span></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="scale9">
+<h1>[ Scale ] <a href="http://ccchart.org/test/useHanrei/test-css-marker.htm">凡例を使わない useHanrei</a></h1>
+</article>
+<article id="scale10">
+<h1>[ Scale ] <a href="http://ccchart.org/test/barYMinus/test.htm">Y軸0基準線の上下にチャート表示 line, bar, bezi2, bezi</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="scale11">
+<h1>[ Scale ] <a href="http://ccchart.com/test/yScaleOrder/test-3.htm">Y軸目盛の天地を反転する yScaleOrder</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="scale12">
+<h1>[ Scale ] <a href="http://ccchart.org/test/useXcale-useYscale/test1.htm">useXscale, useYscale X軸Y軸目盛値を消す</a><span class=new> [new]</span></h1>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="xline1">
+<h1>[ xLines ] <a href="http://ccchart.org/test/xLine/fillUnder-fillOver/1.htm">カスタムXラインの上下を塗る fillOver, fillUnder </a><span class=new> [new]</span></h1>
+</article>
+
+<article id="xline2">
+<h1>[ xLines ] <a href="http://ccchart.org/test/xLine/keep1.htm">最高値や最小値を xLines で表示する</a><span class=new> [new]</span></h1>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="hanrei1">
+<h1>[ Hanrei ] <a href="http://ccchart.org/test/hanreiAlign/test.htm">hanreiAlignを設定する</a></h1>
+</article>
+<!-- //////////////////////////////////////  -->
+<article id="hanrei2">
+<h1>[ Hanrei ] <a href="http://ccchart.org/test/hanreiLineHeight/test.htm">凡例1行の高さを設定する hanreiLineHeight</a></h1>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="title1">
+<h1>[ Title ] <a href="http://ccchart.org/test/titleX/test1.htm">titleTextAlign, titleX</a><span class=new> [new]</span></h1>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="subtitle1">
+<h1>[ SubTitle ] <a href="http://ccchart.org/test/subTitleX/test1.htm">subTitleTextAlign, subTitleX</a><span class=new> [new]</span></h1>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="pie1">
+<h1>[ Pie ] <a href="http://ccchart.org/test/pieValPosOffset/test-pie01.htm">値の位置オフセットを調整する</a></h1>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="candle1">
+<h1>[ Candle ] <a href="http://ccchart.org/test/candle/test-ws.htm">キャンドルタイプ</a></h1>
+</article>
+
+
+<!-- //////////////////////////////////////  -->
+<article id="csv1">
+<h1>[ CSV ] <a href="http://jsgt.org/lib/jquery/plugin/csv2table/v002/test.htm#nview40">CSVを読み込んでテーブルとチャートを表示する</a></h1>
+</article>
+
+<!-- //////////////////////////////////////  -->
+<article id="csv2">
+<h1>[ CSV ] <a href="http://ccchart.org/test/data2num/q2-1.htm">読み込むCSVに3桁カンマが含まれててもOK</a></h1>
+</article>
+
+
+
+
+      </div>
+
+    </div>
+
+    <iframe id="canvas" src="./f-canvas.htm?1"></iframe>
+    <iframe id="pre" src="./f-pre.htm?1"></iframe>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32524106-1']);
+  _gaq.push(['_setDomainName', 'ccchart.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

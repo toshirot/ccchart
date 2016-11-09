@@ -1,6 +1,6 @@
 {
   "name": "ccchart",
-  "version": "1.12.083",
+  "version": "1.12.084",
   "main": "ccchart.js",
   "description": "This is a Realtime and Simple JavaScript chart library that does not depend on libraries such as jQuery or google APIs.",
   "moduleType": ["globals"],
