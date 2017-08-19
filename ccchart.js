@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.12.084',
-      update: 20161105,
+      version: '1.12.085',//for ccy
+      update: 20170820,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -555,9 +555,10 @@ window.ccchart =
           
         }
 
+        //maxY 100230 などの時に110000 など大きくなりすぎるので一時停止2017/3/25
         //データ最大値this.maxYの切り上げ処理 デフォルトmaxYの1/10桁
-        if(this.yScaleDecimal !== 'yes')
-          _setRoundedUpMax(this, 'maxY', 'roundedUpMaxY');
+        //if(this.yScaleDecimal !== 'yes')
+        //  _setRoundedUpMax(this, 'maxY', 'roundedUpMaxY');
 
         //データの最小値を求める
         if (typeof this.minY === 'number') {
@@ -601,6 +602,7 @@ window.ccchart =
 
       }
 
+      //これおかしい? 2017/3/25
       function _setRoundedUpMax(that, max, roundedUp) {
           //データ最大値this[maxY|maxX]の切り上げ処理 デフォルトmaxYまたはmaxXの1/10桁
           if (that.yScalePercent === 'no') {
@@ -1174,6 +1176,7 @@ window.ccchart =
         this.util.setConfigNum(this, 'colNamesTitleOffset', this.op.config.colNamesTitleOffset, this.gcf.colNamesTitleOffset, 15);
       var tcXOffset =
         this.op.config.colNameXTitleOffset || this.gcf.colNameYTitleOffset || this.colNamesTitleOffset;
+
       var tcYOffset =
         this.op.config.colNameYTitleOffset || this.gcf.colNameYTitleOffset || this.colNamesTitleOffset;
         //rowNameTitleXOffset と rowNameTitleYOffset も作った方が良いかも
@@ -1445,8 +1448,8 @@ window.ccchart =
 
         }
 
-        if(this.hanreiMarkerStyle === 'arc')markerArc(this, x, y);
-        else markerRect(this, x, y);
+        if(this.hanreiMarkerStyle === 'arc')this._markerArc(this, x, y, radius, offradius);
+        else this._markerRect(this, x, y);
 
         this.ctx.font = font;
         this.ctx.textAlign = align || "left";
@@ -1468,8 +1471,10 @@ window.ccchart =
 
       }
       this.ctx.restore();
-
-      function markerArc(that, x, y){
+      len=xOffset=yOffset=hanreisYSpace=radius=offradius=lineHeight=fontsize=font=color=align=shdw=_space=i=posy=x=y=fontSize=_flen=fontWidth=null;
+      return this;
+    },
+    _markerArc:  function (that, x, y, radius, offradius){
         var x = x;
         var y = y -4 ;
 
@@ -1497,8 +1502,8 @@ window.ccchart =
           that.ctx.lineTo(x+radius*2-offradius*2, y  );
           that.ctx.stroke();
         }
-      }
-      function markerRect(that, x, y){
+    },
+    _markerRect: function (that, x, y, radius, offradius){
         var x = x -radius;
         var y = y - 3 -radius;
         that.ctx.fillRect(
@@ -1514,9 +1519,8 @@ window.ccchart =
           that.ctx.lineTo(x+radius*2+offradius*2, y+radius);
           that.ctx.stroke();
         }
-      }
-      return this;
     },
+
     drawUnit: function(unit){
       if(this.type==='scatter'||this.type==='heatmap')return;
       var unitTitle = navigator.language==='ja'?'単位:':'';
@@ -4383,7 +4387,8 @@ window.ccchart =
         return match ? match[0] : null;
       },
       isArray: function(arg){
-        if(typeof arg === 'object' && arg.length >= 0) return true;
+        if(typeof arg === 'object' && arg.length >= 0) { arg=null; return true; }
+        setTimeout(function(){arg=null;},1000);
         return Object.prototype.toString.call(arg).toLowerCase() === '[object array]';
       },
 
