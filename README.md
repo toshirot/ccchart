@@ -57,7 +57,7 @@ Demo ccchart.com: <a href=http://ccchart.com/#100>http://ccchart.com/#100</a>
 <hr>
 <h3>Static Sample (Bar) </h3>  
 Demo jsfiddle.net: <a href=http://jsfiddle.net/UkdvS/455/>http://jsfiddle.net/UkdvS/455/
-<img src=http://ccchart.org/img/etc/bar-jsfiddle-net-UkdvS-455.png></a>
+<img style=width:60%;height:60% src=http://ccchart.org/img/etc/bar-jsfiddle-net-UkdvS-455.png></a>
 <code><pre>&lt;script src="http://ccchart.com/js/ccchart.js" charset="utf-8">&lt;/script>
 &lt;canvas id="hoge">&lt;/canvas>
 &lt;script>
@@ -83,7 +83,8 @@ Demo ccchart.com: <a href=http://ccchart.com/#57>http://ccchart.com/#57</a>, <a 
 
 <hr>
 <h3>Static Sample (Line)</h3>  
-Demo jsfiddle.net: <a href=http://jsfiddle.net/UkdvS/451/>http://jsfiddle.net/UkdvS/451/</a>
+Demo jsfiddle.net: <a href=http://jsfiddle.net/UkdvS/451/>http://jsfiddle.net/UkdvS/451/
+<img style=width:60%;height:60% src=http://ccchart.org/img/etc/bar-jsfiddle-net-UkdvS-451.png></a>
 <code><pre>&lt;script src="http://ccchart.com/js/ccchart.js" charset="utf-8">&lt;/script>
 &lt;canvas id="hoge">&lt;/canvas>
 &lt;script>
