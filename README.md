@@ -62,12 +62,10 @@ Demo jsfiddle.net: <a href=http://jsfiddle.net/UkdvS/455/>http://jsfiddle.net/Uk
 &lt;canvas id="hoge">&lt;/canvas>
 &lt;script>
 var chartdata1 = {
-
   "config": {
     "title": "Bar Chart",
     <strong>"type": "bar"</strong>
   },
-
   "data": [
     ["Year",2007,2008,2009,2010,2011,2012,2013],
     ["Tea",435,332,524,688,774,825,999],
@@ -156,19 +154,15 @@ var chartdata1 = {
       .on('message', ccchart.wscase.oneColAtATime)</strong>
 &lt;/script>
 </pre></code>
-
 <strong>Server Side (Node.js)</strong>
 <code><pre>
 var WsServer = require('ws').Server;
-
 var tid;
 var ws = new WsServer({
     host: 'ccchart.com',
     port: 8016
 });
-
-//start
-broadCast();
+broadCast();//start
 function broadCast() {
     tid = setInterval(function() {
         var dataAry = mkData();
@@ -196,17 +190,14 @@ function mkData() {
     data[2] = 32 + Math.floor(Math.random(10) * 18);
     return data;
 }
-
 //on connection for Heartbeat　これはハートビート用なのでいらなければ無くてもOK
 // ccchart はデフォルトでは60秒に一度"Heartbeat"という文字列を
 // サーバーへ送り、その返信である"Heartbeat"文字列を受信しています
 ws.on('connection', function(socket) {
-
     console.log(
         'conned: ' + ws.clients.length, (new Date),
         socket.upgradeReq.socket.remoteAddress
     );
-
     socket.on('message', function(msg) {
         var msg = JSON.stringify(msg);
         if (msg === 'Heartbeat') {
