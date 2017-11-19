@@ -156,8 +156,9 @@ var chartdata1 = {
       .on('message', ccchart.wscase.oneColAtATime)</strong>
 &lt;/script>
 </pre></code>
-<strong>Server Side (Node.js)</strong>
-<code><pre>var WsServer = require('ws').Server;
+
+<strong>Server Side (Node.js)</strong><code><pre>
+var WsServer = require('ws').Server;
 
 var tid;
 var ws = new WsServer({
