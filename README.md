@@ -121,7 +121,7 @@ ccchart.com: <a href=http://ccchart.com/#15>http://ccchart.com/#15</a>, <a href=
 <li><img src=http://ccchart.org/img200/53.png> stackedarea: <a href=http://ccchart.com/#53>http://ccchart.com/#53 </a>, <a href=http://ccchart.com/#87>http://ccchart.com/#87 </a>, 
 <li><img src=http://ccchart.org/img200/55.png> stacked%: <a href=http://ccchart.com/#55>http://ccchart.com/#55 </a>, <a href=http://ccchart.com/#54>http://ccchart.com/#54 </a>, <a href=http://ccchart.com/#88>http://ccchart.com/#88 </a>, 
 <li><img src=http://ccchart.org/img200/5.png> ampli: <a href=http://ccchart.com/#5>http://ccchart.com/#5 </a>, <a href=http://ccchart.com/#84>http://ccchart.com/#84 </a>, 
-<li><img src=http://ccchart.org/img200/91.png> scatter: <a href=http://ccchart.com/#91>http://ccchart.com/#91 </a>, <a href=http://ccchart.com/#91>http://ccchart.com/#91 </a>, 
+<li><img src=http://ccchart.org/img200/91.png> scatter: , <a href=http://jsfiddle.net/UkdvS/733/>http://jsfiddle.net/UkdvS/732/ </a> <a href=http://ccchart.com/#91>http://ccchart.com/#91 </a>, <a href=http://ccchart.com/#91>http://ccchart.com/#91 </a>, 
 <li><img src=http://ccchart.org/img200/100.png> candle: <a href=http://ccchart.com/#99>http://ccchart.com/#99 </a>, <a href=http://ccchart.com/#100>http://ccchart.com/#100 </a>, 
 </ul>
 
