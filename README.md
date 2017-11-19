@@ -157,7 +157,8 @@ var chartdata1 = {
 &lt;/script>
 </pre></code>
 
-<strong>Server Side (Node.js)</strong><code><pre>
+<strong>Server Side (Node.js)</strong>
+<code><pre>
 var WsServer = require('ws').Server;
 
 var tid;
