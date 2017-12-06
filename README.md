@@ -52,7 +52,7 @@ Demo heatmap　Fit the image
 2015/09/08 add Candle Type<br>
 Demo ccchart.com: <a href=http://ccchart.com/#100>http://ccchart.com/#100</a>
 <a href=http://ccchart.org/test/candle/test-ws.htm>http://ccchart.org/test/candle/test-ws.htm</a>
-<a href=http://ngw.jp/~tato/wp/?page_id=3612><img src=http://ccchart.org/test/candle/candle-w600.png></a>
+<a href=https://web.archive.org/web/20160816174148/http://ngw.jp/~tato/wp/?p=3612><img src=http://ccchart.org/test/candle/candle-w600.png></a>
 
 <hr>
 <h3>Static Sample (Bar) </h3>  
