@@ -21,7 +21,12 @@
  */
 if (!window.ccchart) window.ccchart = {};
 ccchart.update = [
-
+  {
+    ver: "Look here in the future @see https://github.com/toshirot/ccchart/releases",
+    date: "",
+    status: "release",
+    updates: []
+  },
   {
     ver: "1.12.084",
     date: "2016.11.05",
