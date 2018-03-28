@@ -5,8 +5,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.12.085',//for ccy
-      update: 20170820,
+      version: '1.12.087',//for ccy
+      update: 20171230,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -3033,7 +3033,11 @@ window.ccchart =
         var w =  that.init(id, that.coj[id].op, that.coj[id].ondrew)
           .ws(url, op)
           .on('open', function(){that.wsReCnt['-ccchart-ws-'+id+'-'+url] = 0;})
-          .on('message', ccchart.wscase[op.wscaseName])
+          .on('message', function(){
+            if(document.hidden)return;
+            ccchart.wscase[op.wscaseName];
+            
+           })
 
         if (that.wsDbg) console.log('\n================================'
               , '\n re inited '
@@ -3055,7 +3059,7 @@ window.ccchart =
             (op.hbInterval >= _MIN_HBINTERVAL) ? op.hbInterval : _INI_HBINTERVAL :
             _INI_HBINTERVAL;
         target.on('message', function (msg) {
-
+          if(document.hidden)return;
           //ハートビート用
           try { var msgs = JSON.parse(msg.data); } catch(e) { return }
           if(msgs === target.op.hbStr){
