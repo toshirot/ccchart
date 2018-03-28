@@ -1,13 +1,12 @@
-// utf-8 width module ccchart.m.cssHybrid http://ccchart.com/
+//utf-8 width module ccchart.m.cssHybrid http://ccchart.com/
 
-/* eslint-disable */
 window.ccchart =
 (function(window) {
   return {
     aboutThis: {
       name: 'ccchart',
       version: '1.12.087',//for ccy
-      update: 20180327,
+      update: 20171230,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -1408,12 +1407,6 @@ window.ccchart =
       var fontsize = (len < 10)?12:(len < 20)?9:6;
       var font =
         this.op.config.hanreiFont || this.gcf.hanreiFont || "100 "+fontsize+"px 'Arial'";
-      let _colorSet = this.colorSet.slice(0,this.hanreiNames.length);
-      var hanreiOrder = this.op.config.hanreiOrder || this.gcf.hanreiOrder || "nomal";
-      if(hanreiOrder==='reverse'){
-        this.hanreiNames.reverse();
-        _colorSet.reverse();
-      }
       var color =
         this.op.config.hanreiColor || this.gcf.hanreiColor ||
         this.textColor ||
@@ -1440,8 +1433,8 @@ window.ccchart =
         var posy = (lineHeight * i) + yOffset + _space;
         this.ctx.beginPath();
         if(this.useShadow === 'yes')this.drawShadow(shdw[0],shdw[1],shdw[2],shdw[3]);
-        this.ctx.fillStyle = _colorSet[i];
-        this.ctx.strokeStyle = _colorSet[i];
+        this.ctx.fillStyle = this.colorSet[i];
+        this.ctx.strokeStyle = this.colorSet[i];
         var x, y = this.chartBottom - posy;
         var fontSize = this.ctx.font.split('px')[0]||12;
         var _flen = this.hanreiNames[i];
