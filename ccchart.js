@@ -696,7 +696,7 @@ window.ccchart =
       //[{top: 360}, {top: 333},{top: 306}]
 
 
-      //for drawLine, drowHanrei
+      //for drawLine, drawHanrei
       //カラーセット
       this.colorSet = op.config.colorSet || this.gcf.colorSet ||
       ["red","#FF9114","#3CB000","#00A8A2","#0036C0","#C328FF","#FF34C0",
@@ -728,7 +728,7 @@ window.ccchart =
           this.util.setConfigNum(this, 'outerCircle', this.op.config.outerCircle, this.gcf.outerCircle, 30);
       }
 
-      //for drowHanrei
+      //for drawHanrei
       //凡例マーカーの形 arc|rect
       this.hanreiMarkerStyle =
         op.config.hanreiMarkerStyle || this.gcf.hanreiMarkerStyle  || 'arc';
@@ -960,7 +960,7 @@ window.ccchart =
 
       }
 
-      if (this.onlyChart === 'no' &&  this.useHanrei !== 'no') this.drowHanrei();
+      if (this.onlyChart === 'no' &&  this.useHanrei !== 'no') this.drawHanrei();
       if (typeof this._img === 'object') {
           this.drawImg(this._img);
       }
@@ -1382,7 +1382,7 @@ window.ccchart =
       this.ctx.restore();
       return this;
     },
-    drowHanrei: function () {
+    drawHanrei: function () {
       //凡例出力
       this.ctx.save();
       var len = this.hanreiNames.length;
