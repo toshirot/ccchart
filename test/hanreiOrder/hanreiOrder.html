@@ -2,6 +2,13 @@
 
 <script src="../../test/js/minilogo2.js" charset="utf-8"></script>
 <div class="minilogo"></div>
+<style>
+  pre{
+    background-color: #ccc;
+    border: 1px solid #ddd;
+    padding: 12px;
+  }
+</style>
 
 <h2>
     凡例を逆順にする hanreiOrder
@@ -9,7 +16,58 @@
 <p>nomal|reverse (default is nomal)</p>
 
 <canvas id="hogel"></canvas>
+<pre>
+&lt;canvas id="hogel">&lt;/canvas>
+&lt;script>
+let data69 = {
+
+  "config": {
+    "title": "hanreiOrder nomal",
+    "subTitle": "nomal|reverse (default is nomal)",
+    "type": "line",
+    "lineWidth": 6
+  },
+
+  "data": [
+    ["Year",2007,2008,2009,2010,2011,2012,2013],
+    ["Hoge",435,332,524,688,774,825,999],
+    ["Page",600,335,584,333,457,788,900],
+    ["Foo",60,435,456,352,567,678,1260],
+    ["Bar",200,123,312,200,402,300,512]
+  ]
+};
+
+ccchart.init("hogel",  data69);
+&lt;/script>
+</pre>
+
 <canvas id="hoge2"></canvas>
+
+<pre>
+&lt;canvas id="hoge2">&lt;/canvas>
+&lt;script>
+let data70 = {
+    
+  "config": {
+    "title": "hanreiOrder reverse",
+    "subTitle": "nomal|reverse (default is nomal)",
+    "type": "line",
+    "lineWidth": 6,
+    <b>"hanreiOrder": "reverse"</b>
+  },
+
+  "data": [
+    ["Year",2007,2008,2009,2010,2011,2012,2013],
+    ["Hoge",435,332,524,688,774,825,999],
+    ["Page",600,335,584,333,457,788,900],
+    ["Foo",60,435,456,352,567,678,1260],
+    ["Bar",200,123,312,200,402,300,512]
+  ]
+};
+
+ccchart.init("hoge2",  data70);
+&lt;/script>
+</pre>
 
 <script>
 let data69 = {
@@ -33,6 +91,7 @@ let data69 = {
 ccchart.init("hogel",  data69);
 </script>
 
+
 <script>
     let data70 = {
     
@@ -55,3 +114,4 @@ ccchart.init("hogel",  data69);
     
     ccchart.init("hoge2",  data70);
     </script>
+
