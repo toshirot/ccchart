@@ -59,7 +59,10 @@ ccchart.wscase.oneColAtATime_obniz (msg) =>  {
           that.coj[that.id].e = (new Date).getTime(); //描画終了時間
         });
 
-        obniz.display.draw(a.ctx);
+        if(window.obniz){
+            obniz.display.draw(a.ctx);
+        }
+        
       }
 </script>
 
