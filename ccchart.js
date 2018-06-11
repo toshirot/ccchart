@@ -6,8 +6,8 @@ window.ccchart =
   return {
     aboutThis: {
       name: 'ccchart',
-      version: '1.12.087',//for ccy
-      update: 20180327,
+      version: '1.12.088',//for ccy
+      update: 20180612,
       updateMemo: 'http://ccchart.com/update.json',
       license: 'MIT',
       memo: 'This is a Simple and Realtime JavaScript chart that does not depend on libraries such as jQuery or google APIs.',
@@ -2702,7 +2702,9 @@ window.ccchart =
         var valX = x+(radius+ringW/2+pieValPosOffset) * Math.cos( rad )
         var valY = y+(radius+ringW/2+pieValPosOffset) * Math.sin( rad )
         var val = parseInt(val);
-        if(that.wsuids.length === 0)val = val + ' ('+parseInt(perAry[k][l])+'%)';//websocket用
+        if(that.wsuids.length === 0){
+          val = (that.percentVal === 'yes')? val + ' ('+parseInt(perAry[k][l])+'%)' : val;
+        }
 
         //値描画
         that._drawVals({
