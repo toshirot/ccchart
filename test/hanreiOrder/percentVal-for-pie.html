@@ -1,0 +1,92 @@
+<script src="../../ccchart.js" charset="utf-8"></script>
+
+<script src="../../test/js/minilogo2.js" charset="utf-8"></script>
+<div class="minilogo"></div>
+
+<h2>
+    percentValのpieへの適用
+</h2>
+<p>"percentVal":"no"|"yes" (default is yes)</p>
+
+<canvas id="hogel"></canvas>
+<canvas id="hoge2"></canvas>
+
+<script>
+let chartdata1 = {
+
+    "config": {
+
+    "type": "pie",
+    
+    "onlyChart": "yes",
+
+    //Canvas size
+    "width": 148,
+    "height": 64,
+    
+    //Bar color
+    "colorSet": ["#fff"],
+    
+    //attributes not used
+    "useShadow":"no",
+    
+    "useVal": "yes",
+    "percentVal":"no",
+    "pieDataIndex": 0,
+    "colNameFont": "100 8px 'Arial'",
+    "pieRingWidth": 40,
+    "pieHoleRadius": 10,
+    "textColor": "#fff"
+    },
+
+
+    "data": [
+    ["month",1,2,3,4,5,6,7,8,9,10,11,12],
+    ["abc",80,23,12,20,42,50,72,63,30,20,32,50],
+    ["def",20,33,15,10,52,60,32,68,45,10,12,60],
+    
+    ]
+}
+
+ccchart.init("hogel",  chartdata1);
+</script>
+
+<script>
+let chartdata2 = {
+
+    "config": {
+
+    "type": "pie",
+
+    "onlyChart": "yes",
+
+    //Canvas size
+    "width": 148,
+    "height": 64,
+
+    //Bar color
+    "colorSet": ["#fff"],
+
+    //attributes not used
+    "useShadow":"no",
+
+    "useVal": "yes",
+    //"percentVal":"no",
+    "pieDataIndex": 0,
+    "colNameFont": "100 8px 'Arial'",
+    "pieRingWidth": 40,
+    "pieHoleRadius": 10,
+    "textColor": "#fff"
+    },
+
+
+    "data": [
+    ["month",1,2,3,4,5,6,7,8,9,10,11,12],
+    ["abc",80,23,12,20,42,50,72,63,30,20,32,50],
+    ["def",20,33,15,10,52,60,32,68,45,10,12,60],
+
+    ]
+}
+
+ccchart.init("hoge2",  chartdata2);
+    </script>
