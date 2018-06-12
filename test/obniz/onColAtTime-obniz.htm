@@ -12,7 +12,7 @@
         [   600,  335,  584,  333,  457]
       ];*/
 
-ccchart.wscase.oneColAtATime_obniz (msg) =>  {
+ccchart.wscase.oneColAtATime_obniz =function(msg)  {
         //ここのthisは_wメソッド内のthat.wsuids[uid]
 
         this.op.wscaseName = 'oneColAtATime';
@@ -59,7 +59,8 @@ ccchart.wscase.oneColAtATime_obniz (msg) =>  {
           that.coj[that.id].e = (new Date).getTime(); //描画終了時間
         });
 
-        if(window.obniz){
+        if(obniz){ 
+            console.log(obniz)
             obniz.display.draw(a.ctx);
         }
         
@@ -103,5 +104,5 @@ obniz.onconnect = async function () {
 
 }
 
-
+// obniz.onconnect()
 </script>
