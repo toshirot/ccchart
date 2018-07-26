@@ -35,29 +35,29 @@ I will make ccchart v2 later and make it public domain.
           
 Current Release: 2016/11/05 v1.12.084 <br>
 
-2016/11/1 Automatic extraction <a href=http://ccchart.org/doc/refs/mkdoc.htm>ccchart Reference</a>
+2016/11/1 Automatic extraction <a href=http://ccchart.com/doc/refs/mkdoc.htm>ccchart Reference</a>
 
 2016/02/18 add heatmap Type<br>
-Demo <a href=http://ccchart.org/#102>http://ccchart.org/#102</a><br>
-Demo Realtime <a href=http://ccchart.org/test/heatmap/test1-hmp-v1.12.01-ws.htm>http://ccchart.org/test/heatmap/test1-hmp-v1.12.01-ws.htm</a><br>
+Demo <a href=http://ccchart.com/#102>http://ccchart.com/#102</a><br>
+Demo Realtime <a href=http://ccchart.com/test/heatmap/test1-hmp-v1.12.01-ws.htm>http://ccchart.com/test/heatmap/test1-hmp-v1.12.01-ws.htm</a><br>
 <a href=https://github.com/toshirot/ccchart/issues/9>https://github.com/toshirot/ccchart/issues/9</a><br>
 @see <a href="http://ngw.jp/~tato/wp/?p=3737">http://ngw.jp/~tato/wp/?p=3737</a><br>
-<a href=https://github.com/toshirot/ccchart/issues/9><img src=http://ccchart.org/test/heatmap/1.11.07b4-heatmap-mk5.png></a>
+<a href=https://github.com/toshirot/ccchart/issues/9><img src=http://ccchart.com/test/heatmap/1.11.07b4-heatmap-mk5.png></a>
 
 Demo heatmap　Fit the image
-<a href=http://ccchart.org/test/heatmap/test1.htm>http://ccchart.org/test/heatmap/test1.htm</a><br>
-<a href=http://ccchart.org/test/heatmap/test1.htm><img src=http://ccchart.org/test/heatmap/photo.png></a>
+<a href=http://ccchart.com/test/heatmap/test1.htm>http://ccchart.com/test/heatmap/test1.htm</a><br>
+<a href=http://ccchart.com/test/heatmap/test1.htm><img src=http://ccchart.com/test/heatmap/photo.png></a>
 <hr>
 <a name=candle></a>
 2015/09/08 add Candle Type<br>
 Demo ccchart.com: <a href=http://ccchart.com/#100>http://ccchart.com/#100</a>
-<a href=http://ccchart.org/test/candle/test-ws.htm>http://ccchart.org/test/candle/test-ws.htm</a>
-<a href=https://web.archive.org/web/20160816174148/http://ngw.jp/~tato/wp/?p=3612><img src=http://ccchart.org/test/candle/candle-w600.png></a>
+<a href=http://ccchart.com/test/candle/test-ws.htm>http://ccchart.com/test/candle/test-ws.htm</a>
+<a href=https://web.archive.org/web/20160816174148/http://ngw.jp/~tato/wp/?p=3612><img src=http://ccchart.com/test/candle/candle-w600.png></a>
 
 <hr>
 <h3>Static Sample (Bar) </h3>  
 Demo jsfiddle.net: <a href=http://jsfiddle.net/UkdvS/455/>http://jsfiddle.net/UkdvS/455/<br>
-<img src=http://ccchart.org/img/etc/bar-jsfiddle-net-UkdvS-455.png></a>
+<img src=http://ccchart.com/img/etc/bar-jsfiddle-net-UkdvS-455.png></a>
 <code><pre>&lt;script src="http://ccchart.com/js/ccchart.js" charset="utf-8">&lt;/script>
 &lt;canvas id="hoge">&lt;/canvas>
 &lt;script>
@@ -82,7 +82,7 @@ Demo ccchart.com: <a href=http://ccchart.com/#57>http://ccchart.com/#57</a>, <a 
 <hr>
 <h3>Static Sample (Line)</h3>  
 Demo jsfiddle.net: <a href=http://jsfiddle.net/UkdvS/451/>http://jsfiddle.net/UkdvS/451/<br>
-<img src=http://ccchart.org/img/etc/bar-jsfiddle-net-UkdvS-451.png></a>
+<img src=http://ccchart.com/img/etc/bar-jsfiddle-net-UkdvS-451.png></a>
 <code><pre>&lt;script src="http://ccchart.com/js/ccchart.js" charset="utf-8">&lt;/script>
 &lt;canvas id="hoge">&lt;/canvas>
 &lt;script>
@@ -111,16 +111,16 @@ ccchart.com: <a href=http://ccchart.com/#15>http://ccchart.com/#15</a>, <a href=
 <hr>
 <h3>Other Types Samples </h3> 
 <ul>
-<li><img src=http://ccchart.org/img200/79.png> pie: <a href=http://ccchart.com/#79>http://ccchart.com/#79 </a>, <a href=http://ccchart.com/#89>http://ccchart.com/#89 </a>, 
-<li><img src=http://ccchart.org/img200/6.png> bezi2: <a href=http://ccchart.com/#6>http://ccchart.com/#6 </a>, <a href=http://ccchart.com/#85>http://ccchart.com/#85 </a>, 
-<li><img src=http://ccchart.org/img200/3.png> bezi: <a href=http://ccchart.com/#3>http://ccchart.com/#3 </a>, 
-<li><img src=http://ccchart.org/img200/50.png> area: <a href=http://ccchart.com/#50>http://ccchart.com/#50 </a>, <a href=http://ccchart.com/#51>http://ccchart.com/#51 </a>, <a href=http://ccchart.com/#50>http://ccchart.com/#50 </a>, <a href=http://ccchart.com/#86>http://ccchart.com/#86 </a>, 
-<li><img src=http://ccchart.org/img200/9.png> stacked: <a href=http://ccchart.com/#93>http://ccchart.com/#93 </a>, <a href=http://ccchart.com/#4>http://ccchart.com/#4 </a>, <a href=http://ccchart.com/#83>http://ccchart.com/#83 </a>, 
-<li><img src=http://ccchart.org/img200/53.png> stackedarea: <a href=http://ccchart.com/#53>http://ccchart.com/#53 </a>, <a href=http://ccchart.com/#87>http://ccchart.com/#87 </a>, 
-<li><img src=http://ccchart.org/img200/55.png> stacked%: <a href=http://ccchart.com/#55>http://ccchart.com/#55 </a>, <a href=http://ccchart.com/#54>http://ccchart.com/#54 </a>, <a href=http://ccchart.com/#88>http://ccchart.com/#88 </a>, 
-<li><img src=http://ccchart.org/img200/5.png> ampli: <a href=http://ccchart.com/#5>http://ccchart.com/#5 </a>, <a href=http://ccchart.com/#84>http://ccchart.com/#84 </a>, 
-<li><img style="max-width:200px" src=http://ccchart.org/img200/91-2.png> scatter: , <a href=http://jsfiddle.net/UkdvS/733/>http://jsfiddle.net/UkdvS/732/ </a> <a href=http://ccchart.com/#91>http://ccchart.com/#91 </a>, <a href=http://ccchart.com/#91>http://ccchart.com/#91 </a>, 
-<li><img src=http://ccchart.org/img200/100.png> candle: <a href=http://ccchart.com/#99>http://ccchart.com/#99 </a>, <a href=http://ccchart.com/#100>http://ccchart.com/#100 </a>, 
+<li><img src=http://ccchart.com/img200/79.png> pie: <a href=http://ccchart.com/#79>http://ccchart.com/#79 </a>, <a href=http://ccchart.com/#89>http://ccchart.com/#89 </a>, 
+<li><img src=http://ccchart.com/img200/6.png> bezi2: <a href=http://ccchart.com/#6>http://ccchart.com/#6 </a>, <a href=http://ccchart.com/#85>http://ccchart.com/#85 </a>, 
+<li><img src=http://ccchart.com/img200/3.png> bezi: <a href=http://ccchart.com/#3>http://ccchart.com/#3 </a>, 
+<li><img src=http://ccchart.com/img200/50.png> area: <a href=http://ccchart.com/#50>http://ccchart.com/#50 </a>, <a href=http://ccchart.com/#51>http://ccchart.com/#51 </a>, <a href=http://ccchart.com/#50>http://ccchart.com/#50 </a>, <a href=http://ccchart.com/#86>http://ccchart.com/#86 </a>, 
+<li><img src=http://ccchart.com/img200/9.png> stacked: <a href=http://ccchart.com/#93>http://ccchart.com/#93 </a>, <a href=http://ccchart.com/#4>http://ccchart.com/#4 </a>, <a href=http://ccchart.com/#83>http://ccchart.com/#83 </a>, 
+<li><img src=http://ccchart.com/img200/53.png> stackedarea: <a href=http://ccchart.com/#53>http://ccchart.com/#53 </a>, <a href=http://ccchart.com/#87>http://ccchart.com/#87 </a>, 
+<li><img src=http://ccchart.com/img200/55.png> stacked%: <a href=http://ccchart.com/#55>http://ccchart.com/#55 </a>, <a href=http://ccchart.com/#54>http://ccchart.com/#54 </a>, <a href=http://ccchart.com/#88>http://ccchart.com/#88 </a>, 
+<li><img src=http://ccchart.com/img200/5.png> ampli: <a href=http://ccchart.com/#5>http://ccchart.com/#5 </a>, <a href=http://ccchart.com/#84>http://ccchart.com/#84 </a>, 
+<li><img style="max-width:200px" src=http://ccchart.com/img200/91-2.png> scatter: , <a href=http://jsfiddle.net/UkdvS/733/>http://jsfiddle.net/UkdvS/732/ </a> <a href=http://ccchart.com/#91>http://ccchart.com/#91 </a>, <a href=http://ccchart.com/#91>http://ccchart.com/#91 </a>, 
+<li><img src=http://ccchart.com/img200/100.png> candle: <a href=http://ccchart.com/#99>http://ccchart.com/#99 </a>, <a href=http://ccchart.com/#100>http://ccchart.com/#100 </a>, 
 </ul>
 
 <hr>
@@ -219,9 +219,9 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 
 <li>ccchart用プラグインの作り方 <a href="http://ngw.jp/~tato/wp/?p=389">http://ngw.jp/~tato/wp/?p=389</a></li>
 <ul style="padding-left:68px;">
-<li>[ WebSocket func ] <a href="http://ngw.jp/~tato/wp/?p=1080">blog</a> | <a href="http://ccchart.org/plugins/ws/wscase/plain/wscase-plain.htm">ccchart.wscase.plain</a></li>
-<li>[ Pointer ] <a href="http://ngw.jp/~tato/wp/?p=836">blog</a> | <a href="http://ccchart.org/plugins/pointer/cross/cross-pointer2.htm">ccchart.crossPointer(op)</a></li>
-<li>[ Drop & Drow ] <a href="http://ngw.jp/~tato/wp/?p=866">blog</a> | <a href="http://ccchart.org/plugins/dd/dropdraw/demo.htm">ccchart.dropDraw()</a></li>
+<li>[ WebSocket func ] <a href="http://ngw.jp/~tato/wp/?p=1080">blog</a> | <a href="http://ccchart.com/plugins/ws/wscase/plain/wscase-plain.htm">ccchart.wscase.plain</a></li>
+<li>[ Pointer ] <a href="http://ngw.jp/~tato/wp/?p=836">blog</a> | <a href="http://ccchart.com/plugins/pointer/cross/cross-pointer2.htm">ccchart.crossPointer(op)</a></li>
+<li>[ Drop & Drow ] <a href="http://ngw.jp/~tato/wp/?p=866">blog</a> | <a href="http://ccchart.com/plugins/dd/dropdraw/demo.htm">ccchart.dropDraw()</a></li>
 </ul>
 </article>
 
@@ -240,21 +240,21 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 
 <!-- //////////////////////////////////////  -->
 <article id="add1">
-<li>[ add Method ] <a href="http://ccchart.org/test/adds/add-xhr2-3.htm">2つのチャートを複合させる.add, .after, .before</a><span class=new> [new]</span></li>
+<li>[ add Method ] <a href="http://ccchart.com/test/adds/add-xhr2-3.htm">2つのチャートを複合させる.add, .after, .before</a><span class=new> [new]</span></li>
 </article>
 
 <!-- //////////////////////////////////////  -->
 <article id="data1">
-<li>[ data ] <a href="http://ccchart.org/test/col2row/test-1.htm">チャートデータの列と行を交換する</a></li>
+<li>[ data ] <a href="http://ccchart.com/test/col2row/test-1.htm">チャートデータの列と行を交換する</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="data2">
-<li>[ data ] <a href="http://ccchart.org/test/onmessage/1.htm">データがしきい値に達したら何か実行する</a><span class=new> [new]</span></li>
+<li>[ data ] <a href="http://ccchart.com/test/onmessage/1.htm">データがしきい値に達したら何か実行する</a><span class=new> [new]</span></li>
 </article>
 
 <!-- //////////////////////////////////////  -->
 <article id="value1">
-<li>[ value ] <a href="http://ccchart.org/test/useVal-percent/test.htm">値表示とパーセント表示</a></li>
+<li>[ value ] <a href="http://ccchart.com/test/useVal-percent/test.htm">値表示とパーセント表示</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="value2">
@@ -262,7 +262,7 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="img1">
-<li>[ img ] <a href="http://ccchart.org/test/img/img.htm">複数画像の埋め込みと透明化 </a></li>
+<li>[ img ] <a href="http://ccchart.com/test/img/img.htm">複数画像の埋め込みと透明化 </a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="tooltip1">
@@ -274,11 +274,11 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="tooltip3">
-<li>[ Tooltip ] <a href="http://ccchart.org/test/tooltip/a1-1.htm">Bar チャート用のツールチップ</a></li>
+<li>[ Tooltip ] <a href="http://ccchart.com/test/tooltip/a1-1.htm">Bar チャート用のツールチップ</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="tooltip4">
-<li>[ Tooltip ] <a href="http://ccchart.org/test/tooltip/ws2-v1.06.6b2.htm">ツールチップ on the リアルタイム</a></li>
+<li>[ Tooltip ] <a href="http://ccchart.com/test/tooltip/ws2-v1.06.6b2.htm">ツールチップ on the リアルタイム</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="ws1">
@@ -290,77 +290,77 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="ws3">
-<li>[ WebSocket ] <a href="http://ccchart.org/test/ws/IncomingCounter-1.htm">WebSocketで受信するデータパターン関数</a></li>
+<li>[ WebSocket ] <a href="http://ccchart.com/test/ws/IncomingCounter-1.htm">WebSocketで受信するデータパターン関数</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="ws4">
-<li>[ WebSocket ] <a href="http://ccchart.org/test/wscaseName/test1.htm">受信パターン関数名を取得する</a></li>
+<li>[ WebSocket ] <a href="http://ccchart.com/test/wscaseName/test1.htm">受信パターン関数名を取得する</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="ws5">
-<li>[ WebSocket ] <a href="http://ccchart.org/test/someCols/test-2.htm">着信データを間引く</a></li>
+<li>[ WebSocket ] <a href="http://ccchart.com/test/someCols/test-2.htm">着信データを間引く</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="ws6">
-<li>[ WebSocket ] <a href="http://ccchart.org/test/wsidoj/test1.htm">id名/最新wsOjのkey/value</a></li>
+<li>[ WebSocket ] <a href="http://ccchart.com/test/wsidoj/test1.htm">id名/最新wsOjのkey/value</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="ws7">
-<li>[ WebSocket ] <a href="http://ccchart.org/test/getWsById/test1.htm">ws接続のインスタンスをidで取得</a></li>
+<li>[ WebSocket ] <a href="http://ccchart.com/test/getWsById/test1.htm">ws接続のインスタンスをidで取得</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="dbg1">
-<li>[ WebSocket Debug ] <a href="http://ccchart.org/test/ws/test-1.htm">WebSocket使用時のデバック用プロパティ</a></li>
+<li>[ WebSocket Debug ] <a href="http://ccchart.com/test/ws/test-1.htm">WebSocket使用時のデバック用プロパティ</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="dbg2">
-<li>[ WebSocket Debug ] <a href="http://ccchart.org/test/_autoReConnect/test.htm">WebSocket切断時の再接続テスト</a><span class=new> [new]</span></li>
+<li>[ WebSocket Debug ] <a href="http://ccchart.com/test/_autoReConnect/test.htm">WebSocket切断時の再接続テスト</a><span class=new> [new]</span></li>
 </article>
 
 
 <!-- //////////////////////////////////////  -->
 <article id="drag1">
-<li>[ DragDrop ] <a href="http://ccchart.org/test/dragdrop/dd1.htm">ファイルドロップでチャート表示</a></li>
+<li>[ DragDrop ] <a href="http://ccchart.com/test/dragdrop/dd1.htm">ファイルドロップでチャート表示</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="scale1">
-<li>[ Scale ] <a href="http://ccchart.org/test/decimal/test-4.htm">軸目盛値の端数処理(丸め)の桁数を指定する</a></li>
+<li>[ Scale ] <a href="http://ccchart.com/test/decimal/test-4.htm">軸目盛値の端数処理(丸め)の桁数を指定する</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="scale2">
-<li>[ Scale ] <a href="http://ccchart.org/test/decimal/test-4.htm">軸目盛値の端数処理(丸め)の桁数を指定する</a></li>
+<li>[ Scale ] <a href="http://ccchart.com/test/decimal/test-4.htm">軸目盛値の端数処理(丸め)の桁数を指定する</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="scale3">
-<li>[ Scale ] <a href="http://ccchart.org/test/axisYLen/test2.htm">水平目盛り線の本数を指定する axisXLen</a></li>
+<li>[ Scale ] <a href="http://ccchart.com/test/axisYLen/test2.htm">水平目盛り線の本数を指定する axisXLen</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="scale4">
-<li>[ Scale ] <a href="http://ccchart.org/test/rotate4scale/test-1.htm">水平軸目盛の傾き xScaleRotate</a></li>
+<li>[ Scale ] <a href="http://ccchart.com/test/rotate4scale/test-1.htm">水平軸目盛の傾き xScaleRotate</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="scale5">
-<li>[ Scale ] <a href="http://ccchart.org/test/axisXWidth/test1.htm">水平目盛り線の幅 axisXWidth </a><span class=new> [new]</span></li>
+<li>[ Scale ] <a href="http://ccchart.com/test/axisXWidth/test1.htm">水平目盛り線の幅 axisXWidth </a><span class=new> [new]</span></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="scale6">
-<li>[ Scale ] <a href="http://ccchart.org/test/axisYWidth/test1.htm">垂直目盛り線の幅 axisYWidth </a><span class=new> [new]</span></li>
+<li>[ Scale ] <a href="http://ccchart.com/test/axisYWidth/test1.htm">垂直目盛り線の幅 axisYWidth </a><span class=new> [new]</span></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="scale7">
-<li>[ Scale ] <a href="http://ccchart.org/test/axisYSkipWidth/test1.htm">垂直スキップ線の幅 axisYSkipWidth </a><span class=new> [new]</span></li>
+<li>[ Scale ] <a href="http://ccchart.com/test/axisYSkipWidth/test1.htm">垂直スキップ線の幅 axisYSkipWidth </a><span class=new> [new]</span></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="scale8">
-<li>[ Scale ] <a href="http://ccchart.org/test/yScalePercent/test1.htm">垂直軸目盛値にパーセント yScalePercent </a><span class=new> [new]</span></li>
+<li>[ Scale ] <a href="http://ccchart.com/test/yScalePercent/test1.htm">垂直軸目盛値にパーセント yScalePercent </a><span class=new> [new]</span></li>
 </article>
 
 <!-- //////////////////////////////////////  -->
 <article id="scale9">
-<li>[ Scale ] <a href="http://ccchart.org/test/useHanrei/test-css-marker.htm">凡例を使わない useHanrei</a></li>
+<li>[ Scale ] <a href="http://ccchart.com/test/useHanrei/test-css-marker.htm">凡例を使わない useHanrei</a></li>
 </article>
 <article id="scale10">
-<li>[ Scale ] <a href="http://ccchart.org/test/barYMinus/test.htm">Y軸0基準線の上下にチャート表示 line, bar, bezi2, bezi</a></li>
+<li>[ Scale ] <a href="http://ccchart.com/test/barYMinus/test.htm">Y軸0基準線の上下にチャート表示 line, bar, bezi2, bezi</a></li>
 </article>
 
 <!-- //////////////////////////////////////  -->
@@ -370,45 +370,45 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 
 <!-- //////////////////////////////////////  -->
 <article id="xline1">
-<li>[ xLine ] <a href="http://ccchart.org/test/xLine/fillUnder-fillOver/1.htm">カスタムXラインの上下を塗る fillOver, fillUnder </a><span class=new> [new]</span></li>
+<li>[ xLine ] <a href="http://ccchart.com/test/xLine/fillUnder-fillOver/1.htm">カスタムXラインの上下を塗る fillOver, fillUnder </a><span class=new> [new]</span></li>
 </article>
 
 <!-- //////////////////////////////////////  -->
 <article id="xline2">
-<li>[ xLines ] <a href="http://ccchart.org/test/xLine/keep1.htm">最高値や最小値を xLines で表示する</a><span class="new"> [new]</span></li>
+<li>[ xLines ] <a href="http://ccchart.com/test/xLine/keep1.htm">最高値や最小値を xLines で表示する</a><span class="new"> [new]</span></li>
 </article>
 
 <!-- //////////////////////////////////////  -->
 <article id="hanrei1">
-<li>[ Hanrei ] <a href="http://ccchart.org/test/hanreiAlign/test.htm">hanreiAlignを設定する</a></li>
+<li>[ Hanrei ] <a href="http://ccchart.com/test/hanreiAlign/test.htm">hanreiAlignを設定する</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="hanrei2">
-<li>[ Hanrei ] <a href="http://ccchart.org/test/hanreiLineHeight/test.htm">凡例1行の高さを設定する hanreiLineHeight</a></li>
+<li>[ Hanrei ] <a href="http://ccchart.com/test/hanreiLineHeight/test.htm">凡例1行の高さを設定する hanreiLineHeight</a></li>
 </article>
 
 <!-- //////////////////////////////////////  -->
 <article id="title1">
-<li>[ Title ] <a href="http://ccchart.org/test/titleX/test1.htm">titleTextAlign, titleX</a><span class=new> [new]</span></li>
+<li>[ Title ] <a href="http://ccchart.com/test/titleX/test1.htm">titleTextAlign, titleX</a><span class=new> [new]</span></li>
 </article>
 
 <!-- //////////////////////////////////////  -->
 <article id="subtitle1">
-<li>[ SubTitle ] <a href="http://ccchart.org/test/subTitleX/test1.htm">subTitleTextAlign, subTitleX</a><span class=new> [new]</span></li>
+<li>[ SubTitle ] <a href="http://ccchart.com/test/subTitleX/test1.htm">subTitleTextAlign, subTitleX</a><span class=new> [new]</span></li>
 </article>
 
 <!-- //////////////////////////////////////  -->
 <article id="data1">
-<li>[ Data ] <a href="http://ccchart.org/test/useFirstToRowName/test2.htm">データの1列目目を各行の項目名とする</a></li>
-<li>[ Data ] <a href="http://ccchart.org/test/useFirstToColName/test2.htm">データの1行目を項目名とする</a></li>
+<li>[ Data ] <a href="http://ccchart.com/test/useFirstToRowName/test2.htm">データの1列目目を各行の項目名とする</a></li>
+<li>[ Data ] <a href="http://ccchart.com/test/useFirstToColName/test2.htm">データの1行目を項目名とする</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="pie1">
-<li>[ Pie ] <a href="http://ccchart.org/test/pieValPosOffset/test-pie01.htm">値の位置オフセットを調整する</a></li>
+<li>[ Pie ] <a href="http://ccchart.com/test/pieValPosOffset/test-pie01.htm">値の位置オフセットを調整する</a></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="candle1">
-<li>[ Candle ] <a href="http://ccchart.org/test/candle/test-ws.htm">Candle Type</a><span class="new"> [new]</span></li>
+<li>[ Candle ] <a href="http://ccchart.com/test/candle/test-ws.htm">Candle Type</a><span class="new"> [new]</span></li>
 </article>
 <!-- //////////////////////////////////////  -->
 <article id="csv1">
@@ -417,7 +417,7 @@ ccchart.com: <a href=http://ccchart.com/#88>http://ccchart.com/#88</a>, <a href=
 
 <!-- //////////////////////////////////////  -->
 <article id="csv2">
-<li>[ CSV ] <a href="http://ccchart.org/test/data2num/q2-1.htm">読み込むCSVに3桁カンマが含まれててもOK</a></li>
+<li>[ CSV ] <a href="http://ccchart.com/test/data2num/q2-1.htm">読み込むCSVに3桁カンマが含まれててもOK</a></li>
 </article>
 
 </ul>

@@ -1,0 +1,109 @@
+
+<script src="https://ccchart.com/js/ccchart.js" charset="utf-8"></script>
+<script>
+
+//obniz テスト
+
+      // WebSocketの受信パターン
+      /* e.g.
+      [
+        ["2013", "2014", "2015", "2016", "2017"],
+        [   435,  332,  524,  688,  774],
+        [   600,  335,  584,  333,  457]
+      ];*/
+
+ccchart.wscase.oneColAtATime_obniz =function(msg)  {
+        //ここのthisは_wメソッド内のthat.wsuids[uid]
+
+        this.op.wscaseName = 'oneColAtATime';
+        // 一度に1列ずつ [["2013"],[435],[600]] といった配列で届く場合
+        // e.g. ws.on('message', ccchart.wscase.oneColAtAtime)
+        try { var msgs = JSON.parse(msg.data); } catch(e) { return }
+
+        if (typeof msgs === 'string') { //if(msgs === target.hbStr){
+          if (this.wsDbg)console.log('ws message type is bad, it is string : ' + msgs);
+          return;
+        }
+        var that = ccchart.coj[this.op.id];
+        var opOrg = this.opOrg;
+
+        if(that._wsThinout(this, this.wsThinOutInterval))return;//ws受信データを間引く
+
+        for (var i = 0; i < msgs.length; i++) {
+          var _title = (opOrg.data[i])?(opOrg.data[i][0]||''):'';
+          if(!that.op.data[i]){
+            that.op.data[i] = [];//受信データのlengthが増えたら増やす
+            that.rowNames[i] = (opOrg.data[i])?(opOrg.data[i][0]||''):''
+          }
+          that.op.data[i].shift(); // 先頭を行タイトルとして削除
+          that.op.data[i].push(msgs[i]); // WSで受け取ったデータを追記
+          if (that.op.data[i].length > that.maxWsColLen) {
+            that.op.data[i].shift(); // maxWsColLen列以上は削除
+          }
+          that.op.data[i].unshift(_title); // 先頭へ行タイトルを戻す
+        }
+
+        //初期データlengthより受信データlengthが少ない時、ゴーストが残らないように消す fix 2015/6/16
+        for (var i = 0; i < that.op.data.length; i++) {
+          if(msgs[i] === undefined){
+            that.op.data.splice(i,1);
+          }
+        }
+        if (that.type === 'pie') {
+          that.op.config.maxWsColLen = 1
+        }
+        that.coj[that.id]['s'] = (new Date).getTime(); //描画開始時間
+
+        //再起へ
+        ccchart.init(that.id, that.op, function () {
+            if(obniz){ 
+                console.log(obniz)
+                obniz.display.draw(that.ctx);
+            }
+            that.coj[that.id].e = (new Date).getTime(); //描画終了時間
+        });
+
+
+        
+      }
+</script>
+
+
+<canvas id="hoge"></canvas>
+
+<script>
+var chartdata = {
+
+  "config": {
+    "title": "WebSocket test",
+    "subTitle": "列データをリアルタイム受信描画 受信パターンはoneColAtATime",
+    "type": "bezi2",
+    "lineWidth": 2,
+    "minY": 0,
+    "xScaleSkip": 3,
+    "maxWsColLen": 18,
+    "colorSet": 
+          ["#DDA0DD","#3CB000"]
+  },
+
+  "data": [
+    ["年月"],
+    ["データ1"],
+    ["データ2"]
+  ]
+};
+
+
+const obniz = new Obniz("OBNIZ_ID_HERE");
+//connect
+obniz.onconnect = async function () {
+
+  ccchart
+      .init('hoge', chartdata)
+      .ws('wss://ccchart.com:8016')
+      .on('message', ccchart.wscase.oneColAtATime_obniz)
+
+}
+
+// obniz.onconnect()
+</script>
