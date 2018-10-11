@@ -17,7 +17,7 @@ window.ccchart =
       see: 'http://www.facebook.com/javascripting',
       blog: 'https://web.archive.org/web/20160419064517/http://ngw.jp/~tato/wp/?cat=6',
       branched: ''
-         + 'This project has branched from the jQchart, that made by Toshiro Takahashi '
+         + 'This project has branched from the jQchart, that made by Toshiro Takahashi.'
          + 'jQchart is the jQuery plugin. since 2007. '
          + 'http://archive.plugins.jquery.com/project/jQchart',
       plugins:[]
