@@ -5,6 +5,8 @@ You can use the following chart types. line, bar, pie, bezi, bezi2, stacked, are
 <a href="https://ccchart.com/test/ws2.htm"><img src=https://ccchart.com/doc/img/ws2.png></a>
 <a href="https://ccchart.com/#85"><img src=https://ccchart.com/doc/img/ws.png></a>
 
+https://ccchart.com/index.htm
+
 @see https://ccchart.com/
 @see https://ccchart.com/test/ws2.htm
 @doc (old) https://ccchart.com/doc/ccchart-1.06.3.pdf
